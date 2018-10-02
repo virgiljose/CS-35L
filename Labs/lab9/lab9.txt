@@ -1,0 +1,367 @@
+Virgil Jose
+CS35L - Lab Section 6
+Lab Assignment 9
+3 Dec 2017
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+(1) GET DIFFUTILS RESPSITORY
+
+I create a directory called "lab9". I will be doing my lab work either in the "lab9" or the
+"diffutils" directory (which is created when I get the repository below):
+
+There are two ways to get the Diffutils repository: (1) from the file ~eggert/src/gnu/diffutils on 
+the SEASnet GNU/Linux servers, or from the Savannah repository. I chose to get it from the Savannah
+repository, using the following command while in the lab9 directory.
+
+"git clone git://git.savannah.gnu.org/diffutils.git"
+
+This creates a directory called "diffutils" within my "lab9" directory, i.e. lab9/diffutils.
+
+----------------------------------------------------------------------------------------------------
+(2) GET LOG OF CHANGES
+
+In lab9, use "touch git-log.txt".
+
+In diffutils, use "git log > ../git-log.txt".
+
+----------
+
+lab9 contents so far:
+diffutils
+git-log.txt
+
+----------------------------------------------------------------------------------------------------
+(3) GET LIST OF TAGS
+
+In lab9, use "touch git-tags.txt".
+
+In diffutils, use "git tag > ../git-tags.txt".
+
+----------
+
+lab9 contents so far:
+diffutils
+git-log.txt
+git-tags.txt
+
+----------------------------------------------------------------------------------------------------
+(4) GENERATING PATCH FOR COMMIT “maint: quote 'like this' or "like this", not `like this'”
+
+First, in lab9, use "touch quote-patch.txt" to create the file that will be our patch file.
+
+Open git-log.txt using emacs. 
+
+Find the commit using the emacs command "C-s" and then searching for “maint: quote 'like this' or 
+"like this", not `like this'”.
+
+Find the commit ID, which should be just above “maint: quote 'like this' or "like this", not `like 
+this'”, and where the Author and Date are. The commit ID is 
+"62ca21c8c1a5aa3488589dcb191a4ef04ae9ed4f".
+
+Then, cd into diffutils and use the commmand: 
+"git show 62ca21c8c1a5aa3488589dcb191a4ef04ae9ed4f > ../quote-patch.txt".
+
+----------
+
+lab9 contents so far:
+diffutils
+git-log.txt
+git-tags.txt
+quote-patch.txt
+
+----------------------------------------------------------------------------------------------------
+(5) CHECKING OUT VERSION 3.0 OF DIFFUTILS
+
+In diffutils, use the command "git checkout -b "local3.0" "v3.0"". This creates a new branch called
+local3.0 (which I will be working in), and checks out version 3.0 into that branch.
+
+----------------------------------------------------------------------------------------------------
+(6) PATCH VERSION 3.0
+
+In diffutils, use the command "patch -p1 < ../quote-patch.txt".
+
+----------
+
+The command could not find the following files:
+HACKING
+diffutils.texi
+help2man
+
+----------
+
+The following patches for each of these files failed:
+
+README:
+Hunk #1 FAILED at 9.
+Hunk #3 FAILED at 60.
+2 out of 3 hunks FAILED -- saving rejects to file README.rej
+
+README-hacking:
+Hunk #1 FAILED at 19.
+1 out of 1 hunk FAILED -- saving rejects to file README-hacking.rej
+
+cfg.mk:
+Hunk #1 FAILED at 29.
+1 out of 1 hunk FAILED -- saving rejects to file cfg.mk.rej
+
+src/diff.c:
+Hunk #10 FAILED at 876.
+Hunk #11 FAILED at 906.
+Hunk #12 FAILED at 942.
+3 out of 14 hunks FAILED -- saving rejects to file src/diff.c.rej
+
+src/diff3.c:
+Hunk #6 FAILED at 433.
+1 out of 9 hunks FAILED -- saving rejects to file src/diff3.c.rej
+
+----------------------------------------------------------------------------------------------------
+(7) USE git status TO GET OVERVIEW OF WHAT HAPPENED
+
+In diffutils, use the command "git status":
+
+# On branch local3.0
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   NEWS
+#	modified:   README
+#	modified:   TODO
+#	modified:   doc/diagmeet.note
+#	modified:   ms/config.bat
+#	modified:   ms/config.site
+#	modified:   po/en.po
+#	modified:   src/analyze.c
+#	modified:   src/cmp.c
+#	modified:   src/context.c
+#	modified:   src/diff.c
+#	modified:   src/diff.h
+#	modified:   src/diff3.c
+#	modified:   src/dir.c
+#	modified:   src/ifdef.c
+#	modified:   src/io.c
+#	modified:   src/sdiff.c
+#	modified:   src/side.c
+#	modified:   src/system.h
+#	modified:   src/util.c
+#	modified:   tests/help-version
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	NEWS.orig
+#	README-hacking.orig
+#	README-hacking.rej
+#	README.orig
+#	README.rej
+#	cfg.mk.orig
+#	cfg.mk.rej
+#	ms/config.site.orig
+#	src/cmp.c.orig
+#	src/context.c.orig
+#	src/diff.c.orig
+#	src/diff.c.rej
+#	src/diff.h.orig
+#	src/diff3.c.orig
+#	src/diff3.c.rej
+#	src/dir.c.orig
+#	src/sdiff.c.orig
+#	src/system.h.orig
+#	src/util.c.orig
+#	tests/help-version.orig
+no changes added to commit (use "git add" and/or "git commit -a")
+
+----------
+
+We see that the patch modified the above files.
+
+
+----------------------------------------------------------------------------------------------------
+(8) LEARNING HOW TO USE EMACS FUNCTIONS vc-diff (C-x v =) AND vc-revert (C-x v u)
+
+I went to the corresponding links on the assignment webpage and Googled those commands to learn how
+to use them.
+
+----------------------------------------------------------------------------------------------------
+(9) USING EMACS TO REVERT CHANGES MADE TO FILES
+
+For the following files (the non .c files), I went into emacs and used the emacs command "C-x v u" 
+to revert changes made:
+
+NEWS
+README
+TODO
+doc/diagmeet.note
+ms/config.bat
+ms/config.site
+po/en.po
+src/diff.h
+src/system.h
+tests/help-version
+
+----------
+
+Running "git status" shows that the above files are no longer modified:
+
+#	modified:   src/analyze.c
+#	modified:   src/cmp.c
+#	modified:   src/context.c
+#	modified:   src/diff.c
+#	modified:   src/diff3.c
+#	modified:   src/dir.c
+#	modified:   src/ifdef.c
+#	modified:   src/io.c
+#	modified:   src/sdiff.c
+#	modified:   src/side.c
+#	modified:   src/util.c
+
+----------
+
+For the following files (the .c files):
+src/analyze.c
+src/cmp.c
+src/context.c
+src/diff.c
+src/diff3.c
+src/dir.c
+src/ifdef.c
+src/io.c
+src/sdiff.c
+src/side.c
+src/util.c
+
+
+I went into emacs and used the following procedure to discard changes to comments:
+
+a) Use "C-x v =" to find changes made to the file. This will open up a buffer called vc-diff.
+
+b) In the vc-diff budder, use "M-x diff-mode" to activate Diff Mode.
+
+c) Use "M-n" to move to the first hunk (use "M-p" if accidentally skipped it).
+
+d) For each hunk that is NOT a change to character string constants (comments), use "C-u C-c C-a" 
+to revert the hunk.
+
+----------
+
+Running "git status" now shows only 6 modified files:
+
+#	modified:   src/cmp.c
+#	modified:   src/diff.c
+#	modified:   src/diff3.c
+#	modified:   src/dir.c
+#	modified:   src/sdiff.c
+#	modified:   src/util.c
+
+
+----------------------------------------------------------------------------------------------------
+(10) EXAMINING .C.REG FILES AND COPYING REJECTED PATCHES TO CORRESPONDING .C FILES
+
+The c.rej files are patch files that were rejected because patch couldn't find the lines to replace.
+In this case, we must examine the c.rej files to figure out what changes need to be made. Then, we
+go to the corresponding .c file and manually make the changes ourselves.
+
+For the following files:
+src/diff.c.rej
+src/diff3.c.rej
+
+Open emacs, and take note which lines need to be replaced. From both diff.c.rej and diff3.c.rej,
+the changes involve simply changing a grave symbol (`) to an apostrophe (').                                                                             
+
+We then open emacs for the corresponding diff.c and diff3.c files and make the necessary changes.
+
+
+----------------------------------------------------------------------------------------------------
+(11) REMOVE UNTRACKED FILES
+
+In diffutils, use the command "git clean -f".
+
+----------------------------------------------------------------------------------------------------
+(12) CREATING PATCH FOR VERSION 3.0 (quote-3.0-patch.txt)
+
+In diffutils, using the command "git status" gives the following output, as expected:
+
+# On branch local3.0
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   src/cmp.c
+#	modified:   src/diff.c
+#	modified:   src/diff3.c
+#	modified:   src/dir.c
+#	modified:   src/sdiff.c
+#	modified:   src/util.c
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+
+----------
+
+To create the patch, first, cd into lab9 and use "touch quote-3.0-patch.txt" to create a file that 
+will be our patch.
+
+Then, cd into diffutils and then use the command "git diff > ../quote-3.0-patch.txt". This outputs
+a patch into the quote-3.0-patch.txt file.
+
+----------
+
+lab9 contents so far:
+diffutils
+git-log.txt
+git-tags.txt
+quote-patch.txt
+quote-3.0-patch.txt
+
+----------------------------------------------------------------------------------------------------
+(13) BUILDING MODIFIED VERSION OF DIFFUTILS (THE HARD PART)
+
+In order to proceed, we must either stay in lnxsrv09 and apply an additional patch after running
+./bootstrap and before running ./configure, or continue on another (older) lnxsrv. To make things
+easier, I chose to continue on lnxsrv01.
+
+The following commands are done on lnxsrv01 instead of lnxsrv09:
+"export PATH=/usr/local/cs/bin:$PATH"
+"./bootstrap"
+"./configure"
+"make"
+"make check"
+
+----------------------------------------------------------------------------------------------------
+(14) SETTING UP SANITY CHECK
+
+First, I commit the changes I've made to the local3.0 branch of diffutils (i.e. the patches) by
+using the command "git commit -a". This command then takes me to a buffer to write a commit message,
+which I wrote as "Patched 3.0 (in accordance to the Lab 9 specifications)".
+
+Next, I cd into the lab9 directory. Here I use:
+"git clone git://git.savannah.gnu.org/diffutils.git diffutils-3.0".
+
+This clones the original git repository into a new directory called diffutils-3.0.
+
+Next, I cd into diffutils-3.0, and then used "git checkout -b "old3.0" "v3.0". This
+checked-out the original version 3.0 into a new branch called old3.0.
+
+Then, I use "mv diffutils diffutils-3.0-patch", which renames the directory.
+
+Now we have two directories, diffutils and diffutils-3.0, which contain the patched and
+unpatched versions of v3.0, respectively.
+
+Now, we run the command:
+"diffutils-3.0-patch/src/diff -pru diffutils-3.0 diffutils-3.0-patch >quote-3.0-test.txt"
+
+This command generates a file called "quote-3.0-test.txt".
+
+----------------------------------------------------------------------------------------------------
+(15) COMPARING quote-3.0-test.txt AND quote-3.0-patch.txt
+
+Finally, we run:
+"diff quote-3.0-test.txt quote-3.0-patch.txt"
+
+At first glance, we do see a lot of differences. Upon closer inspection, however, most of these
+differences are simply file path or name differences. When looking at the differences in the source
+code, we see that those differences are all just the changes that we made in the code. We conclude,
+then, that the differences are innocuous and that our patch was a success.
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------

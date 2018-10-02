@@ -1,0 +1,456 @@
+CS35L Assignment 1 (Laboratory Part)
+Virgil Jose
+Lab 1
+
+Note: // indicates a comment.
+
+1. COMMAND(S):
+   apropos [phrase]
+
+2. COMMAND(S):
+   which cp
+   which wc
+
+   RESULTS:
+   cp is located at /usr/bin/cp
+   wc is located at /usr/bin/wc
+
+3. COMMAND(S):
+   find /usr/bin -name "?" 
+   // ? is used as a "wildcard" for any character. In this case, we use it 
+   // to indicate that we want to find any executable that is one 
+   // character long
+   man [
+   man w
+   man X (we discover that X is not an executable itself but rather a 
+   symbolic link because no page for X exist)
+   readlink -f X (we discover that the executable that X links to is Xorg)
+
+   RESULTS: (we can use the man pages to figure out what each of them do):
+   [ - Used to evaluate a conditional expression.
+   w - Shows who is logged on and what they are doing.
+   X - Not an executable itself, but a symbolic link to the command X.org, 
+   which runs a server.
+
+4. COMMAND(S):
+   readlink -f 'emacs'
+
+   RESULTS:
+   The command actually executed is /usr/bin/emacs-24.3
+
+5. COMMAND(S):
+   man chmod
+
+   RESULTS:
+   g+s - set group ID on execution.
+   o-x - other users may not execute the program (or search for directories)
+   i.e. we are taking away their permission.
+
+
+6. COMMAND(S):
+   find . -type d -mtime -21
+   // the option is -mtime   
+
+7. RESULTS (follow-up to #6):
+   ./.cache/abrt
+   ./.emacs.d/auto-save-list
+   ./.ccache/f
+   ./CS35L
+   ./junk
+   ./CS35Lbackup
+
+8. COMMAND(S):
+   which find
+   // find is located at /usr/bin, so I will change the current directory
+   to that location.
+   cd /usr/bin
+   find -type l
+
+   RESULTS (it's 261 - did I really have to count all that?):
+./xzegrep
+./htxelatex
+./mysql_config
+./gpgv
+./lpstat
+./pnmcomp
+./mac2unix
+./texconfig-dialog
+./latex
+./gnatgcc
+./dvired
+./jstack
+./pnmenlarge
+./wsgen
+./apropos
+./mk4ht
+./pstack
+./rmid
+./sgml2xml
+./nmtui-connect
+./htcontext
+./wish
+./kpsewhere
+./pgmedge
+./dot2gxl
+./jstat
+./bzless
+./jconsole
+./mailq.postfix
+./kpsetool
+./kpsepath
+./kdesu
+./pmiostat
+./gjs
+./xjc
+./osage
+./db2rtf
+./jps
+./pbmtoicon
+./sgmlnorm
+./flipdiff
+./sfdp
+./lualatex
+./setup
+./allneeded
+./twopi
+./ghc-pkg
+./newaliases.sendmail
+./pamon
+./ebb
+./geqn
+./makeinfo
+./xmltex
+./links
+./bmptoppm
+./javac
+./rmail
+./patchwork
+./ghci
+./httexi
+./fmtutil
+./texconfig
+./gimp
+./rmiregistry
+./jade
+./gtar
+./captoinfo
+./latrace-ctl
+./emacs
+./htmex
+./circo
+./jrunscript
+./pstree.x11
+./gnome-keyring
+./traceroute6
+./lastb
+./pax
+./ghc
+./ghostscript
+./readcd
+./tclsh
+./el4-rpmlint
+./i386
+./rmic
+./nmtui-hostname
+./policytool
+./flex++
+./newaliases.postfix
+./unpack200
+./lex
+./gpg
+./X
+./cdrecord
+./jdb
+./dvi2fax
+./jsadebugd
+./gmake
+./purgestat
+./texluac
+./ppmtojpeg
+./jcmd
+./runhaskell
+./view
+./native2ascii
+./bzcmp
+./unix2mac
+./tnameserv
+./httex
+./jar
+./orbd
+./servertool
+./jadetex
+./gsoelim
+./open
+./dvilualatex
+./bunzip2
+./mkluatexfontdb
+./idlj
+./systemd-loginctl
+./x86_64
+./reset
+./pmcollectl
+./updmap-sys
+./jhat
+./csh
+./pnmsplit
+./pngtopnm
+./pnmfile
+./updmap
+./serialver
+./gimp-console
+./pnmscale
+./jdeps
+./jstatd
+./gtbl
+./haddock
+./bzcat
+./byacc
+./lpq
+./pgmslice
+./texlua
+./ping6
+./dvipdfm
+./rvim
+./lsdiff
+./jmap
+./extcheck
+./ex
+./pnmarith
+./fdp
+./javah
+./pmatop
+./texhash
+./psfstriptable
+./sh
+./wsimport
+./paplay
+./grepdiff
+./gv2gxl
+./systemd-coredumpctl
+./rpmquery
+./python
+./parecord
+./desktop-file-edit
+./nmtui-edit
+./pgmoil
+./texconfig-sys
+./jjs
+./pnmdepth
+./rpmverify
+./appletviewer
+./thumbpdf
+./nisdomainname
+./extractbb
+./newaliases
+./vimdiff
+./pdfetex
+./runghc
+./texlinks
+./pgmnorm
+./xzcat
+./rnano
+./initex
+./psfaddtable
+./dnsdomainname
+./hsc2hs
+./hoststat
+./combinediff
+./f95
+./mailq
+./hwloc-ls
+./pdfjadetex
+./mkisofs
+./java
+./dvdrecord
+./pnmtotiff
+./pnmtopnm
+./pnmnoraw
+./javap
+./javaws
+./spent
+./etex
+./rview
+./arecord
+./ht
+./nfs4_editfacl
+./pdflatex
+./lprm
+./nail
+./phar
+./xzcmp
+./dviluatex
+./python2-config
+./python2
+./chsh
+./rhn_register
+./pnminterp
+./pmevent
+./subscription-manager
+./pnmtofits
+./ksh
+./nc
+./psfgettable
+./el5-rpmlint
+./lp
+./domainname
+./zsoelim
+./kpsexpand
+./jinfo
+./sg
+./makemap
+./pack200
+./icontopbm
+./infotocap
+./slogin
+./parec
+./iptables-xml
+./ppmnorm
+./atq
+./gtroff
+./spam
+./mailq.sendmail
+./neato
+./gemtopbm
+./gneqn
+./keytool
+./cc
+./setup-nsssysinit
+./gnroff
+./linux64
+./javadoc
+./ypdomainname
+./ld
+./ppmquantall
+./nsgmls
+./mock
+./db2pdf
+./bashbug
+./schemagen
+./atrm
+./pnmcut
+./rvi
+./Mail
+./fmtutil-sys
+./htxetex
+./runhaskell-ghc
+./libpng-config
+./linux32
+./db2ps
+./gpic
+./mptopdf
+./simpdftex
+./gxl2dot
+./allec
+./passwd
+./unxz
+./db2dvi
+./xzfgrep
+./mktexfmt
+./jarsigner
+./mail
+./ppmtouil
+./mkhybrid
+./allcm
+./pdfxmltex
+./rksh
+./awk
+./htlatex
+./lpr
+./python-config
+./inimf
+./cancel
+./etags
+
+9. COMMAND(S):
+   ls -lt --group-directories-first
+
+   RESULTS:
+   -rwxr-xr-x   1 root root   18692 Jan 26  2014 libgpg-error.so.0.10.0
+
+10. COMMAND(S):
+    man locale
+
+    RESULTS:
+    In the man page, we come across this entry:
+    
+    FILES:	
+    /usr/lib/locale/locale-archive
+              Usual default locale archive location.
+
+    /usr/share/i18n/locales
+              Usual default path for locale definition files.	
+
+11. COMMAND(S):
+    emacs
+    // the commands below are run in emacs:
+    C-h
+    a sort
+
+    RESULTS:
+    sort-pages
+    sort-paragraphs
+    tabulated-list-col-sort
+    tabulated-list-sort
+
+    // Some people get more results for some reason. I ran emacs on lnxsrv09. 
+    // Perhaps different versions of emacs produce varying results.
+
+12. COMMAND(S):
+    C-h
+    k C-M-a
+    k C-M-b
+    k C-M-c
+    k C-M-d
+    k C-M-e
+    k C-M-f
+    k C-M-g
+    k C-M-h
+
+    RESULTS:
+    C-M-a moves cursor to the beginning of the current or next function 
+    	  (i.e. at the function's header). (beginning-of-defun).
+    C-M-b moves backward across one balanced expression. Assumes point is 
+    	  not in a string or comment. (backward-sexp).
+    C-M-c exits from the innermost recursive edit or minibuffer 
+    	  (exit-recursive-edit).
+    C-M-d moves forward down one level of parentheses. (down-list).
+    C-M-e moves cursor to the end of the current function (i.e. at its 
+    	  closing brace). (end-of-defun).
+    C-M-f moves forward across one balanced expression. (sexp).
+    C-M-g does not exist (but C-g does; read #13).
+    C-M-h puts region around whole current or following function. (mark-defun).
+
+    These commands are all useful in the context of writing programs, 
+    as they are used for navigating around expressions and functions.
+
+13. COMMAND(S):
+    C-h
+    k C-g
+
+    RESULTS:
+    According to the emacs, the key signals a quit condition. During execution 
+    of Lisp code, this character causes a quit directly. At
+    top-level, as an editor command, this simply beeps.
+
+14. COMMAND(S):
+    C-h
+    f yank
+
+    RESULTS:
+    Pastes (reinserts) the most recently killed text. It's pretty 
+    much pasting...
+
+15. COMMAND(S):
+    ls -l
+
+    emacs
+    M-x dired
+    /usr/bin
+
+    RESULTS:
+    
+    ls -l lists 350752 bytes (?) used. It does NOT list the . and 
+    .. directories.
+
+    dired lists 350840 bytes used, as well as 11623156 bytes 
+    available. It also lists the . and .. directories.

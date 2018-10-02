@@ -1,0 +1,78 @@
+Virgil Jose
+CS35L - Lab Section 6
+Homework 9
+3 Dec 2017
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+(1) MAINTAIN A FILE CALLED hw9.txt
+
+This is hw9.txt.
+
+----------------------------------------------------------------------------------------------------
+(2) CHECK OUT Diffitils v3.0 INTO NEW BRANCH NAMED quote
+
+In diffutils-3.0 (originally diffutils), I use the command:
+"git checkout -b "quote" "v3.0""
+
+This checked out version 3.0 into a new branch called "quote".
+
+----------------------------------------------------------------------------------------------------
+(3) PATCHING THE NEW BRANCH
+
+I used the command "patch -p1 < ../quote-3.0-patch.txt".
+
+Terminal output:
+patching file src/cmp.c
+patching file src/diff.c
+patching file src/diff3.c
+patching file src/dir.c
+patching file src/sdiff.c
+patching file src/util.c
+
+----------------------------------------------------------------------------------------------------
+(4) LEARN HOW TO USE EMACS FUNCTION add-change-log-entry-other-window
+
+I learned it by clicking on the link and Googling documentation as needed.
+
+----------------------------------------------------------------------------------------------------
+(5) COMPOSE ChangeLog ENTRY FOR PATCH USING EMACS FUNCTION
+
+For each of the 6 patched files in (3), I went into emacs, used "C-x 4 a", and then added:
+"All ` that were in a string constant were changed to ' (i.e. did not change if in a comment)."
+into their respective ChangeLog entries.
+
+----------------------------------------------------------------------------------------------------
+(6) COMMITTING CHANGES USING ChangeLog AS COMMIT MESSAGE
+
+I used the command:
+"git commit -aF ChangeLog"
+
+----------------------------------------------------------------------------------------------------
+(7) GENERATING formatted-patch.txt
+
+I used the command:
+"git format-patch -1 --stdout > formatted-patch.txt"
+
+----------------------------------------------------------------------------------------------------
+(8) CHECKING PARTNER'S PATCH (partner: Dilshan Diunugala)
+
+I used the commands:
+"git checkout -b "partner" "v3.0""
+"git am formatted-patch-dilshan.txt"
+"export PATH=/usr/local/cs/bin:$PATH"
+"./bootstrap"
+"./configure"
+"make"
+"make check"
+
+My partner's works.
+
+----------------------------------------------------------------------------------------------------
+(9) VERIFY CHANGELOG ENTRY WORKS
+
+"make destdir"
+"emacs diffutils*/ChangeLog"
+
+----------------------------------------------------------------------------------------------------
+(10) 

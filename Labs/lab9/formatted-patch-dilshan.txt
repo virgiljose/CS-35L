@@ -1,0 +1,5297 @@
+From d987fca249e44ceb59830a9c2097a60cfc2be27d Mon Sep 17 00:00:00 2001
+From: Dilshan <dcd@gmail.com>
+Date: Sun, 3 Dec 2017 15:13:08 -0800
+Subject: [PATCH] 2017-12-03  Dilshan C Diunugala  <dilshan@lnxsrv02.seas.ucla.edu>
+
+	* src/analyze.c: Replace grave
+	* src/cmp.c: Replace grave
+	* src/context.c: Replace grave
+	* src/diff.c: Replace grave
+	* src/diff3.c: Replace grave
+	* src/dir.c: Replace grave
+	* src/sdiff.c: Replace grave
+	* src/side.c: Replace grave
+	* src/util.c: Replace grave
+---
+ #quote-3.0-patch.txt# |  587 ++++++++++++++++++++++
+ differences.txt       |  301 +++++++++++
+ quote-3.0-patch.txt   |  587 ++++++++++++++++++++++
+ src/analyze.c         |    6 +-
+ src/analyze.c.rej     |   29 ++
+ src/cmp.c             |   18 +-
+ src/cmp.c.orig        |  685 +++++++++++++++++++++++++
+ src/cmp.c.rej         |   76 +++
+ src/context.c         |   10 +-
+ src/context.c.orig    |  493 ++++++++++++++++++
+ src/context.c.rej     |   38 ++
+ src/diff.c            |   38 +-
+ src/diff.c.orig       | 1330 +++++++++++++++++++++++++++++++++++++++++++++++++
+ src/diff.c.rej        |  141 ++++++
+ src/diff3.c           |   24 +-
+ src/diff3.c.rej       |   85 ++++
+ src/dir.c             |    6 +-
+ src/dir.c.rej         |   29 ++
+ src/sdiff.c           |   20 +-
+ src/sdiff.c.rej       |   67 +++
+ src/side.c            |    6 +-
+ src/side.c.rej        |   29 ++
+ src/util.c            |   22 +-
+ src/util.c.rej        |   75 +++
+ 24 files changed, 4627 insertions(+), 75 deletions(-)
+ create mode 100644 #quote-3.0-patch.txt#
+ create mode 100644 differences.txt
+ create mode 100644 quote-3.0-patch.txt
+ create mode 100644 src/analyze.c.rej
+ create mode 100644 src/cmp.c.orig
+ create mode 100644 src/cmp.c.rej
+ create mode 100644 src/context.c.orig
+ create mode 100644 src/context.c.rej
+ create mode 100644 src/diff.c.orig
+ create mode 100644 src/diff.c.rej
+ create mode 100644 src/diff3.c.rej
+ create mode 100644 src/dir.c.rej
+ create mode 100644 src/sdiff.c.rej
+ create mode 100644 src/side.c.rej
+ create mode 100644 src/util.c.rej
+
+diff --git a/#quote-3.0-patch.txt# b/#quote-3.0-patch.txt#
+new file mode 100644
+index 0000000..89f53e9
+--- /dev/null
++++ b/#quote-3.0-patch.txt#
+@@ -0,0 +1,587 @@
++emdiff --git a/src/analyze.c b/src/analyze.c
++index e797248..d7a5aa6 100644
++--- a/src/analyze.c
+++++ b/src/analyze.c
++@@ -38,7 +38,7 @@
++ 
++    A line which is discarded will not be considered by the actual
++    comparison algorithm; it will be as if that line were not in the file.
++-   The file's `realindexes' table maps virtual line numbers
+++   The file's 'realindexes' table maps virtual line numbers
++    (which don't count the discarded lines) into real line numbers;
++    this is how the actual comparison algorithm produces results
++    that are comprehensible when the discarded lines are counted.
++@@ -251,7 +251,7 @@ discard_confusing_lines (struct file_data filevec[])
++    We do something when a run of changed lines include a
++    line at one end and have an excluded, identical line at the other.
++    We are free to choose which identical line is included.
++-   `compareseq' usually chooses the one at the beginning,
+++   'compareseq' usually chooses the one at the beginning,
++    but usually it is cleaner to consider the following identical line
++    to be the "change".  */
++ 
++@@ -595,7 +595,7 @@ diff_2_files (struct comparison *cmp)
++       shift_boundaries (cmp->file);
++ 
++       /* Get the results of comparison in the form of a chain
++-	 of `struct change's -- an edit script.  */
+++	 of 'struct change's -- an edit script.  */
++ 
++       if (output_style == OUTPUT_ED)
++ 	script = build_reverse_script (cmp->file);
++diff --git a/src/cmp.c b/src/cmp.c
++index 2455dc4..905d121 100644
++--- a/src/cmp.c
+++++ b/src/cmp.c
++@@ -115,7 +115,7 @@ try_help (char const *reason_msgid, char const *operand)
++   if (reason_msgid)
++     error (0, 0, _(reason_msgid), operand);
++   error (EXIT_TROUBLE, 0,
++-	 _("Try `%s --help' for more information."), program_name);
+++	 _("Try '%s --help' for more information."), program_name);
++   abort ();
++ }
++ 
++@@ -134,7 +134,7 @@ specify_ignore_initial (int f, char **argptr, char delimiter)
++   if (! (e == LONGINT_OK
++ 	 || (e == LONGINT_INVALID_SUFFIX_CHAR && **argptr == delimiter))
++       || TYPE_MAXIMUM (off_t) < val)
++-    try_help ("invalid --ignore-initial value `%s'", arg);
+++    try_help ("invalid --ignore-initial value '%s'", arg);
++   if (ignore_initial[f] < val)
++     ignore_initial[f] = val;
++ }
++@@ -185,7 +185,7 @@ usage (void)
++ 	  _("SKIP values may be followed by the following multiplicative suffixes:\n\
++ kB 1000, K 1024, MB 1,000,000, M 1,048,576,\n\
++ GB 1,000,000,000, G 1,073,741,824, and so on for T, P, E, Z, Y."),
++-	  _("If a FILE is `-' or missing, read standard input."),
+++	  _("If a FILE is '-' or missing, read standard input."),
++ 	  _("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."));
++   emit_bug_reporting_address ();
++ }
++@@ -231,7 +231,7 @@ main (int argc, char **argv)
++ 	{
++ 	  uintmax_t n;
++ 	  if (xstrtoumax (optarg, 0, 0, &n, valid_suffixes) != LONGINT_OK)
++-	    try_help ("invalid --bytes value `%s'", optarg);
+++	    try_help ("invalid --bytes value '%s'", optarg);
++ 	  if (n < bytes)
++ 	    bytes = n;
++ 	}
++@@ -257,7 +257,7 @@ main (int argc, char **argv)
++       }
++ 
++   if (optind == argc)
++-    try_help ("missing operand after `%s'", argv[argc - 1]);
+++    try_help ("missing operand after '%s'", argv[argc - 1]);
++ 
++   file[0] = argv[optind++];
++   file[1] = optind < argc ? argv[optind++] : "-";
++@@ -269,7 +269,7 @@ main (int argc, char **argv)
++     }
++ 
++   if (optind < argc)
++-    try_help ("extra operand `%s'", argv[optind]);
+++    try_help ("extra operand '%s'", argv[optind]);
++ 
++   for (f = 0; f < 2; f++)
++     {
++@@ -364,8 +364,8 @@ main (int argc, char **argv)
++   return exit_status;
++ }
++ 
++-/* Compare the two files already open on `file_desc[0]' and `file_desc[1]',
++-   using `buffer[0]' and `buffer[1]'.
+++/* Compare the two files already open on 'file_desc[0]' and 'file_desc[1]',
+++   using 'buffer[0]' and 'buffer[1]'.
++    Return EXIT_SUCCESS if identical, EXIT_FAILURE if different,
++    >1 if error.  */
++ 
++@@ -377,7 +377,7 @@ cmp (void)
++   uintmax_t remaining = bytes;	/* Remaining number of bytes to compare.  */
++   size_t read0, read1;		/* Number of bytes read from each file. */
++   size_t first_diff;		/* Offset (0...) in buffers of 1st diff. */
++-  size_t smaller;		/* The lesser of `read0' and `read1'. */
+++  size_t smaller;		/* The lesser of 'read0' and 'read1'. */
++   word *buffer0 = buffer[0];
++   word *buffer1 = buffer[1];
++   char *buf0 = (char *) buffer0;
++diff --git a/src/context.c b/src/context.c
++index 0be8cc5..e21556c 100644
++--- a/src/context.c
+++++ b/src/context.c
++@@ -289,7 +289,7 @@ print_unidiff_number_range (struct file_data const *file, lin a, lin b)
++ 
++ /* Print a portion of an edit script in unidiff format.
++    HUNK is the beginning of the portion to be printed.
++-   The end is marked by a `link' that has been nulled out.
+++   The end is marked by a 'link' that has been nulled out.
++ 
++    Prints out lines from both files, and precedes each
++    line with the appropriate flag-character.  */
++@@ -393,7 +393,7 @@ pr_unidiff_hunk (struct change *hunk)
++ 
++ /* Scan a (forward-ordered) edit script for the first place that more than
++    2*CONTEXT unchanged lines appear, and return a pointer
++-   to the `struct change' for the last change before those lines.  */
+++   to the 'struct change' for the last change before those lines.  */
++ 
++ static struct change *
++ find_hunk (struct change *start)
++@@ -431,7 +431,7 @@ find_hunk (struct change *start)
++   return prev;
++ }
++ 
++-/* Set the `ignore' flag properly in each change in SCRIPT.
+++/* Set the 'ignore' flag properly in each change in SCRIPT.
++    It should be 1 if all the lines inserted or deleted in that change
++    are ignorable lines.  */
++ 
++@@ -459,7 +459,7 @@ mark_ignorable (struct change *script)
++ }
++ 
++ /* Find the last function-header line in LINBUF prior to line number LINENUM.
++-   This is a line containing a match for the regexp in `function_regexp'.
+++   This is a line containing a match for the regexp in 'function_regexp'.
++    Return the address of the text, or NULL if no function-header is found.  */
++ 
++ static char const *
++diff --git a/src/diff.c b/src/diff.c
++index cc1b611..9b0098c 100644
++--- a/src/diff.c
+++++ b/src/diff.c
++@@ -57,9 +57,9 @@
++ struct regexp_list
++ {
++   char *regexps;	/* chars representing disjunction of the regexps */
++-  size_t len;		/* chars used in `regexps' */
++-  size_t size;		/* size malloc'ed for `regexps'; 0 if not malloc'ed */
++-  bool multiple_regexps;/* Does `regexps' represent a disjunction?  */
+++  size_t len;		/* chars used in 'regexps' */
+++  size_t size;		/* size malloc'ed for 'regexps'; 0 if not malloc'ed */
+++  bool multiple_regexps;/* Does 'regexps' represent a disjunction?  */
++   struct re_pattern_buffer *buf;
++ };
++ 
++@@ -92,13 +92,13 @@ enum { binary = true };
++ 
++ /* When comparing directories, if a file appears only in one
++    directory, treat it as present but empty in the other (-N).
++-   Then `patch' would create the file with appropriate contents.  */
+++   Then 'patch' would create the file with appropriate contents.  */
++ static bool new_file;
++ 
++ /* When comparing directories, if a file appears only in the second
++    directory of the two, treat it as present but empty in the other
++    (--unidirectional-new-file).
++-   Then `patch' would create the file with appropriate contents.  */
+++   Then 'patch' would create the file with appropriate contents.  */
++ static bool unidirectional_new_file;
++ 
++ /* Report files compared that are the same (-s).
++@@ -330,7 +330,7 @@ main (int argc, char **argv)
++ 	      {
++ 		numval = strtoumax (optarg, &numend, 10);
++ 		if (*numend)
++-		  try_help ("invalid context length `%s'", optarg);
+++		  try_help ("invalid context length '%s'", optarg);
++ 		if (LIN_MAX < numval)
++ 		  numval = LIN_MAX;
++ 	      }
++@@ -505,7 +505,7 @@ main (int argc, char **argv)
++ 	case 'W':
++ 	  numval = strtoumax (optarg, &numend, 10);
++ 	  if (! (0 < numval && numval <= SIZE_MAX) || *numend)
++-	    try_help ("invalid width `%s'", optarg);
+++	    try_help ("invalid width '%s'", optarg);
++ 	  if (width != numval)
++ 	    {
++ 	      if (width)
++@@ -534,7 +534,7 @@ main (int argc, char **argv)
++ 	case HORIZON_LINES_OPTION:
++ 	  numval = strtoumax (optarg, &numend, 10);
++ 	  if (*numend)
++-	    try_help ("invalid horizon length `%s'", optarg);
+++	    try_help ("invalid horizon length '%s'", optarg);
++ 	  horizon_lines = MAX (horizon_lines, MIN (numval, LIN_MAX));
++ 	  break;
++ 
++@@ -585,7 +585,7 @@ main (int argc, char **argv)
++ 	case TABSIZE_OPTION:
++ 	  numval = strtoumax (optarg, &numend, 10);
++ 	  if (! (0 < numval && numval <= SIZE_MAX) || *numend)
++-	    try_help ("invalid tabsize `%s'", optarg);
+++	    try_help ("invalid tabsize '%s'", optarg);
++ 	  if (tabsize != numval)
++ 	    {
++ 	      if (tabsize)
++@@ -744,9 +744,9 @@ main (int argc, char **argv)
++ 	  if (argc - optind != 2)
++ 	    {
++ 	      if (argc - optind < 2)
++-		try_help ("missing operand after `%s'", argv[argc - 1]);
+++		try_help ("missing operand after '%s'", argv[argc - 1]);
++ 	      else
++-		try_help ("extra operand `%s'", argv[optind + 2]);
+++		try_help ("extra operand '%s'", argv[optind + 2]);
++ 	    }
++ 
++ 	  exit_status = compare_files (NULL, argv[optind], argv[optind + 1]);
++@@ -826,7 +826,7 @@ try_help (char const *reason_msgid, char const *operand)
++ {
++   if (reason_msgid)
++     error (0, 0, _(reason_msgid), operand);
++-  error (EXIT_TROUBLE, 0, _("Try `%s --help' for more information."),
+++  error (EXIT_TROUBLE, 0, _("Try '%s --help' for more information."),
++ 	 program_name);
++   abort ();
++ }
++@@ -870,11 +870,11 @@ static char const * const option_help_msgid[] = {
++   -W NUM  --width=NUM  Output at most NUM (default 130) print columns.\n\
++   --left-column  Output only the left column of common lines.\n\
++   --suppress-common-lines  Do not output common lines."),
++-  N_("-D NAME  --ifdef=NAME  Output merged file to show `#ifdef NAME' diffs."),
+++  N_("-D NAME  --ifdef=NAME  Output merged file to show '#ifdef NAME' diffs."),
++   N_("--GTYPE-group-format=GFMT  Similar, but format GTYPE input groups with GFMT."),
++   N_("--line-format=LFMT  Similar, but format all input lines with LFMT."),
++   N_("--LTYPE-line-format=LFMT  Similar, but format LTYPE input lines with LFMT."),
++-  N_("  LTYPE is `old', `new', or `unchanged'.  GTYPE is LTYPE or `changed'."),
+++  N_("  LTYPE is 'old', 'new', or 'unchanged'.  GTYPE is LTYPE or 'changed'."),
++   N_("  GFMT may contain:\n\
++     %<  lines from FILE1\n\
++     %>  lines from FILE2\n\
++@@ -895,7 +895,7 @@ static char const * const option_help_msgid[] = {
++     %c'C'  the single character C\n\
++     %c'\\OOO'  the character with octal code OOO"),
++   "",
++-  N_("-l  --paginate  Pass the output through `pr' to paginate it."),
+++  N_("-l  --paginate  Pass the output through 'pr' to paginate it."),
++   N_("-t  --expand-tabs  Expand tabs to spaces in output."),
++   N_("-T  --initial-tab  Make tabs line up by prepending a tab."),
++   N_("--tabsize=NUM  Tab stops are every NUM (default 8) print columns."),
++@@ -918,9 +918,9 @@ static char const * const option_help_msgid[] = {
++   N_("-v  --version  Output version info."),
++   N_("--help  Output this help."),
++   "",
++-  N_("FILES are `FILE1 FILE2' or `DIR1 DIR2' or `DIR FILE...' or `FILE... DIR'."),
+++  N_("FILES are 'FILE1 FILE2' or 'DIR1 DIR2' or 'DIR FILE...' or 'FILE... DIR'."),
++   N_("If --from-file or --to-file is given, there are no restrictions on FILES."),
++-  N_("If a FILE is `-', read standard input."),
+++  N_("If a FILE is '-', read standard input."),
++   N_("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."),
++   0
++ };
++@@ -960,7 +960,7 @@ specify_value (char const **var, char const *value, char const *option)
++ {
++   if (*var && strcmp (*var, value) != 0)
++     {
++-      error (0, 0, _("conflicting %s option value `%s'"), option, value);
+++      error (0, 0, _("conflicting %s option value '%s'"), option, value);
++       try_help (NULL, NULL);
++     }
++   *var = value;
++@@ -1159,7 +1159,7 @@ compare_files (struct comparison const *parent,
++ 	= dir_file_pathname (dir, last_component (fnm));
++ 
++       if (STREQ (fnm, "-"))
++-	fatal ("cannot compare `-' to a directory");
+++	fatal ("cannot compare '-' to a directory");
++ 
++       if (stat (filename, &cmp.file[dir_arg].stat) != 0)
++ 	{
++diff --git a/src/diff3.c b/src/diff3.c
++index 0f11fdc..5a31f72 100644
++--- a/src/diff3.c
+++++ b/src/diff3.c
++@@ -159,7 +159,7 @@ static bool overlap_only;
++ /* If nonzero, show information for DIFF_2ND diffs.  */
++ static bool show_2nd;
++ 
++-/* If nonzero, include `:wq' at the end of the script
+++/* If nonzero, include ':wq' at the end of the script
++    to write out the file being edited.   */
++ static bool finalwrite;
++ 
++@@ -316,9 +316,9 @@ main (int argc, char **argv)
++   if (argc - optind != 3)
++     {
++       if (argc - optind < 3)
++-	try_help ("missing operand after `%s'", argv[argc - 1]);
+++	try_help ("missing operand after '%s'", argv[argc - 1]);
++       else
++-	try_help ("extra operand `%s'", argv[optind + 3]);
+++	try_help ("extra operand '%s'", argv[optind + 3]);
++     }
++ 
++   file = &argv[optind];
++@@ -351,7 +351,7 @@ main (int argc, char **argv)
++ 	 file instead.  */
++       common = 3 - common;
++       if (STREQ (file[0], "-") || STREQ (file[common], "-"))
++-	fatal ("`-' specified for more than one input file");
+++	fatal ("'-' specified for more than one input file");
++     }
++ 
++   mapping[0] = 0;
++@@ -412,7 +412,7 @@ try_help (char const *reason_msgid, char const *operand)
++   if (reason_msgid)
++     error (0, 0, _(reason_msgid), operand);
++   error (EXIT_TROUBLE, 0,
++-	 _("Try `%s --help' for more information."), program_name);
+++	 _("Try '%s --help' for more information."), program_name);
++   abort ();
++ }
++ 
++@@ -435,7 +435,7 @@ static char const * const option_help_msgid[] = {
++   "",
++   N_("-m  --merge  Output merged file instead of ed script (default -A)."),
++   N_("-L LABEL  --label=LABEL  Use LABEL instead of file name."),
++-  N_("-i  Append `w' and `q' commands to ed scripts."),
+++  N_("-i  Append 'w' and 'q' commands to ed scripts."),
++   N_("-a  --text  Treat all files as text."),
++   N_("--strip-trailing-cr  Strip trailing carriage return on input."),
++   N_("-T  --initial-tab  Make tabs line up by prepending a tab."),
++@@ -460,7 +460,7 @@ usage (void)
++     else
++       putchar ('\n');
++   printf ("\n%s\n%s\n",
++-	  _("If a FILE is `-', read standard input."),
+++	  _("If a FILE is '-', read standard input."),
++ 	  _("Exit status is 0 if successful, 1 if conflicts, 2 if trouble."));
++   emit_bug_reporting_address ();
++ }
++@@ -1275,12 +1275,12 @@ read_diff (char const *filea,
++   if (EXIT_TROUBLE <= status)
++     error (EXIT_TROUBLE, werrno,
++ 	   _(status == 126
++-	     ? "subsidiary program `%s' could not be invoked"
+++	     ? "subsidiary program '%s' could not be invoked"
++ 	     : status == 127
++-	     ? "subsidiary program `%s' not found"
+++	     ? "subsidiary program '%s' not found"
++ 	     : status == INT_MAX
++-	     ? "subsidiary program `%s' failed"
++-	     : "subsidiary program `%s' failed (exit status %d)"),
+++	     ? "subsidiary program '%s' failed"
+++	     : "subsidiary program '%s' failed (exit status %d)"),
++ 	   diff_program, status);
++ 
++   return diff_result + total;
++@@ -1475,7 +1475,7 @@ undotlines (FILE *outputfile, bool leading_dot, long int start, lin num)
++    around the problems involved with changing line numbers in an ed
++    script.
++ 
++-   As in `output_diff3', the variable MAPPING maps from file number
+++   As in 'output_diff3', the variable MAPPING maps from file number
++    according to the argument list to file number according to the diff
++    passed.  All files listed below are in terms of the argument list.
++    REV_MAPPING is the inverse of MAPPING.
++diff --git a/src/dir.c b/src/dir.c
++index 5b4eaec..1bb374f 100644
++--- a/src/dir.c
+++++ b/src/dir.c
++@@ -125,7 +125,7 @@ dir_read (struct file_data const *dir, struct dirdata *dirdata)
++ #endif
++     }
++ 
++-  /* Create the `names' table from the `data' table.  */
+++  /* Create the 'names' table from the 'data' table.  */
++   if (PTRDIFF_MAX / sizeof *names - 1 <= nnames)
++     xalloc_die ();
++   dirdata->names = names = xmalloc ((nnames + 1) * sizeof *names);
++@@ -154,7 +154,7 @@ compare_names (char const *name1, char const *name2)
++ 	r = strcoll (name1, name2);
++       if (errno)
++ 	{
++-	  error (0, errno, _("cannot compare file names `%s' and `%s'"),
+++	  error (0, errno, _("cannot compare file names '%s' and '%s'"),
++ 		 name1, name2);
++ 	  longjmp (failed_locale_specific_sorting, 1);
++ 	}
++@@ -234,7 +234,7 @@ diff_dirs (struct comparison const *cmp,
++ 	qsort (names[i], dirdata[i].nnames, sizeof *dirdata[i].names,
++ 	       compare_names_for_qsort);
++ 
++-      /* If `-S name' was given, and this is the topmost level of comparison,
+++      /* If '-S name' was given, and this is the topmost level of comparison,
++ 	 ignore all file names less than the specified starting name.  */
++ 
++       if (starting_file && ! cmp->parent)
++diff --git a/src/sdiff.c b/src/sdiff.c
++index 4344e8d..fb15fbe 100644
++--- a/src/sdiff.c
+++++ b/src/sdiff.c
++@@ -92,7 +92,7 @@ static int const sigs[] = {
++ };
++ 
++ #if HAVE_SIGACTION
++-  /* Prefer `sigaction' if available, since `signal' can lose signals.  */
+++  /* Prefer 'sigaction' if available, since 'signal' can lose signals.  */
++   static struct sigaction initial_action[NUM_SIGS];
++ # define initial_handler(i) (initial_action[i].sa_handler)
++   static void signal_handler (int, void (*) (int));
++@@ -175,7 +175,7 @@ try_help (char const *reason_msgid, char const *operand)
++ {
++   if (reason_msgid)
++     error (0, 0, _(reason_msgid), operand);
++-  error (EXIT_TROUBLE, 0, _("Try `%s --help' for more information."),
+++  error (EXIT_TROUBLE, 0, _("Try '%s --help' for more information."),
++ 	 program_name);
++   abort ();
++ }
++@@ -230,7 +230,7 @@ usage (void)
++     else
++       putchar ('\n');
++   printf ("\n%s\n%s\n",
++-	  _("If a FILE is `-', read standard input."),
+++	  _("If a FILE is '-', read standard input."),
++ 	  _("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."));
++   emit_bug_reporting_address ();
++ }
++@@ -286,12 +286,12 @@ check_child_status (int werrno, int wstatus, int max_ok_status,
++     {
++       error (0, werrno,
++ 	     _(status == 126
++-	       ? "subsidiary program `%s' could not be invoked"
+++	       ? "subsidiary program '%s' could not be invoked"
++ 	       : status == 127
++-	       ? "subsidiary program `%s' not found"
+++	       ? "subsidiary program '%s' not found"
++ 	       : status == INT_MAX
++-	       ? "subsidiary program `%s' failed"
++-	       : "subsidiary program `%s' failed (exit status %d)"),
+++	       ? "subsidiary program '%s' failed"
+++	       : "subsidiary program '%s' failed (exit status %d)"),
++ 	     subsidiary_program, status);
++       exiterr ();
++     }
++@@ -572,9 +572,9 @@ main (int argc, char *argv[])
++   if (argc - optind != 2)
++     {
++       if (argc - optind < 2)
++-	try_help ("missing operand after `%s'", argv[argc - 1]);
+++	try_help ("missing operand after '%s'", argv[argc - 1]);
++       else
++-	try_help ("extra operand `%s'", argv[optind + 2]);
+++	try_help ("extra operand '%s'", argv[optind + 2]);
++     }
++ 
++   if (! output)
++@@ -747,7 +747,7 @@ main (int argc, char *argv[])
++ 	exit (WEXITSTATUS (wstatus));
++       }
++     }
++-  return EXIT_SUCCESS;			/* Fool `-Wall'.  */
+++  return EXIT_SUCCESS;			/* Fool '-Wall'.  */
++ }
++ 
++ static void
++diff --git a/src/side.c b/src/side.c
++index 6aa96a9..64f95d0 100644
++--- a/src/side.c
+++++ b/src/side.c
++@@ -292,7 +292,7 @@ print_sdiff_hunk (struct change *hunk)
++       fprintf (outfile, "c%ld,%ld\n", len0, len1);
++     }
++ 
++-  /* Print ``xxx  |  xxx '' lines */
+++  /* Print "xxx  |  xxx " lines.  */
++   if (changes == CHANGED)
++     {
++       for (i = first0, j = first1;  i <= last0 && j <= last1;  i++, j++)
++@@ -302,7 +302,7 @@ print_sdiff_hunk (struct change *hunk)
++       next1 = first1 = j;
++     }
++ 
++-  /* Print ``     >  xxx '' lines */
+++  /* Print "     >  xxx " lines.  */
++   if (changes & NEW)
++     {
++       for (j = first1; j <= last1; ++j)
++@@ -310,7 +310,7 @@ print_sdiff_hunk (struct change *hunk)
++       next1 = j;
++     }
++ 
++-  /* Print ``xxx  <     '' lines */
+++  /* Print "xxx  <     " lines.  */
++   if (changes & OLD)
++     {
++       for (i = first0; i <= last0; ++i)
++diff --git a/src/util.c b/src/util.c
++index 3be03e9..b645c5b 100644
++--- a/src/util.c
+++++ b/src/util.c
++@@ -121,7 +121,7 @@ message5 (char const *format_msgid, char const *arg1, char const *arg2,
++     }
++ }
++ 
++-/* Output all the messages that were saved up by calls to `message'.  */
+++/* Output all the messages that were saved up by calls to 'message'.  */
++ 
++ void
++ print_message_queue (void)
++@@ -146,8 +146,8 @@ print_message_queue (void)
++    to set up OUTFILE, the stdio stream for the output to go to.
++ 
++    Usually, OUTFILE is just stdout.  But when -l was specified
++-   we fork off a `pr' and make OUTFILE a pipe to it.
++-   `pr' then outputs to our stdout.  */
+++   we fork off a 'pr' and make OUTFILE a pipe to it.
+++   'pr' then outputs to our stdout.  */
++ 
++ static char const *current_name0;
++ static char const *current_name1;
++@@ -190,7 +190,7 @@ begin_output (void)
++       if (fflush (stdout) != 0)
++ 	pfatal_with_name (_("write failed"));
++ 
++-      /* Make OUTFILE a pipe to a subsidiary `pr'.  */
+++      /* Make OUTFILE a pipe to a subsidiary 'pr'.  */
++       {
++ #if HAVE_WORKING_FORK || HAVE_WORKING_VFORK
++ 	int pipes[2];
++@@ -241,7 +241,7 @@ begin_output (void)
++   else
++     {
++ 
++-      /* If -l was not specified, output the diff straight to `stdout'.  */
+++      /* If -l was not specified, output the diff straight to 'stdout'.  */
++ 
++       outfile = stdout;
++ 
++@@ -270,7 +270,7 @@ begin_output (void)
++ }
++ 
++ /* Call after the end of output of diffs for one file.
++-   Close OUTFILE and get rid of the `pr' subfork.  */
+++   Close OUTFILE and get rid of the 'pr' subfork.  */
++ 
++ void
++ finish_output (void)
++@@ -298,12 +298,12 @@ finish_output (void)
++       if (status)
++ 	error (EXIT_TROUBLE, werrno,
++ 	       _(status == 126
++-		 ? "subsidiary program `%s' could not be invoked"
+++		 ? "subsidiary program '%s' could not be invoked"
++ 		 : status == 127
++-		 ? "subsidiary program `%s' not found"
+++		 ? "subsidiary program '%s' not found"
++ 		 : status == INT_MAX
++-		 ? "subsidiary program `%s' failed"
++-		 : "subsidiary program `%s' failed (exit status %d)"),
+++		 ? "subsidiary program '%s' failed"
+++		 : "subsidiary program '%s' failed (exit status %d)"),
++ 	       pr_program, status);
++     }
++ 
++@@ -650,7 +650,7 @@ print_number_range (char sepchar, struct file_data *file, lin a, lin b)
++ 
++ /* Look at a hunk of edit script and report the range of lines in each file
++    that it applies to.  HUNK is the start of the hunk, which is a chain
++-   of `struct change'.  The first and last line numbers of file 0 are stored in
+++   of 'struct change'.  The first and last line numbers of file 0 are stored in
++    *FIRST0 and *LAST0, and likewise for file 1 in *FIRST1 and *LAST1.
++    Note that these are internal line numbers that count from 0.
++ 
+diff --git a/differences.txt b/differences.txt
+new file mode 100644
+index 0000000..4ca46a7
+--- /dev/null
++++ b/differences.txt
+@@ -0,0 +1,301 @@
++1,4c1,3
++< diff --git a/src/analyze.c b/src/analyze.c
++< index e797248..d7a5aa6 100644
++< --- a/src/analyze.c
++< +++ b/src/analyze.c
++---
++> diff -pru diffutils-3.0/analyze.c diffutils-3.0-patch/analyze.c
++> --- diffutils-3.0/analyze.c	2017-12-02 19:42:48.794033000 -0800
++> +++ diffutils-3.0-patch/analyze.c	2017-12-02 19:44:39.597896000 -0800
++14c13
++< @@ -251,7 +251,7 @@ discard_confusing_lines (struct file_data filevec[])
++---
++> @@ -251,7 +251,7 @@ discard_confusing_lines (struct file_dat
++32,36c31,34
++< diff --git a/src/cmp.c b/src/cmp.c
++< index 2455dc4..905d121 100644
++< --- a/src/cmp.c
++< +++ b/src/cmp.c
++< @@ -115,7 +115,7 @@ try_help (char const *reason_msgid, char const *operand)
++---
++> diff -pru diffutils-3.0/cmp.c diffutils-3.0-patch/cmp.c
++> --- diffutils-3.0/cmp.c	2017-12-02 19:42:48.797030000 -0800
++> +++ diffutils-3.0-patch/cmp.c	2017-12-02 19:44:39.600894000 -0800
++> @@ -115,7 +115,7 @@ try_help (char const *reason_msgid, char
++45c43
++< @@ -134,7 +134,7 @@ specify_ignore_initial (int f, char **argptr, char delimiter)
++---
++> @@ -134,7 +134,7 @@ specify_ignore_initial (int f, char **ar
++110,114c108,111
++< diff --git a/src/context.c b/src/context.c
++< index 0be8cc5..e21556c 100644
++< --- a/src/context.c
++< +++ b/src/context.c
++< @@ -289,7 +289,7 @@ print_unidiff_number_range (struct file_data const *file, lin a, lin b)
++---
++> diff -pru diffutils-3.0/context.c diffutils-3.0-patch/context.c
++> --- diffutils-3.0/context.c	2017-12-02 19:42:48.800027000 -0800
++> +++ diffutils-3.0-patch/context.c	2017-12-02 19:44:39.603890000 -0800
++> @@ -289,7 +289,7 @@ print_unidiff_number_range (struct file_
++150,153c147,235
++< diff --git a/src/diff.c b/src/diff.c
++< index cc1b611..9b0098c 100644
++< --- a/src/diff.c
++< +++ b/src/diff.c
++---
++> diff -pru diffutils-3.0/diff3.c diffutils-3.0-patch/diff3.c
++> --- diffutils-3.0/diff3.c	2017-12-02 19:42:48.803024000 -0800
++> +++ diffutils-3.0-patch/diff3.c	2017-12-02 19:44:39.617877000 -0800
++> @@ -159,7 +159,7 @@ static bool overlap_only;
++>  /* If nonzero, show information for DIFF_2ND diffs.  */
++>  static bool show_2nd;
++>  
++> -/* If nonzero, include `:wq' at the end of the script
++> +/* If nonzero, include ':wq' at the end of the script
++>     to write out the file being edited.   */
++>  static bool finalwrite;
++>  
++> @@ -316,9 +316,9 @@ main (int argc, char **argv)
++>    if (argc - optind != 3)
++>      {
++>        if (argc - optind < 3)
++> -	try_help ("missing operand after `%s'", argv[argc - 1]);
++> +	try_help ("missing operand after '%s'", argv[argc - 1]);
++>        else
++> -	try_help ("extra operand `%s'", argv[optind + 3]);
++> +	try_help ("extra operand '%s'", argv[optind + 3]);
++>      }
++>  
++>    file = &argv[optind];
++> @@ -351,7 +351,7 @@ main (int argc, char **argv)
++>  	 file instead.  */
++>        common = 3 - common;
++>        if (STREQ (file[0], "-") || STREQ (file[common], "-"))
++> -	fatal ("`-' specified for more than one input file");
++> +	fatal ("'-' specified for more than one input file");
++>      }
++>  
++>    mapping[0] = 0;
++> @@ -412,7 +412,7 @@ try_help (char const *reason_msgid, char
++>    if (reason_msgid)
++>      error (0, 0, _(reason_msgid), operand);
++>    error (EXIT_TROUBLE, 0,
++> -	 _("Try `%s --help' for more information."), program_name);
++> +	 _("Try '%s --help' for more information."), program_name);
++>    abort ();
++>  }
++>  
++> @@ -435,7 +435,7 @@ static char const * const option_help_ms
++>    "",
++>    N_("-m  --merge  Output merged file instead of ed script (default -A)."),
++>    N_("-L LABEL  --label=LABEL  Use LABEL instead of file name."),
++> -  N_("-i  Append `w' and `q' commands to ed scripts."),
++> +  N_("-i  Append 'w' and 'q' commands to ed scripts."),
++>    N_("-a  --text  Treat all files as text."),
++>    N_("--strip-trailing-cr  Strip trailing carriage return on input."),
++>    N_("-T  --initial-tab  Make tabs line up by prepending a tab."),
++> @@ -460,7 +460,7 @@ usage (void)
++>      else
++>        putchar ('\n');
++>    printf ("\n%s\n%s\n",
++> -	  _("If a FILE is `-', read standard input."),
++> +	  _("If a FILE is '-', read standard input."),
++>  	  _("Exit status is 0 if successful, 1 if conflicts, 2 if trouble."));
++>    emit_bug_reporting_address ();
++>  }
++> @@ -1275,12 +1275,12 @@ read_diff (char const *filea,
++>    if (EXIT_TROUBLE <= status)
++>      error (EXIT_TROUBLE, werrno,
++>  	   _(status == 126
++> -	     ? "subsidiary program `%s' could not be invoked"
++> +	     ? "subsidiary program '%s' could not be invoked"
++>  	     : status == 127
++> -	     ? "subsidiary program `%s' not found"
++> +	     ? "subsidiary program '%s' not found"
++>  	     : status == INT_MAX
++> -	     ? "subsidiary program `%s' failed"
++> -	     : "subsidiary program `%s' failed (exit status %d)"),
++> +	     ? "subsidiary program '%s' failed"
++> +	     : "subsidiary program '%s' failed (exit status %d)"),
++>  	   diff_program, status);
++>  
++>    return diff_result + total;
++> @@ -1475,7 +1475,7 @@ undotlines (FILE *outputfile, bool leadi
++>     around the problems involved with changing line numbers in an ed
++>     script.
++>  
++> -   As in `output_diff3', the variable MAPPING maps from file number
++> +   As in 'output_diff3', the variable MAPPING maps from file number
++>     according to the argument list to file number according to the diff
++>     passed.  All files listed below are in terms of the argument list.
++>     REV_MAPPING is the inverse of MAPPING.
++> diff -pru diffutils-3.0/diff.c diffutils-3.0-patch/diff.c
++> --- diffutils-3.0/diff.c	2017-12-02 19:42:48.806021000 -0800
++> +++ diffutils-3.0-patch/diff.c	2017-12-02 19:44:39.621872000 -0800
++231c313
++< @@ -826,7 +826,7 @@ try_help (char const *reason_msgid, char const *operand)
++---
++> @@ -826,7 +826,7 @@ try_help (char const *reason_msgid, char
++240c322
++< @@ -870,11 +870,11 @@ static char const * const option_help_msgid[] = {
++---
++> @@ -870,11 +870,11 @@ static char const * const option_help_ms
++254c336
++< @@ -895,7 +895,7 @@ static char const * const option_help_msgid[] = {
++---
++> @@ -895,7 +895,7 @@ static char const * const option_help_ms
++263c345
++< @@ -918,9 +918,9 @@ static char const * const option_help_msgid[] = {
++---
++> @@ -918,9 +918,9 @@ static char const * const option_help_ms
++275c357
++< @@ -960,7 +960,7 @@ specify_value (char const **var, char const *value, char const *option)
++---
++> @@ -960,7 +960,7 @@ specify_value (char const **var, char co
++284c366
++< @@ -1159,7 +1159,7 @@ compare_files (struct comparison const *parent,
++---
++> @@ -1159,7 +1159,7 @@ compare_files (struct comparison const *
++293,384c375,378
++< diff --git a/src/diff3.c b/src/diff3.c
++< index 0f11fdc..5a31f72 100644
++< --- a/src/diff3.c
++< +++ b/src/diff3.c
++< @@ -159,7 +159,7 @@ static bool overlap_only;
++<  /* If nonzero, show information for DIFF_2ND diffs.  */
++<  static bool show_2nd;
++<  
++< -/* If nonzero, include `:wq' at the end of the script
++< +/* If nonzero, include ':wq' at the end of the script
++<     to write out the file being edited.   */
++<  static bool finalwrite;
++<  
++< @@ -316,9 +316,9 @@ main (int argc, char **argv)
++<    if (argc - optind != 3)
++<      {
++<        if (argc - optind < 3)
++< -	try_help ("missing operand after `%s'", argv[argc - 1]);
++< +	try_help ("missing operand after '%s'", argv[argc - 1]);
++<        else
++< -	try_help ("extra operand `%s'", argv[optind + 3]);
++< +	try_help ("extra operand '%s'", argv[optind + 3]);
++<      }
++<  
++<    file = &argv[optind];
++< @@ -351,7 +351,7 @@ main (int argc, char **argv)
++<  	 file instead.  */
++<        common = 3 - common;
++<        if (STREQ (file[0], "-") || STREQ (file[common], "-"))
++< -	fatal ("`-' specified for more than one input file");
++< +	fatal ("'-' specified for more than one input file");
++<      }
++<  
++<    mapping[0] = 0;
++< @@ -412,7 +412,7 @@ try_help (char const *reason_msgid, char const *operand)
++<    if (reason_msgid)
++<      error (0, 0, _(reason_msgid), operand);
++<    error (EXIT_TROUBLE, 0,
++< -	 _("Try `%s --help' for more information."), program_name);
++< +	 _("Try '%s --help' for more information."), program_name);
++<    abort ();
++<  }
++<  
++< @@ -435,7 +435,7 @@ static char const * const option_help_msgid[] = {
++<    "",
++<    N_("-m  --merge  Output merged file instead of ed script (default -A)."),
++<    N_("-L LABEL  --label=LABEL  Use LABEL instead of file name."),
++< -  N_("-i  Append `w' and `q' commands to ed scripts."),
++< +  N_("-i  Append 'w' and 'q' commands to ed scripts."),
++<    N_("-a  --text  Treat all files as text."),
++<    N_("--strip-trailing-cr  Strip trailing carriage return on input."),
++<    N_("-T  --initial-tab  Make tabs line up by prepending a tab."),
++< @@ -460,7 +460,7 @@ usage (void)
++<      else
++<        putchar ('\n');
++<    printf ("\n%s\n%s\n",
++< -	  _("If a FILE is `-', read standard input."),
++< +	  _("If a FILE is '-', read standard input."),
++<  	  _("Exit status is 0 if successful, 1 if conflicts, 2 if trouble."));
++<    emit_bug_reporting_address ();
++<  }
++< @@ -1275,12 +1275,12 @@ read_diff (char const *filea,
++<    if (EXIT_TROUBLE <= status)
++<      error (EXIT_TROUBLE, werrno,
++<  	   _(status == 126
++< -	     ? "subsidiary program `%s' could not be invoked"
++< +	     ? "subsidiary program '%s' could not be invoked"
++<  	     : status == 127
++< -	     ? "subsidiary program `%s' not found"
++< +	     ? "subsidiary program '%s' not found"
++<  	     : status == INT_MAX
++< -	     ? "subsidiary program `%s' failed"
++< -	     : "subsidiary program `%s' failed (exit status %d)"),
++< +	     ? "subsidiary program '%s' failed"
++< +	     : "subsidiary program '%s' failed (exit status %d)"),
++<  	   diff_program, status);
++<  
++<    return diff_result + total;
++< @@ -1475,7 +1475,7 @@ undotlines (FILE *outputfile, bool leading_dot, long int start, lin num)
++<     around the problems involved with changing line numbers in an ed
++<     script.
++<  
++< -   As in `output_diff3', the variable MAPPING maps from file number
++< +   As in 'output_diff3', the variable MAPPING maps from file number
++<     according to the argument list to file number according to the diff
++<     passed.  All files listed below are in terms of the argument list.
++<     REV_MAPPING is the inverse of MAPPING.
++< diff --git a/src/dir.c b/src/dir.c
++< index 5b4eaec..1bb374f 100644
++< --- a/src/dir.c
++< +++ b/src/dir.c
++< @@ -125,7 +125,7 @@ dir_read (struct file_data const *dir, struct dirdata *dirdata)
++---
++> diff -pru diffutils-3.0/dir.c diffutils-3.0-patch/dir.c
++> --- diffutils-3.0/dir.c	2017-12-02 19:42:48.809019000 -0800
++> +++ diffutils-3.0-patch/dir.c	2017-12-02 19:44:39.624869000 -0800
++> @@ -125,7 +125,7 @@ dir_read (struct file_data const *dir, s
++393c387
++< @@ -154,7 +154,7 @@ compare_names (char const *name1, char const *name2)
++---
++> @@ -154,7 +154,7 @@ compare_names (char const *name1, char c
++411,414c405,407
++< diff --git a/src/sdiff.c b/src/sdiff.c
++< index 4344e8d..fb15fbe 100644
++< --- a/src/sdiff.c
++< +++ b/src/sdiff.c
++---
++> diff -pru diffutils-3.0/sdiff.c diffutils-3.0-patch/sdiff.c
++> --- diffutils-3.0/sdiff.c	2017-12-02 19:42:48.823004000 -0800
++> +++ diffutils-3.0-patch/sdiff.c	2017-12-02 19:44:39.638855000 -0800
++424c417
++< @@ -175,7 +175,7 @@ try_help (char const *reason_msgid, char const *operand)
++---
++> @@ -175,7 +175,7 @@ try_help (char const *reason_msgid, char
++442c435
++< @@ -286,12 +286,12 @@ check_child_status (int werrno, int wstatus, int max_ok_status,
++---
++> @@ -286,12 +286,12 @@ check_child_status (int werrno, int wsta
++480,483c473,475
++< diff --git a/src/side.c b/src/side.c
++< index 6aa96a9..64f95d0 100644
++< --- a/src/side.c
++< +++ b/src/side.c
++---
++> diff -pru diffutils-3.0/side.c diffutils-3.0-patch/side.c
++> --- diffutils-3.0/side.c	2017-12-02 19:42:48.825003000 -0800
++> +++ diffutils-3.0-patch/side.c	2017-12-02 19:44:39.641852000 -0800
++511,515c503,506
++< diff --git a/src/util.c b/src/util.c
++< index 3be03e9..b645c5b 100644
++< --- a/src/util.c
++< +++ b/src/util.c
++< @@ -121,7 +121,7 @@ message5 (char const *format_msgid, char const *arg1, char const *arg2,
++---
++> diff -pru diffutils-3.0/util.c diffutils-3.0-patch/util.c
++> --- diffutils-3.0/util.c	2017-12-02 19:42:48.827999000 -0800
++> +++ diffutils-3.0-patch/util.c	2017-12-02 19:44:39.644848000 -0800
++> @@ -121,7 +121,7 @@ message5 (char const *format_msgid, char
++579c570
++< @@ -650,7 +650,7 @@ print_number_range (char sepchar, struct file_data *file, lin a, lin b)
++---
++> @@ -650,7 +650,7 @@ print_number_range (char sepchar, struct
+diff --git a/quote-3.0-patch.txt b/quote-3.0-patch.txt
+new file mode 100644
+index 0000000..42f9c37
+--- /dev/null
++++ b/quote-3.0-patch.txt
+@@ -0,0 +1,587 @@
++diff --git a/src/analyze.c b/src/analyze.c
++index e797248..d7a5aa6 100644
++--- a/src/analyze.c
+++++ b/src/analyze.c
++@@ -38,7 +38,7 @@
++ 
++    A line which is discarded will not be considered by the actual
++    comparison algorithm; it will be as if that line were not in the file.
++-   The file's `realindexes' table maps virtual line numbers
+++   The file's 'realindexes' table maps virtual line numbers
++    (which don't count the discarded lines) into real line numbers;
++    this is how the actual comparison algorithm produces results
++    that are comprehensible when the discarded lines are counted.
++@@ -251,7 +251,7 @@ discard_confusing_lines (struct file_data filevec[])
++    We do something when a run of changed lines include a
++    line at one end and have an excluded, identical line at the other.
++    We are free to choose which identical line is included.
++-   `compareseq' usually chooses the one at the beginning,
+++   'compareseq' usually chooses the one at the beginning,
++    but usually it is cleaner to consider the following identical line
++    to be the "change".  */
++ 
++@@ -595,7 +595,7 @@ diff_2_files (struct comparison *cmp)
++       shift_boundaries (cmp->file);
++ 
++       /* Get the results of comparison in the form of a chain
++-	 of `struct change's -- an edit script.  */
+++	 of 'struct change's -- an edit script.  */
++ 
++       if (output_style == OUTPUT_ED)
++ 	script = build_reverse_script (cmp->file);
++diff --git a/src/cmp.c b/src/cmp.c
++index 2455dc4..905d121 100644
++--- a/src/cmp.c
+++++ b/src/cmp.c
++@@ -115,7 +115,7 @@ try_help (char const *reason_msgid, char const *operand)
++   if (reason_msgid)
++     error (0, 0, _(reason_msgid), operand);
++   error (EXIT_TROUBLE, 0,
++-	 _("Try `%s --help' for more information."), program_name);
+++	 _("Try '%s --help' for more information."), program_name);
++   abort ();
++ }
++ 
++@@ -134,7 +134,7 @@ specify_ignore_initial (int f, char **argptr, char delimiter)
++   if (! (e == LONGINT_OK
++ 	 || (e == LONGINT_INVALID_SUFFIX_CHAR && **argptr == delimiter))
++       || TYPE_MAXIMUM (off_t) < val)
++-    try_help ("invalid --ignore-initial value `%s'", arg);
+++    try_help ("invalid --ignore-initial value '%s'", arg);
++   if (ignore_initial[f] < val)
++     ignore_initial[f] = val;
++ }
++@@ -185,7 +185,7 @@ usage (void)
++ 	  _("SKIP values may be followed by the following multiplicative suffixes:\n\
++ kB 1000, K 1024, MB 1,000,000, M 1,048,576,\n\
++ GB 1,000,000,000, G 1,073,741,824, and so on for T, P, E, Z, Y."),
++-	  _("If a FILE is `-' or missing, read standard input."),
+++	  _("If a FILE is '-' or missing, read standard input."),
++ 	  _("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."));
++   emit_bug_reporting_address ();
++ }
++@@ -231,7 +231,7 @@ main (int argc, char **argv)
++ 	{
++ 	  uintmax_t n;
++ 	  if (xstrtoumax (optarg, 0, 0, &n, valid_suffixes) != LONGINT_OK)
++-	    try_help ("invalid --bytes value `%s'", optarg);
+++	    try_help ("invalid --bytes value '%s'", optarg);
++ 	  if (n < bytes)
++ 	    bytes = n;
++ 	}
++@@ -257,7 +257,7 @@ main (int argc, char **argv)
++       }
++ 
++   if (optind == argc)
++-    try_help ("missing operand after `%s'", argv[argc - 1]);
+++    try_help ("missing operand after '%s'", argv[argc - 1]);
++ 
++   file[0] = argv[optind++];
++   file[1] = optind < argc ? argv[optind++] : "-";
++@@ -269,7 +269,7 @@ main (int argc, char **argv)
++     }
++ 
++   if (optind < argc)
++-    try_help ("extra operand `%s'", argv[optind]);
+++    try_help ("extra operand '%s'", argv[optind]);
++ 
++   for (f = 0; f < 2; f++)
++     {
++@@ -364,8 +364,8 @@ main (int argc, char **argv)
++   return exit_status;
++ }
++ 
++-/* Compare the two files already open on `file_desc[0]' and `file_desc[1]',
++-   using `buffer[0]' and `buffer[1]'.
+++/* Compare the two files already open on 'file_desc[0]' and 'file_desc[1]',
+++   using 'buffer[0]' and 'buffer[1]'.
++    Return EXIT_SUCCESS if identical, EXIT_FAILURE if different,
++    >1 if error.  */
++ 
++@@ -377,7 +377,7 @@ cmp (void)
++   uintmax_t remaining = bytes;	/* Remaining number of bytes to compare.  */
++   size_t read0, read1;		/* Number of bytes read from each file. */
++   size_t first_diff;		/* Offset (0...) in buffers of 1st diff. */
++-  size_t smaller;		/* The lesser of `read0' and `read1'. */
+++  size_t smaller;		/* The lesser of 'read0' and 'read1'. */
++   word *buffer0 = buffer[0];
++   word *buffer1 = buffer[1];
++   char *buf0 = (char *) buffer0;
++diff --git a/src/context.c b/src/context.c
++index 0be8cc5..e21556c 100644
++--- a/src/context.c
+++++ b/src/context.c
++@@ -289,7 +289,7 @@ print_unidiff_number_range (struct file_data const *file, lin a, lin b)
++ 
++ /* Print a portion of an edit script in unidiff format.
++    HUNK is the beginning of the portion to be printed.
++-   The end is marked by a `link' that has been nulled out.
+++   The end is marked by a 'link' that has been nulled out.
++ 
++    Prints out lines from both files, and precedes each
++    line with the appropriate flag-character.  */
++@@ -393,7 +393,7 @@ pr_unidiff_hunk (struct change *hunk)
++ 
++ /* Scan a (forward-ordered) edit script for the first place that more than
++    2*CONTEXT unchanged lines appear, and return a pointer
++-   to the `struct change' for the last change before those lines.  */
+++   to the 'struct change' for the last change before those lines.  */
++ 
++ static struct change *
++ find_hunk (struct change *start)
++@@ -431,7 +431,7 @@ find_hunk (struct change *start)
++   return prev;
++ }
++ 
++-/* Set the `ignore' flag properly in each change in SCRIPT.
+++/* Set the 'ignore' flag properly in each change in SCRIPT.
++    It should be 1 if all the lines inserted or deleted in that change
++    are ignorable lines.  */
++ 
++@@ -459,7 +459,7 @@ mark_ignorable (struct change *script)
++ }
++ 
++ /* Find the last function-header line in LINBUF prior to line number LINENUM.
++-   This is a line containing a match for the regexp in `function_regexp'.
+++   This is a line containing a match for the regexp in 'function_regexp'.
++    Return the address of the text, or NULL if no function-header is found.  */
++ 
++ static char const *
++diff --git a/src/diff.c b/src/diff.c
++index cc1b611..9b0098c 100644
++--- a/src/diff.c
+++++ b/src/diff.c
++@@ -57,9 +57,9 @@
++ struct regexp_list
++ {
++   char *regexps;	/* chars representing disjunction of the regexps */
++-  size_t len;		/* chars used in `regexps' */
++-  size_t size;		/* size malloc'ed for `regexps'; 0 if not malloc'ed */
++-  bool multiple_regexps;/* Does `regexps' represent a disjunction?  */
+++  size_t len;		/* chars used in 'regexps' */
+++  size_t size;		/* size malloc'ed for 'regexps'; 0 if not malloc'ed */
+++  bool multiple_regexps;/* Does 'regexps' represent a disjunction?  */
++   struct re_pattern_buffer *buf;
++ };
++ 
++@@ -92,13 +92,13 @@ enum { binary = true };
++ 
++ /* When comparing directories, if a file appears only in one
++    directory, treat it as present but empty in the other (-N).
++-   Then `patch' would create the file with appropriate contents.  */
+++   Then 'patch' would create the file with appropriate contents.  */
++ static bool new_file;
++ 
++ /* When comparing directories, if a file appears only in the second
++    directory of the two, treat it as present but empty in the other
++    (--unidirectional-new-file).
++-   Then `patch' would create the file with appropriate contents.  */
+++   Then 'patch' would create the file with appropriate contents.  */
++ static bool unidirectional_new_file;
++ 
++ /* Report files compared that are the same (-s).
++@@ -330,7 +330,7 @@ main (int argc, char **argv)
++ 	      {
++ 		numval = strtoumax (optarg, &numend, 10);
++ 		if (*numend)
++-		  try_help ("invalid context length `%s'", optarg);
+++		  try_help ("invalid context length '%s'", optarg);
++ 		if (LIN_MAX < numval)
++ 		  numval = LIN_MAX;
++ 	      }
++@@ -505,7 +505,7 @@ main (int argc, char **argv)
++ 	case 'W':
++ 	  numval = strtoumax (optarg, &numend, 10);
++ 	  if (! (0 < numval && numval <= SIZE_MAX) || *numend)
++-	    try_help ("invalid width `%s'", optarg);
+++	    try_help ("invalid width '%s'", optarg);
++ 	  if (width != numval)
++ 	    {
++ 	      if (width)
++@@ -534,7 +534,7 @@ main (int argc, char **argv)
++ 	case HORIZON_LINES_OPTION:
++ 	  numval = strtoumax (optarg, &numend, 10);
++ 	  if (*numend)
++-	    try_help ("invalid horizon length `%s'", optarg);
+++	    try_help ("invalid horizon length '%s'", optarg);
++ 	  horizon_lines = MAX (horizon_lines, MIN (numval, LIN_MAX));
++ 	  break;
++ 
++@@ -585,7 +585,7 @@ main (int argc, char **argv)
++ 	case TABSIZE_OPTION:
++ 	  numval = strtoumax (optarg, &numend, 10);
++ 	  if (! (0 < numval && numval <= SIZE_MAX) || *numend)
++-	    try_help ("invalid tabsize `%s'", optarg);
+++	    try_help ("invalid tabsize '%s'", optarg);
++ 	  if (tabsize != numval)
++ 	    {
++ 	      if (tabsize)
++@@ -744,9 +744,9 @@ main (int argc, char **argv)
++ 	  if (argc - optind != 2)
++ 	    {
++ 	      if (argc - optind < 2)
++-		try_help ("missing operand after `%s'", argv[argc - 1]);
+++		try_help ("missing operand after '%s'", argv[argc - 1]);
++ 	      else
++-		try_help ("extra operand `%s'", argv[optind + 2]);
+++		try_help ("extra operand '%s'", argv[optind + 2]);
++ 	    }
++ 
++ 	  exit_status = compare_files (NULL, argv[optind], argv[optind + 1]);
++@@ -826,7 +826,7 @@ try_help (char const *reason_msgid, char const *operand)
++ {
++   if (reason_msgid)
++     error (0, 0, _(reason_msgid), operand);
++-  error (EXIT_TROUBLE, 0, _("Try `%s --help' for more information."),
+++  error (EXIT_TROUBLE, 0, _("Try '%s --help' for more information."),
++ 	 program_name);
++   abort ();
++ }
++@@ -870,11 +870,11 @@ static char const * const option_help_msgid[] = {
++   -W NUM  --width=NUM  Output at most NUM (default 130) print columns.\n\
++   --left-column  Output only the left column of common lines.\n\
++   --suppress-common-lines  Do not output common lines."),
++-  N_("-D NAME  --ifdef=NAME  Output merged file to show `#ifdef NAME' diffs."),
+++  N_("-D NAME  --ifdef=NAME  Output merged file to show '#ifdef NAME' diffs."),
++   N_("--GTYPE-group-format=GFMT  Similar, but format GTYPE input groups with GFMT."),
++   N_("--line-format=LFMT  Similar, but format all input lines with LFMT."),
++   N_("--LTYPE-line-format=LFMT  Similar, but format LTYPE input lines with LFMT."),
++-  N_("  LTYPE is `old', `new', or `unchanged'.  GTYPE is LTYPE or `changed'."),
+++  N_("  LTYPE is 'old', 'new', or 'unchanged'.  GTYPE is LTYPE or 'changed'."),
++   N_("  GFMT may contain:\n\
++     %<  lines from FILE1\n\
++     %>  lines from FILE2\n\
++@@ -895,7 +895,7 @@ static char const * const option_help_msgid[] = {
++     %c'C'  the single character C\n\
++     %c'\\OOO'  the character with octal code OOO"),
++   "",
++-  N_("-l  --paginate  Pass the output through `pr' to paginate it."),
+++  N_("-l  --paginate  Pass the output through 'pr' to paginate it."),
++   N_("-t  --expand-tabs  Expand tabs to spaces in output."),
++   N_("-T  --initial-tab  Make tabs line up by prepending a tab."),
++   N_("--tabsize=NUM  Tab stops are every NUM (default 8) print columns."),
++@@ -918,9 +918,9 @@ static char const * const option_help_msgid[] = {
++   N_("-v  --version  Output version info."),
++   N_("--help  Output this help."),
++   "",
++-  N_("FILES are `FILE1 FILE2' or `DIR1 DIR2' or `DIR FILE...' or `FILE... DIR'."),
+++  N_("FILES are 'FILE1 FILE2' or 'DIR1 DIR2' or 'DIR FILE...' or 'FILE... DIR'."),
++   N_("If --from-file or --to-file is given, there are no restrictions on FILES."),
++-  N_("If a FILE is `-', read standard input."),
+++  N_("If a FILE is '-', read standard input."),
++   N_("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."),
++   0
++ };
++@@ -960,7 +960,7 @@ specify_value (char const **var, char const *value, char const *option)
++ {
++   if (*var && strcmp (*var, value) != 0)
++     {
++-      error (0, 0, _("conflicting %s option value `%s'"), option, value);
+++      error (0, 0, _("conflicting %s option value '%s'"), option, value);
++       try_help (NULL, NULL);
++     }
++   *var = value;
++@@ -1159,7 +1159,7 @@ compare_files (struct comparison const *parent,
++ 	= dir_file_pathname (dir, last_component (fnm));
++ 
++       if (STREQ (fnm, "-"))
++-	fatal ("cannot compare `-' to a directory");
+++	fatal ("cannot compare '-' to a directory");
++ 
++       if (stat (filename, &cmp.file[dir_arg].stat) != 0)
++ 	{
++diff --git a/src/diff3.c b/src/diff3.c
++index 0f11fdc..5a31f72 100644
++--- a/src/diff3.c
+++++ b/src/diff3.c
++@@ -159,7 +159,7 @@ static bool overlap_only;
++ /* If nonzero, show information for DIFF_2ND diffs.  */
++ static bool show_2nd;
++ 
++-/* If nonzero, include `:wq' at the end of the script
+++/* If nonzero, include ':wq' at the end of the script
++    to write out the file being edited.   */
++ static bool finalwrite;
++ 
++@@ -316,9 +316,9 @@ main (int argc, char **argv)
++   if (argc - optind != 3)
++     {
++       if (argc - optind < 3)
++-	try_help ("missing operand after `%s'", argv[argc - 1]);
+++	try_help ("missing operand after '%s'", argv[argc - 1]);
++       else
++-	try_help ("extra operand `%s'", argv[optind + 3]);
+++	try_help ("extra operand '%s'", argv[optind + 3]);
++     }
++ 
++   file = &argv[optind];
++@@ -351,7 +351,7 @@ main (int argc, char **argv)
++ 	 file instead.  */
++       common = 3 - common;
++       if (STREQ (file[0], "-") || STREQ (file[common], "-"))
++-	fatal ("`-' specified for more than one input file");
+++	fatal ("'-' specified for more than one input file");
++     }
++ 
++   mapping[0] = 0;
++@@ -412,7 +412,7 @@ try_help (char const *reason_msgid, char const *operand)
++   if (reason_msgid)
++     error (0, 0, _(reason_msgid), operand);
++   error (EXIT_TROUBLE, 0,
++-	 _("Try `%s --help' for more information."), program_name);
+++	 _("Try '%s --help' for more information."), program_name);
++   abort ();
++ }
++ 
++@@ -435,7 +435,7 @@ static char const * const option_help_msgid[] = {
++   "",
++   N_("-m  --merge  Output merged file instead of ed script (default -A)."),
++   N_("-L LABEL  --label=LABEL  Use LABEL instead of file name."),
++-  N_("-i  Append `w' and `q' commands to ed scripts."),
+++  N_("-i  Append 'w' and 'q' commands to ed scripts."),
++   N_("-a  --text  Treat all files as text."),
++   N_("--strip-trailing-cr  Strip trailing carriage return on input."),
++   N_("-T  --initial-tab  Make tabs line up by prepending a tab."),
++@@ -460,7 +460,7 @@ usage (void)
++     else
++       putchar ('\n');
++   printf ("\n%s\n%s\n",
++-	  _("If a FILE is `-', read standard input."),
+++	  _("If a FILE is '-', read standard input."),
++ 	  _("Exit status is 0 if successful, 1 if conflicts, 2 if trouble."));
++   emit_bug_reporting_address ();
++ }
++@@ -1275,12 +1275,12 @@ read_diff (char const *filea,
++   if (EXIT_TROUBLE <= status)
++     error (EXIT_TROUBLE, werrno,
++ 	   _(status == 126
++-	     ? "subsidiary program `%s' could not be invoked"
+++	     ? "subsidiary program '%s' could not be invoked"
++ 	     : status == 127
++-	     ? "subsidiary program `%s' not found"
+++	     ? "subsidiary program '%s' not found"
++ 	     : status == INT_MAX
++-	     ? "subsidiary program `%s' failed"
++-	     : "subsidiary program `%s' failed (exit status %d)"),
+++	     ? "subsidiary program '%s' failed"
+++	     : "subsidiary program '%s' failed (exit status %d)"),
++ 	   diff_program, status);
++ 
++   return diff_result + total;
++@@ -1475,7 +1475,7 @@ undotlines (FILE *outputfile, bool leading_dot, long int start, lin num)
++    around the problems involved with changing line numbers in an ed
++    script.
++ 
++-   As in `output_diff3', the variable MAPPING maps from file number
+++   As in 'output_diff3', the variable MAPPING maps from file number
++    according to the argument list to file number according to the diff
++    passed.  All files listed below are in terms of the argument list.
++    REV_MAPPING is the inverse of MAPPING.
++diff --git a/src/dir.c b/src/dir.c
++index 5b4eaec..1bb374f 100644
++--- a/src/dir.c
+++++ b/src/dir.c
++@@ -125,7 +125,7 @@ dir_read (struct file_data const *dir, struct dirdata *dirdata)
++ #endif
++     }
++ 
++-  /* Create the `names' table from the `data' table.  */
+++  /* Create the 'names' table from the 'data' table.  */
++   if (PTRDIFF_MAX / sizeof *names - 1 <= nnames)
++     xalloc_die ();
++   dirdata->names = names = xmalloc ((nnames + 1) * sizeof *names);
++@@ -154,7 +154,7 @@ compare_names (char const *name1, char const *name2)
++ 	r = strcoll (name1, name2);
++       if (errno)
++ 	{
++-	  error (0, errno, _("cannot compare file names `%s' and `%s'"),
+++	  error (0, errno, _("cannot compare file names '%s' and '%s'"),
++ 		 name1, name2);
++ 	  longjmp (failed_locale_specific_sorting, 1);
++ 	}
++@@ -234,7 +234,7 @@ diff_dirs (struct comparison const *cmp,
++ 	qsort (names[i], dirdata[i].nnames, sizeof *dirdata[i].names,
++ 	       compare_names_for_qsort);
++ 
++-      /* If `-S name' was given, and this is the topmost level of comparison,
+++      /* If '-S name' was given, and this is the topmost level of comparison,
++ 	 ignore all file names less than the specified starting name.  */
++ 
++       if (starting_file && ! cmp->parent)
++diff --git a/src/sdiff.c b/src/sdiff.c
++index 4344e8d..fb15fbe 100644
++--- a/src/sdiff.c
+++++ b/src/sdiff.c
++@@ -92,7 +92,7 @@ static int const sigs[] = {
++ };
++ 
++ #if HAVE_SIGACTION
++-  /* Prefer `sigaction' if available, since `signal' can lose signals.  */
+++  /* Prefer 'sigaction' if available, since 'signal' can lose signals.  */
++   static struct sigaction initial_action[NUM_SIGS];
++ # define initial_handler(i) (initial_action[i].sa_handler)
++   static void signal_handler (int, void (*) (int));
++@@ -175,7 +175,7 @@ try_help (char const *reason_msgid, char const *operand)
++ {
++   if (reason_msgid)
++     error (0, 0, _(reason_msgid), operand);
++-  error (EXIT_TROUBLE, 0, _("Try `%s --help' for more information."),
+++  error (EXIT_TROUBLE, 0, _("Try '%s --help' for more information."),
++ 	 program_name);
++   abort ();
++ }
++@@ -230,7 +230,7 @@ usage (void)
++     else
++       putchar ('\n');
++   printf ("\n%s\n%s\n",
++-	  _("If a FILE is `-', read standard input."),
+++	  _("If a FILE is '-', read standard input."),
++ 	  _("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."));
++   emit_bug_reporting_address ();
++ }
++@@ -286,12 +286,12 @@ check_child_status (int werrno, int wstatus, int max_ok_status,
++     {
++       error (0, werrno,
++ 	     _(status == 126
++-	       ? "subsidiary program `%s' could not be invoked"
+++	       ? "subsidiary program '%s' could not be invoked"
++ 	       : status == 127
++-	       ? "subsidiary program `%s' not found"
+++	       ? "subsidiary program '%s' not found"
++ 	       : status == INT_MAX
++-	       ? "subsidiary program `%s' failed"
++-	       : "subsidiary program `%s' failed (exit status %d)"),
+++	       ? "subsidiary program '%s' failed"
+++	       : "subsidiary program '%s' failed (exit status %d)"),
++ 	     subsidiary_program, status);
++       exiterr ();
++     }
++@@ -572,9 +572,9 @@ main (int argc, char *argv[])
++   if (argc - optind != 2)
++     {
++       if (argc - optind < 2)
++-	try_help ("missing operand after `%s'", argv[argc - 1]);
+++	try_help ("missing operand after '%s'", argv[argc - 1]);
++       else
++-	try_help ("extra operand `%s'", argv[optind + 2]);
+++	try_help ("extra operand '%s'", argv[optind + 2]);
++     }
++ 
++   if (! output)
++@@ -747,7 +747,7 @@ main (int argc, char *argv[])
++ 	exit (WEXITSTATUS (wstatus));
++       }
++     }
++-  return EXIT_SUCCESS;			/* Fool `-Wall'.  */
+++  return EXIT_SUCCESS;			/* Fool '-Wall'.  */
++ }
++ 
++ static void
++diff --git a/src/side.c b/src/side.c
++index 6aa96a9..64f95d0 100644
++--- a/src/side.c
+++++ b/src/side.c
++@@ -292,7 +292,7 @@ print_sdiff_hunk (struct change *hunk)
++       fprintf (outfile, "c%ld,%ld\n", len0, len1);
++     }
++ 
++-  /* Print ``xxx  |  xxx '' lines */
+++  /* Print "xxx  |  xxx " lines.  */
++   if (changes == CHANGED)
++     {
++       for (i = first0, j = first1;  i <= last0 && j <= last1;  i++, j++)
++@@ -302,7 +302,7 @@ print_sdiff_hunk (struct change *hunk)
++       next1 = first1 = j;
++     }
++ 
++-  /* Print ``     >  xxx '' lines */
+++  /* Print "     >  xxx " lines.  */
++   if (changes & NEW)
++     {
++       for (j = first1; j <= last1; ++j)
++@@ -310,7 +310,7 @@ print_sdiff_hunk (struct change *hunk)
++       next1 = j;
++     }
++ 
++-  /* Print ``xxx  <     '' lines */
+++  /* Print "xxx  <     " lines.  */
++   if (changes & OLD)
++     {
++       for (i = first0; i <= last0; ++i)
++diff --git a/src/util.c b/src/util.c
++index 3be03e9..b645c5b 100644
++--- a/src/util.c
+++++ b/src/util.c
++@@ -121,7 +121,7 @@ message5 (char const *format_msgid, char const *arg1, char const *arg2,
++     }
++ }
++ 
++-/* Output all the messages that were saved up by calls to `message'.  */
+++/* Output all the messages that were saved up by calls to 'message'.  */
++ 
++ void
++ print_message_queue (void)
++@@ -146,8 +146,8 @@ print_message_queue (void)
++    to set up OUTFILE, the stdio stream for the output to go to.
++ 
++    Usually, OUTFILE is just stdout.  But when -l was specified
++-   we fork off a `pr' and make OUTFILE a pipe to it.
++-   `pr' then outputs to our stdout.  */
+++   we fork off a 'pr' and make OUTFILE a pipe to it.
+++   'pr' then outputs to our stdout.  */
++ 
++ static char const *current_name0;
++ static char const *current_name1;
++@@ -190,7 +190,7 @@ begin_output (void)
++       if (fflush (stdout) != 0)
++ 	pfatal_with_name (_("write failed"));
++ 
++-      /* Make OUTFILE a pipe to a subsidiary `pr'.  */
+++      /* Make OUTFILE a pipe to a subsidiary 'pr'.  */
++       {
++ #if HAVE_WORKING_FORK || HAVE_WORKING_VFORK
++ 	int pipes[2];
++@@ -241,7 +241,7 @@ begin_output (void)
++   else
++     {
++ 
++-      /* If -l was not specified, output the diff straight to `stdout'.  */
+++      /* If -l was not specified, output the diff straight to 'stdout'.  */
++ 
++       outfile = stdout;
++ 
++@@ -270,7 +270,7 @@ begin_output (void)
++ }
++ 
++ /* Call after the end of output of diffs for one file.
++-   Close OUTFILE and get rid of the `pr' subfork.  */
+++   Close OUTFILE and get rid of the 'pr' subfork.  */
++ 
++ void
++ finish_output (void)
++@@ -298,12 +298,12 @@ finish_output (void)
++       if (status)
++ 	error (EXIT_TROUBLE, werrno,
++ 	       _(status == 126
++-		 ? "subsidiary program `%s' could not be invoked"
+++		 ? "subsidiary program '%s' could not be invoked"
++ 		 : status == 127
++-		 ? "subsidiary program `%s' not found"
+++		 ? "subsidiary program '%s' not found"
++ 		 : status == INT_MAX
++-		 ? "subsidiary program `%s' failed"
++-		 : "subsidiary program `%s' failed (exit status %d)"),
+++		 ? "subsidiary program '%s' failed"
+++		 : "subsidiary program '%s' failed (exit status %d)"),
++ 	       pr_program, status);
++     }
++ 
++@@ -650,7 +650,7 @@ print_number_range (char sepchar, struct file_data *file, lin a, lin b)
++ 
++ /* Look at a hunk of edit script and report the range of lines in each file
++    that it applies to.  HUNK is the start of the hunk, which is a chain
++-   of `struct change'.  The first and last line numbers of file 0 are stored in
+++   of 'struct change'.  The first and last line numbers of file 0 are stored in
++    *FIRST0 and *LAST0, and likewise for file 1 in *FIRST1 and *LAST1.
++    Note that these are internal line numbers that count from 0.
++ 
+diff --git a/src/analyze.c b/src/analyze.c
+index e797248..d7a5aa6 100644
+--- a/src/analyze.c
++++ b/src/analyze.c
+@@ -38,7 +38,7 @@
+ 
+    A line which is discarded will not be considered by the actual
+    comparison algorithm; it will be as if that line were not in the file.
+-   The file's `realindexes' table maps virtual line numbers
++   The file's 'realindexes' table maps virtual line numbers
+    (which don't count the discarded lines) into real line numbers;
+    this is how the actual comparison algorithm produces results
+    that are comprehensible when the discarded lines are counted.
+@@ -251,7 +251,7 @@ discard_confusing_lines (struct file_data filevec[])
+    We do something when a run of changed lines include a
+    line at one end and have an excluded, identical line at the other.
+    We are free to choose which identical line is included.
+-   `compareseq' usually chooses the one at the beginning,
++   'compareseq' usually chooses the one at the beginning,
+    but usually it is cleaner to consider the following identical line
+    to be the "change".  */
+ 
+@@ -595,7 +595,7 @@ diff_2_files (struct comparison *cmp)
+       shift_boundaries (cmp->file);
+ 
+       /* Get the results of comparison in the form of a chain
+-	 of `struct change's -- an edit script.  */
++	 of 'struct change's -- an edit script.  */
+ 
+       if (output_style == OUTPUT_ED)
+ 	script = build_reverse_script (cmp->file);
+diff --git a/src/analyze.c.rej b/src/analyze.c.rej
+new file mode 100644
+index 0000000..6eae630
+--- /dev/null
++++ b/src/analyze.c.rej
+@@ -0,0 +1,29 @@
++--- src/analyze.c
+++++ src/analyze.c
++@@ -38,7 +38,7 @@
++ 
++    A line which is discarded will not be considered by the actual
++    comparison algorithm; it will be as if that line were not in the file.
++-   The file's `realindexes' table maps virtual line numbers
+++   The file's 'realindexes' table maps virtual line numbers
++    (which don't count the discarded lines) into real line numbers;
++    this is how the actual comparison algorithm produces results
++    that are comprehensible when the discarded lines are counted.
++@@ -251,7 +251,7 @@
++    We do something when a run of changed lines include a
++    line at one end and have an excluded, identical line at the other.
++    We are free to choose which identical line is included.
++-   `compareseq' usually chooses the one at the beginning,
+++   'compareseq' usually chooses the one at the beginning,
++    but usually it is cleaner to consider the following identical line
++    to be the "change".  */
++ 
++@@ -595,7 +595,7 @@
++       shift_boundaries (cmp->file);
++ 
++       /* Get the results of comparison in the form of a chain
++-	 of `struct change's -- an edit script.  */
+++	 of 'struct change's -- an edit script.  */
++ 
++       if (output_style == OUTPUT_ED)
++ 	script = build_reverse_script (cmp->file);
+diff --git a/src/cmp.c b/src/cmp.c
+index 2455dc4..905d121 100644
+--- a/src/cmp.c
++++ b/src/cmp.c
+@@ -115,7 +115,7 @@ try_help (char const *reason_msgid, char const *operand)
+   if (reason_msgid)
+     error (0, 0, _(reason_msgid), operand);
+   error (EXIT_TROUBLE, 0,
+-	 _("Try `%s --help' for more information."), program_name);
++	 _("Try '%s --help' for more information."), program_name);
+   abort ();
+ }
+ 
+@@ -134,7 +134,7 @@ specify_ignore_initial (int f, char **argptr, char delimiter)
+   if (! (e == LONGINT_OK
+ 	 || (e == LONGINT_INVALID_SUFFIX_CHAR && **argptr == delimiter))
+       || TYPE_MAXIMUM (off_t) < val)
+-    try_help ("invalid --ignore-initial value `%s'", arg);
++    try_help ("invalid --ignore-initial value '%s'", arg);
+   if (ignore_initial[f] < val)
+     ignore_initial[f] = val;
+ }
+@@ -185,7 +185,7 @@ usage (void)
+ 	  _("SKIP values may be followed by the following multiplicative suffixes:\n\
+ kB 1000, K 1024, MB 1,000,000, M 1,048,576,\n\
+ GB 1,000,000,000, G 1,073,741,824, and so on for T, P, E, Z, Y."),
+-	  _("If a FILE is `-' or missing, read standard input."),
++	  _("If a FILE is '-' or missing, read standard input."),
+ 	  _("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."));
+   emit_bug_reporting_address ();
+ }
+@@ -231,7 +231,7 @@ main (int argc, char **argv)
+ 	{
+ 	  uintmax_t n;
+ 	  if (xstrtoumax (optarg, 0, 0, &n, valid_suffixes) != LONGINT_OK)
+-	    try_help ("invalid --bytes value `%s'", optarg);
++	    try_help ("invalid --bytes value '%s'", optarg);
+ 	  if (n < bytes)
+ 	    bytes = n;
+ 	}
+@@ -257,7 +257,7 @@ main (int argc, char **argv)
+       }
+ 
+   if (optind == argc)
+-    try_help ("missing operand after `%s'", argv[argc - 1]);
++    try_help ("missing operand after '%s'", argv[argc - 1]);
+ 
+   file[0] = argv[optind++];
+   file[1] = optind < argc ? argv[optind++] : "-";
+@@ -269,7 +269,7 @@ main (int argc, char **argv)
+     }
+ 
+   if (optind < argc)
+-    try_help ("extra operand `%s'", argv[optind]);
++    try_help ("extra operand '%s'", argv[optind]);
+ 
+   for (f = 0; f < 2; f++)
+     {
+@@ -364,8 +364,8 @@ main (int argc, char **argv)
+   return exit_status;
+ }
+ 
+-/* Compare the two files already open on `file_desc[0]' and `file_desc[1]',
+-   using `buffer[0]' and `buffer[1]'.
++/* Compare the two files already open on 'file_desc[0]' and 'file_desc[1]',
++   using 'buffer[0]' and 'buffer[1]'.
+    Return EXIT_SUCCESS if identical, EXIT_FAILURE if different,
+    >1 if error.  */
+ 
+@@ -377,7 +377,7 @@ cmp (void)
+   uintmax_t remaining = bytes;	/* Remaining number of bytes to compare.  */
+   size_t read0, read1;		/* Number of bytes read from each file. */
+   size_t first_diff;		/* Offset (0...) in buffers of 1st diff. */
+-  size_t smaller;		/* The lesser of `read0' and `read1'. */
++  size_t smaller;		/* The lesser of 'read0' and 'read1'. */
+   word *buffer0 = buffer[0];
+   word *buffer1 = buffer[1];
+   char *buf0 = (char *) buffer0;
+diff --git a/src/cmp.c.orig b/src/cmp.c.orig
+new file mode 100644
+index 0000000..905d121
+--- /dev/null
++++ b/src/cmp.c.orig
+@@ -0,0 +1,685 @@
++/* cmp - compare two files byte by byte
++
++   Copyright (C) 1990-1996, 1998, 2001-2002, 2004, 2006-2007, 2009-2010 Free
++   Software Foundation, Inc.
++
++   This program is free software: you can redistribute it and/or modify
++   it under the terms of the GNU General Public License as published by
++   the Free Software Foundation, either version 3 of the License, or
++   (at your option) any later version.
++
++   This program is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU General Public License for more details.
++
++   You should have received a copy of the GNU General Public License
++   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
++
++#include "system.h"
++#include "paths.h"
++
++#include <stdio.h>
++
++#include <c-stack.h>
++#include <cmpbuf.h>
++#include <error.h>
++#include <exitfail.h>
++#include <file-type.h>
++#include <getopt.h>
++#include <hard-locale.h>
++#include <inttostr.h>
++#include <progname.h>
++#include <unlocked-io.h>
++#include <version-etc.h>
++#include <xalloc.h>
++#include <xfreopen.h>
++#include <xstrtol.h>
++
++/* The official name of this program (e.g., no `g' prefix).  */
++#define PROGRAM_NAME "cmp"
++
++#define AUTHORS \
++  proper_name_utf8 ("Torbjorn Granlund", "Torbj\303\266rn Granlund"), \
++  proper_name ("David MacKenzie")
++
++#if defined LC_MESSAGES && ENABLE_NLS
++# define hard_locale_LC_MESSAGES hard_locale (LC_MESSAGES)
++#else
++# define hard_locale_LC_MESSAGES 0
++#endif
++
++static int cmp (void);
++static off_t file_position (int);
++static size_t block_compare (word const *, word const *);
++static size_t block_compare_and_count (word const *, word const *, off_t *);
++static void sprintc (char *, unsigned char);
++
++/* Filenames of the compared files.  */
++static char const *file[2];
++
++/* File descriptors of the files.  */
++static int file_desc[2];
++
++/* Status of the files.  */
++static struct stat stat_buf[2];
++
++/* Read buffers for the files.  */
++static word *buffer[2];
++
++/* Optimal block size for the files.  */
++static size_t buf_size;
++
++/* Initial prefix to ignore for each file.  */
++static off_t ignore_initial[2];
++
++/* Number of bytes to compare.  */
++static uintmax_t bytes = UINTMAX_MAX;
++
++/* Output format.  */
++static enum comparison_type
++  {
++    type_first_diff,	/* Print the first difference.  */
++    type_all_diffs,	/* Print all differences.  */
++    type_no_stdout,	/* Do not output to stdout; only stderr.  */
++    type_status		/* Exit status only.  */
++  } comparison_type;
++
++/* If nonzero, print values of bytes quoted like cat -t does. */
++static bool opt_print_bytes;
++
++/* Values for long options that do not have single-letter equivalents.  */
++enum
++{
++  HELP_OPTION = CHAR_MAX + 1
++};
++
++static struct option const long_options[] =
++{
++  {"print-bytes", 0, 0, 'b'},
++  {"print-chars", 0, 0, 'c'}, /* obsolescent as of diffutils 2.7.3 */
++  {"ignore-initial", 1, 0, 'i'},
++  {"verbose", 0, 0, 'l'},
++  {"bytes", 1, 0, 'n'},
++  {"silent", 0, 0, 's'},
++  {"quiet", 0, 0, 's'},
++  {"version", 0, 0, 'v'},
++  {"help", 0, 0, HELP_OPTION},
++  {0, 0, 0, 0}
++};
++
++static void try_help (char const *, char const *) __attribute__((noreturn));
++static void
++try_help (char const *reason_msgid, char const *operand)
++{
++  if (reason_msgid)
++    error (0, 0, _(reason_msgid), operand);
++  error (EXIT_TROUBLE, 0,
++	 _("Try '%s --help' for more information."), program_name);
++  abort ();
++}
++
++static char const valid_suffixes[] = "kKMGTPEZY0";
++
++/* Update ignore_initial[F] according to the result of parsing an
++   *operand ARGPTR of --ignore-initial, updating *ARGPTR to point
++   *after the operand.  If DELIMITER is nonzero, the operand may be
++   *followed by DELIMITER; otherwise it must be null-terminated.  */
++static void
++specify_ignore_initial (int f, char **argptr, char delimiter)
++{
++  uintmax_t val;
++  char const *arg = *argptr;
++  strtol_error e = xstrtoumax (arg, argptr, 0, &val, valid_suffixes);
++  if (! (e == LONGINT_OK
++	 || (e == LONGINT_INVALID_SUFFIX_CHAR && **argptr == delimiter))
++      || TYPE_MAXIMUM (off_t) < val)
++    try_help ("invalid --ignore-initial value '%s'", arg);
++  if (ignore_initial[f] < val)
++    ignore_initial[f] = val;
++}
++
++/* Specify the output format.  */
++static void
++specify_comparison_type (enum comparison_type t)
++{
++  if (comparison_type && comparison_type != t)
++    try_help ("options -l and -s are incompatible", 0);
++  comparison_type = t;
++}
++
++static void
++check_stdout (void)
++{
++  if (ferror (stdout))
++    error (EXIT_TROUBLE, 0, "%s", _("write failed"));
++  else if (fclose (stdout) != 0)
++    error (EXIT_TROUBLE, errno, "%s", _("standard output"));
++}
++
++static char const * const option_help_msgid[] = {
++  N_("-b  --print-bytes  Print differing bytes."),
++  N_("-i SKIP  --ignore-initial=SKIP  Skip the first SKIP bytes of input."),
++  N_("-i SKIP1:SKIP2  --ignore-initial=SKIP1:SKIP2"),
++  N_("  Skip the first SKIP1 bytes of FILE1 and the first SKIP2 bytes of FILE2."),
++  N_("-l  --verbose  Output byte numbers and values of all differing bytes."),
++  N_("-n LIMIT  --bytes=LIMIT  Compare at most LIMIT bytes."),
++  N_("-s  --quiet  --silent  Output nothing; yield exit status only."),
++  N_("-v  --version  Output version info."),
++  N_("--help  Output this help."),
++  0
++};
++
++static void
++usage (void)
++{
++  char const * const *p;
++
++  printf (_("Usage: %s [OPTION]... FILE1 [FILE2 [SKIP1 [SKIP2]]]\n"),
++	  program_name);
++  printf ("%s\n\n", _("Compare two files byte by byte."));
++  for (p = option_help_msgid;  *p;  p++)
++    printf ("  %s\n", _(*p));
++  printf ("\n%s\n%s\n\n%s\n%s\n",
++	  _("SKIP1 and SKIP2 are the number of bytes to skip in each file."),
++	  _("SKIP values may be followed by the following multiplicative suffixes:\n\
++kB 1000, K 1024, MB 1,000,000, M 1,048,576,\n\
++GB 1,000,000,000, G 1,073,741,824, and so on for T, P, E, Z, Y."),
++	  _("If a FILE is '-' or missing, read standard input."),
++	  _("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."));
++  emit_bug_reporting_address ();
++}
++
++int
++main (int argc, char **argv)
++{
++  int c, f, exit_status;
++  size_t words_per_buffer;
++
++  exit_failure = EXIT_TROUBLE;
++  initialize_main (&argc, &argv);
++  set_program_name (argv[0]);
++  setlocale (LC_ALL, "");
++  bindtextdomain (PACKAGE, LOCALEDIR);
++  textdomain (PACKAGE);
++  c_stack_action (0);
++
++  /* Parse command line options.  */
++
++  while ((c = getopt_long (argc, argv, "bci:ln:sv", long_options, 0))
++	 != -1)
++    switch (c)
++      {
++      case 'b':
++      case 'c': /* 'c' is obsolescent as of diffutils 2.7.3 */
++	opt_print_bytes = true;
++	break;
++
++      case 'i':
++	specify_ignore_initial (0, &optarg, ':');
++	if (*optarg++ == ':')
++	  specify_ignore_initial (1, &optarg, 0);
++	else if (ignore_initial[1] < ignore_initial[0])
++	  ignore_initial[1] = ignore_initial[0];
++	break;
++
++      case 'l':
++	specify_comparison_type (type_all_diffs);
++	break;
++
++      case 'n':
++	{
++	  uintmax_t n;
++	  if (xstrtoumax (optarg, 0, 0, &n, valid_suffixes) != LONGINT_OK)
++	    try_help ("invalid --bytes value '%s'", optarg);
++	  if (n < bytes)
++	    bytes = n;
++	}
++	break;
++
++      case 's':
++	specify_comparison_type (type_status);
++	break;
++
++      case 'v':
++	version_etc (stdout, PROGRAM_NAME, PACKAGE_NAME, PACKAGE_VERSION,
++		     AUTHORS, (char *) NULL);
++	check_stdout ();
++	return EXIT_SUCCESS;
++
++      case HELP_OPTION:
++	usage ();
++	check_stdout ();
++	return EXIT_SUCCESS;
++
++      default:
++	try_help (0, 0);
++      }
++
++  if (optind == argc)
++    try_help ("missing operand after '%s'", argv[argc - 1]);
++
++  file[0] = argv[optind++];
++  file[1] = optind < argc ? argv[optind++] : "-";
++
++  for (f = 0; f < 2 && optind < argc; f++)
++    {
++      char *arg = argv[optind++];
++      specify_ignore_initial (f, &arg, 0);
++    }
++
++  if (optind < argc)
++    try_help ("extra operand '%s'", argv[optind]);
++
++  for (f = 0; f < 2; f++)
++    {
++      /* If file[1] is "-", treat it first; this avoids a misdiagnostic if
++	 stdin is closed and opening file[0] yields file descriptor 0.  */
++      int f1 = f ^ (STREQ (file[1], "-"));
++
++      /* Two files with the same name and offset are identical.
++	 But wait until we open the file once, for proper diagnostics.  */
++      if (f && ignore_initial[0] == ignore_initial[1]
++	  && file_name_cmp (file[0], file[1]) == 0)
++	return EXIT_SUCCESS;
++
++      if (STREQ (file[f1], "-"))
++	{
++	  file_desc[f1] = STDIN_FILENO;
++	  if (O_BINARY && ! isatty (STDIN_FILENO))
++	    xfreopen (NULL, "rb", stdin);
++	}
++      else
++	file_desc[f1] = open (file[f1], O_RDONLY | O_BINARY, 0);
++
++      if (file_desc[f1] < 0 || fstat (file_desc[f1], stat_buf + f1) != 0)
++	{
++	  if (file_desc[f1] < 0 && comparison_type == type_status)
++	    exit (EXIT_TROUBLE);
++	  else
++	    error (EXIT_TROUBLE, errno, "%s", file[f1]);
++	}
++    }
++
++  /* If the files are links to the same inode and have the same file position,
++     they are identical.  */
++
++  if (0 < same_file (&stat_buf[0], &stat_buf[1])
++      && same_file_attributes (&stat_buf[0], &stat_buf[1])
++      && file_position (0) == file_position (1))
++    return EXIT_SUCCESS;
++
++  /* If output is redirected to the null device, we can avoid some of
++     the work.  */
++
++  if (comparison_type != type_status)
++    {
++      struct stat outstat, nullstat;
++
++      if (fstat (STDOUT_FILENO, &outstat) == 0
++	  && stat (NULL_DEVICE, &nullstat) == 0
++	  && 0 < same_file (&outstat, &nullstat))
++	comparison_type = type_no_stdout;
++    }
++
++  /* If only a return code is needed,
++     and if both input descriptors are associated with plain files,
++     conclude that the files differ if they have different sizes
++     and if more bytes will be compared than are in the smaller file.  */
++
++  if (comparison_type == type_status
++      && S_ISREG (stat_buf[0].st_mode)
++      && S_ISREG (stat_buf[1].st_mode))
++    {
++      off_t s0 = stat_buf[0].st_size - file_position (0);
++      off_t s1 = stat_buf[1].st_size - file_position (1);
++      if (s0 < 0)
++	s0 = 0;
++      if (s1 < 0)
++	s1 = 0;
++      if (s0 != s1 && MIN (s0, s1) < bytes)
++	exit (EXIT_FAILURE);
++    }
++
++  /* Get the optimal block size of the files.  */
++
++  buf_size = buffer_lcm (STAT_BLOCKSIZE (stat_buf[0]),
++			 STAT_BLOCKSIZE (stat_buf[1]),
++			 PTRDIFF_MAX - sizeof (word));
++
++  /* Allocate word-aligned buffers, with space for sentinels at the end.  */
++
++  words_per_buffer = (buf_size + 2 * sizeof (word) - 1) / sizeof (word);
++  buffer[0] = xmalloc (2 * sizeof (word) * words_per_buffer);
++  buffer[1] = buffer[0] + words_per_buffer;
++
++  exit_status = cmp ();
++
++  for (f = 0; f < 2; f++)
++    if (close (file_desc[f]) != 0)
++      error (EXIT_TROUBLE, errno, "%s", file[f]);
++  if (exit_status != EXIT_SUCCESS && comparison_type < type_no_stdout)
++    check_stdout ();
++  exit (exit_status);
++  return exit_status;
++}
++
++/* Compare the two files already open on 'file_desc[0]' and 'file_desc[1]',
++   using 'buffer[0]' and 'buffer[1]'.
++   Return EXIT_SUCCESS if identical, EXIT_FAILURE if different,
++   >1 if error.  */
++
++static int
++cmp (void)
++{
++  off_t line_number = 1;	/* Line number (1...) of difference. */
++  off_t byte_number = 1;	/* Byte number (1...) of difference. */
++  uintmax_t remaining = bytes;	/* Remaining number of bytes to compare.  */
++  size_t read0, read1;		/* Number of bytes read from each file. */
++  size_t first_diff;		/* Offset (0...) in buffers of 1st diff. */
++  size_t smaller;		/* The lesser of 'read0' and 'read1'. */
++  word *buffer0 = buffer[0];
++  word *buffer1 = buffer[1];
++  char *buf0 = (char *) buffer0;
++  char *buf1 = (char *) buffer1;
++  int differing = 0;
++  int f;
++  int offset_width IF_LINT (= 0);
++
++  if (comparison_type == type_all_diffs)
++    {
++      off_t byte_number_max = MIN (bytes, TYPE_MAXIMUM (off_t));
++
++      for (f = 0; f < 2; f++)
++	if (S_ISREG (stat_buf[f].st_mode))
++	  {
++	    off_t file_bytes = stat_buf[f].st_size - file_position (f);
++	    if (file_bytes < byte_number_max)
++	      byte_number_max = file_bytes;
++	  }
++
++      for (offset_width = 1; (byte_number_max /= 10) != 0; offset_width++)
++	continue;
++    }
++
++  for (f = 0; f < 2; f++)
++    {
++      off_t ig = ignore_initial[f];
++      if (ig && file_position (f) == -1)
++	{
++	  /* lseek failed; read and discard the ignored initial prefix.  */
++	  do
++	    {
++	      size_t bytes_to_read = MIN (ig, buf_size);
++	      size_t r = block_read (file_desc[f], buf0, bytes_to_read);
++	      if (r != bytes_to_read)
++		{
++		  if (r == SIZE_MAX)
++		    error (EXIT_TROUBLE, errno, "%s", file[f]);
++		  break;
++		}
++	      ig -= r;
++	    }
++	  while (ig);
++	}
++    }
++
++  do
++    {
++      size_t bytes_to_read = buf_size;
++
++      if (remaining != UINTMAX_MAX)
++	{
++	  if (remaining < bytes_to_read)
++	    bytes_to_read = remaining;
++	  remaining -= bytes_to_read;
++	}
++
++      read0 = block_read (file_desc[0], buf0, bytes_to_read);
++      if (read0 == SIZE_MAX)
++	error (EXIT_TROUBLE, errno, "%s", file[0]);
++      read1 = block_read (file_desc[1], buf1, bytes_to_read);
++      if (read1 == SIZE_MAX)
++	error (EXIT_TROUBLE, errno, "%s", file[1]);
++
++      /* Insert sentinels for the block compare.  */
++
++      buf0[read0] = ~buf1[read0];
++      buf1[read1] = ~buf0[read1];
++
++      /* If the line number should be written for differing files,
++	 compare the blocks and count the number of newlines
++	 simultaneously.  */
++      first_diff = (comparison_type == type_first_diff
++		    ? block_compare_and_count (buffer0, buffer1, &line_number)
++		    : block_compare (buffer0, buffer1));
++
++      byte_number += first_diff;
++      smaller = MIN (read0, read1);
++
++      if (first_diff < smaller)
++	{
++	  switch (comparison_type)
++	    {
++	    case type_first_diff:
++	      {
++		char byte_buf[INT_BUFSIZE_BOUND (off_t)];
++		char line_buf[INT_BUFSIZE_BOUND (off_t)];
++		char const *byte_num = offtostr (byte_number, byte_buf);
++		char const *line_num = offtostr (line_number, line_buf);
++		if (!opt_print_bytes)
++		  {
++		    /* See POSIX 1003.1-2001 for this format.  This
++		       message is used only in the POSIX locale, so it
++		       need not be translated.  */
++		    static char const char_message[] =
++		      "%s %s differ: char %s, line %s\n";
++
++		    /* The POSIX rationale recommends using the word
++		       "byte" outside the POSIX locale.  Some gettext
++		       implementations translate even in the POSIX
++		       locale if certain other environment variables
++		       are set, so use "byte" if a translation is
++		       available, or if outside the POSIX locale.  */
++		    static char const byte_msgid[] =
++		      N_("%s %s differ: byte %s, line %s\n");
++		    char const *byte_message = _(byte_msgid);
++		    bool use_byte_message = (byte_message != byte_msgid
++					     || hard_locale_LC_MESSAGES);
++
++		    printf (use_byte_message ? byte_message : char_message,
++			    file[0], file[1], byte_num, line_num);
++		  }
++		else
++		  {
++		    unsigned char c0 = buf0[first_diff];
++		    unsigned char c1 = buf1[first_diff];
++		    char s0[5];
++		    char s1[5];
++		    sprintc (s0, c0);
++		    sprintc (s1, c1);
++		    printf (_("%s %s differ: byte %s, line %s is %3o %s %3o %s\n"),
++			    file[0], file[1], byte_num, line_num,
++			    c0, s0, c1, s1);
++		}
++	      }
++	      /* Fall through.  */
++	    case type_status:
++	      return EXIT_FAILURE;
++
++	    case type_all_diffs:
++	      do
++		{
++		  unsigned char c0 = buf0[first_diff];
++		  unsigned char c1 = buf1[first_diff];
++		  if (c0 != c1)
++		    {
++		      char byte_buf[INT_BUFSIZE_BOUND (off_t)];
++		      char const *byte_num = offtostr (byte_number, byte_buf);
++		      if (!opt_print_bytes)
++			{
++			  /* See POSIX 1003.1-2001 for this format.  */
++			  printf ("%*s %3o %3o\n",
++				  offset_width, byte_num, c0, c1);
++			}
++		      else
++			{
++			  char s0[5];
++			  char s1[5];
++			  sprintc (s0, c0);
++			  sprintc (s1, c1);
++			  printf ("%*s %3o %-4s %3o %s\n",
++				  offset_width, byte_num, c0, s0, c1, s1);
++			}
++		    }
++		  byte_number++;
++		  first_diff++;
++		}
++	      while (first_diff < smaller);
++	      differing = -1;
++	      break;
++
++	    case type_no_stdout:
++	      differing = 1;
++	      break;
++	    }
++	}
++
++      if (read0 != read1)
++	{
++	  if (differing <= 0 && comparison_type != type_status)
++	    {
++	      /* See POSIX 1003.1-2001 for this format.  */
++	      fprintf (stderr, _("cmp: EOF on %s\n"), file[read1 < read0]);
++	    }
++
++	  return EXIT_FAILURE;
++	}
++    }
++  while (differing <= 0 && read0 == buf_size);
++
++  return differing == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
++}
++
++/* Compare two blocks of memory P0 and P1 until they differ,
++   and count the number of '\n' occurrences in the common
++   part of P0 and P1.
++   If the blocks are not guaranteed to be different, put sentinels at the ends
++   of the blocks before calling this function.
++
++   Return the offset of the first byte that differs.
++   Increment *COUNT by the count of '\n' occurrences.  */
++
++static size_t
++block_compare_and_count (word const *p0, word const *p1, off_t *count)
++{
++  word l;		/* One word from first buffer. */
++  word const *l0, *l1;	/* Pointers into each buffer. */
++  char const *c0, *c1;	/* Pointers for finding exact address. */
++  size_t cnt = 0;	/* Number of '\n' occurrences. */
++  word nnnn;		/* Newline, sizeof (word) times.  */
++  int i;
++
++  nnnn = 0;
++  for (i = 0; i < sizeof nnnn; i++)
++    nnnn = (nnnn << CHAR_BIT) | '\n';
++
++  /* Find the rough position of the first difference by reading words,
++     not bytes.  */
++
++  for (l0 = p0, l1 = p1;  (l = *l0) == *l1;  l0++, l1++)
++    {
++      l ^= nnnn;
++      for (i = 0; i < sizeof l; i++)
++	{
++	  unsigned char uc = l;
++	  cnt += ! uc;
++	  l >>= CHAR_BIT;
++	}
++    }
++
++  /* Find the exact differing position (endianness independent).  */
++
++  for (c0 = (char const *) l0, c1 = (char const *) l1;
++       *c0 == *c1;
++       c0++, c1++)
++    cnt += *c0 == '\n';
++
++  *count += cnt;
++  return c0 - (char const *) p0;
++}
++
++/* Compare two blocks of memory P0 and P1 until they differ.
++   If the blocks are not guaranteed to be different, put sentinels at the ends
++   of the blocks before calling this function.
++
++   Return the offset of the first byte that differs.  */
++
++static size_t
++block_compare (word const *p0, word const *p1)
++{
++  word const *l0, *l1;
++  char const *c0, *c1;
++
++  /* Find the rough position of the first difference by reading words,
++     not bytes.  */
++
++  for (l0 = p0, l1 = p1;  *l0 == *l1;  l0++, l1++)
++    continue;
++
++  /* Find the exact differing position (endianness independent).  */
++
++  for (c0 = (char const *) l0, c1 = (char const *) l1;
++       *c0 == *c1;
++       c0++, c1++)
++    continue;
++
++  return c0 - (char const *) p0;
++}
++
++/* Put into BUF the unsigned char C, making unprintable bytes
++   visible by quoting like cat -t does.  */
++
++static void
++sprintc (char *buf, unsigned char c)
++{
++  if (! isprint (c))
++    {
++      if (c >= 128)
++	{
++	  *buf++ = 'M';
++	  *buf++ = '-';
++	  c -= 128;
++	}
++      if (c < 32)
++	{
++	  *buf++ = '^';
++	  c += 64;
++	}
++      else if (c == 127)
++	{
++	  *buf++ = '^';
++	  c = '?';
++	}
++    }
++
++  *buf++ = c;
++  *buf = 0;
++}
++
++/* Position file F to ignore_initial[F] bytes from its initial position,
++   and yield its new position.  Don't try more than once.  */
++
++static off_t
++file_position (int f)
++{
++  static bool positioned[2];
++  static off_t position[2];
++
++  if (! positioned[f])
++    {
++      positioned[f] = true;
++      position[f] = lseek (file_desc[f], ignore_initial[f], SEEK_CUR);
++    }
++  return position[f];
++}
+diff --git a/src/cmp.c.rej b/src/cmp.c.rej
+new file mode 100644
+index 0000000..6f2bec0
+--- /dev/null
++++ b/src/cmp.c.rej
+@@ -0,0 +1,76 @@
++--- src/cmp.c
+++++ src/cmp.c
++@@ -115,7 +115,7 @@
++   if (reason_msgid)
++     error (0, 0, _(reason_msgid), operand);
++   error (EXIT_TROUBLE, 0,
++-	 _("Try `%s --help' for more information."), program_name);
+++	 _("Try '%s --help' for more information."), program_name);
++   abort ();
++ }
++ 
++@@ -134,7 +134,7 @@
++   if (! (e == LONGINT_OK
++ 	 || (e == LONGINT_INVALID_SUFFIX_CHAR && **argptr == delimiter))
++       || TYPE_MAXIMUM (off_t) < val)
++-    try_help ("invalid --ignore-initial value `%s'", arg);
+++    try_help ("invalid --ignore-initial value '%s'", arg);
++   if (ignore_initial[f] < val)
++     ignore_initial[f] = val;
++ }
++@@ -185,7 +185,7 @@
++ 	  _("SKIP values may be followed by the following multiplicative suffixes:\n\
++ kB 1000, K 1024, MB 1,000,000, M 1,048,576,\n\
++ GB 1,000,000,000, G 1,073,741,824, and so on for T, P, E, Z, Y."),
++-	  _("If a FILE is `-' or missing, read standard input."),
+++	  _("If a FILE is '-' or missing, read standard input."),
++ 	  _("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."));
++   emit_bug_reporting_address ();
++ }
++@@ -231,7 +231,7 @@
++ 	{
++ 	  uintmax_t n;
++ 	  if (xstrtoumax (optarg, 0, 0, &n, valid_suffixes) != LONGINT_OK)
++-	    try_help ("invalid --bytes value `%s'", optarg);
+++	    try_help ("invalid --bytes value '%s'", optarg);
++ 	  if (n < bytes)
++ 	    bytes = n;
++ 	}
++@@ -257,7 +257,7 @@
++       }
++ 
++   if (optind == argc)
++-    try_help ("missing operand after `%s'", argv[argc - 1]);
+++    try_help ("missing operand after '%s'", argv[argc - 1]);
++ 
++   file[0] = argv[optind++];
++   file[1] = optind < argc ? argv[optind++] : "-";
++@@ -269,7 +269,7 @@
++     }
++ 
++   if (optind < argc)
++-    try_help ("extra operand `%s'", argv[optind]);
+++    try_help ("extra operand '%s'", argv[optind]);
++ 
++   for (f = 0; f < 2; f++)
++     {
++@@ -364,8 +364,8 @@
++   return exit_status;
++ }
++ 
++-/* Compare the two files already open on `file_desc[0]' and `file_desc[1]',
++-   using `buffer[0]' and `buffer[1]'.
+++/* Compare the two files already open on 'file_desc[0]' and 'file_desc[1]',
+++   using 'buffer[0]' and 'buffer[1]'.
++    Return EXIT_SUCCESS if identical, EXIT_FAILURE if different,
++    >1 if error.  */
++ 
++@@ -377,7 +377,7 @@
++   uintmax_t remaining = bytes;	/* Remaining number of bytes to compare.  */
++   size_t read0, read1;		/* Number of bytes read from each file. */
++   size_t first_diff;		/* Offset (0...) in buffers of 1st diff. */
++-  size_t smaller;		/* The lesser of `read0' and `read1'. */
+++  size_t smaller;		/* The lesser of 'read0' and 'read1'. */
++   word *buffer0 = buffer[0];
++   word *buffer1 = buffer[1];
++   char *buf0 = (char *) buffer0;
+diff --git a/src/context.c b/src/context.c
+index 0be8cc5..6f0470e 100644
+--- a/src/context.c
++++ b/src/context.c
+@@ -159,7 +159,7 @@ print_context_function (FILE *out, char const *function)
+ 
+ /* Print a portion of an edit script in context format.
+    HUNK is the beginning of the portion to be printed.
+-   The end is marked by a `link' that has been nulled out.
++   The end is marked by a 'link' that has been nulled out.
+ 
+    Prints out lines from both files, and precedes each
+    line with the appropriate flag-character.  */
+@@ -289,7 +289,7 @@ print_unidiff_number_range (struct file_data const *file, lin a, lin b)
+ 
+ /* Print a portion of an edit script in unidiff format.
+    HUNK is the beginning of the portion to be printed.
+-   The end is marked by a `link' that has been nulled out.
++   The end is marked by a 'link' that has been nulled out.
+ 
+    Prints out lines from both files, and precedes each
+    line with the appropriate flag-character.  */
+@@ -393,7 +393,7 @@ pr_unidiff_hunk (struct change *hunk)
+ 
+ /* Scan a (forward-ordered) edit script for the first place that more than
+    2*CONTEXT unchanged lines appear, and return a pointer
+-   to the `struct change' for the last change before those lines.  */
++   to the 'struct change' for the last change before those lines.  */
+ 
+ static struct change *
+ find_hunk (struct change *start)
+@@ -431,7 +431,7 @@ find_hunk (struct change *start)
+   return prev;
+ }
+ 
+-/* Set the `ignore' flag properly in each change in SCRIPT.
++/* Set the 'ignore' flag properly in each change in SCRIPT.
+    It should be 1 if all the lines inserted or deleted in that change
+    are ignorable lines.  */
+ 
+@@ -459,7 +459,7 @@ mark_ignorable (struct change *script)
+ }
+ 
+ /* Find the last function-header line in LINBUF prior to line number LINENUM.
+-   This is a line containing a match for the regexp in `function_regexp'.
++   This is a line containing a match for the regexp in 'function_regexp'.
+    Return the address of the text, or NULL if no function-header is found.  */
+ 
+ static char const *
+diff --git a/src/context.c.orig b/src/context.c.orig
+new file mode 100644
+index 0000000..e21556c
+--- /dev/null
++++ b/src/context.c.orig
+@@ -0,0 +1,493 @@
++/* Context-format output routines for GNU DIFF.
++
++   Copyright (C) 1988-1989, 1991-1995, 1998, 2001-2002, 2004, 2006, 2009-2010
++   Free Software Foundation, Inc.
++
++   This file is part of GNU DIFF.
++
++   This program is free software: you can redistribute it and/or modify
++   it under the terms of the GNU General Public License as published by
++   the Free Software Foundation, either version 3 of the License, or
++   (at your option) any later version.
++
++   This program is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU General Public License for more details.
++
++   You should have received a copy of the GNU General Public License
++   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
++
++#include "diff.h"
++#include "c-ctype.h"
++#include <inttostr.h>
++#include <stat-time.h>
++#include <strftime.h>
++
++static char const *find_function (char const * const *, lin);
++static struct change *find_hunk (struct change *);
++static void mark_ignorable (struct change *);
++static void pr_context_hunk (struct change *);
++static void pr_unidiff_hunk (struct change *);
++
++/* Last place find_function started searching from.  */
++static lin find_function_last_search;
++
++/* The value find_function returned when it started searching there.  */
++static lin find_function_last_match;
++
++/* Print a label for a context diff, with a file name and date or a label.  */
++
++static void
++print_context_label (char const *mark,
++		     struct file_data *inf,
++		     char const *label)
++{
++  if (label)
++    fprintf (outfile, "%s %s\n", mark, label);
++  else
++    {
++      char buf[MAX (INT_STRLEN_BOUND (int) + 32,
++		    INT_STRLEN_BOUND (time_t) + 11)];
++      struct tm const *tm = localtime (&inf->stat.st_mtime);
++      int nsec = get_stat_mtime_ns (&inf->stat);
++      if (! (tm && nstrftime (buf, sizeof buf, time_format, tm, 0, nsec)))
++	{
++	  verify (TYPE_IS_INTEGER (time_t));
++	  if (LONG_MIN <= TYPE_MINIMUM (time_t)
++	      && TYPE_MAXIMUM (time_t) <= LONG_MAX)
++	    {
++	      long int sec = inf->stat.st_mtime;
++	      sprintf (buf, "%ld.%.9d", sec, nsec);
++	    }
++	  else if (TYPE_MAXIMUM (time_t) <= INTMAX_MAX)
++	    {
++	      intmax_t sec = inf->stat.st_mtime;
++	      sprintf (buf, "%"PRIdMAX".%.9d", sec, nsec);
++	    }
++	  else
++	    {
++	      uintmax_t sec = inf->stat.st_mtime;
++	      sprintf (buf, "%"PRIuMAX".%.9d", sec, nsec);
++	    }
++	}
++      fprintf (outfile, "%s %s\t%s\n", mark, inf->name, buf);
++    }
++}
++
++/* Print a header for a context diff, with the file names and dates.  */
++
++void
++print_context_header (struct file_data inf[], bool unidiff)
++{
++  if (unidiff)
++    {
++      print_context_label ("---", &inf[0], file_label[0]);
++      print_context_label ("+++", &inf[1], file_label[1]);
++    }
++  else
++    {
++      print_context_label ("***", &inf[0], file_label[0]);
++      print_context_label ("---", &inf[1], file_label[1]);
++    }
++}
++
++/* Print an edit script in context format.  */
++
++void
++print_context_script (struct change *script, bool unidiff)
++{
++  if (ignore_blank_lines || ignore_regexp.fastmap)
++    mark_ignorable (script);
++  else
++    {
++      struct change *e;
++      for (e = script; e; e = e->link)
++	e->ignore = false;
++    }
++
++  find_function_last_search = - files[0].prefix_lines;
++  find_function_last_match = LIN_MAX;
++
++  if (unidiff)
++    print_script (script, find_hunk, pr_unidiff_hunk);
++  else
++    print_script (script, find_hunk, pr_context_hunk);
++}
++
++/* Print a pair of line numbers with a comma, translated for file FILE.
++   If the second number is not greater, use the first in place of it.
++
++   Args A and B are internal line numbers.
++   We print the translated (real) line numbers.  */
++
++static void
++print_context_number_range (struct file_data const *file, lin a, lin b)
++{
++  long int trans_a, trans_b;
++  translate_range (file, a, b, &trans_a, &trans_b);
++
++  /* We can have B <= A in the case of a range of no lines.
++     In this case, we should print the line number before the range,
++     which is B.
++
++     POSIX 1003.1-2001 requires two line numbers separated by a comma
++     even if the line numbers are the same.  However, this does not
++     match existing practice and is surely an error in the
++     specification.  */
++
++  if (trans_b <= trans_a)
++    fprintf (outfile, "%ld", trans_b);
++  else
++    fprintf (outfile, "%ld,%ld", trans_a, trans_b);
++}
++
++/* Print FUNCTION in a context header.  */
++static void
++print_context_function (FILE *out, char const *function)
++{
++  int i, j;
++  putc (' ', out);
++  for (i = 0; c_isspace ((unsigned char) function[i]) && function[i] != '\n'; i++)
++    continue;
++  for (j = i; j < i + 40 && function[j] != '\n'; j++)
++    continue;
++  while (i < j && c_isspace ((unsigned char) function[j - 1]))
++    j--;
++  fwrite (function + i, sizeof (char), j - i, out);
++}
++
++/* Print a portion of an edit script in context format.
++   HUNK is the beginning of the portion to be printed.
++   The end is marked by a `link' that has been nulled out.
++
++   Prints out lines from both files, and precedes each
++   line with the appropriate flag-character.  */
++
++static void
++pr_context_hunk (struct change *hunk)
++{
++  lin first0, last0, first1, last1, i;
++  char const *prefix;
++  char const *function;
++  FILE *out;
++
++  /* Determine range of line numbers involved in each file.  */
++
++  enum changes changes = analyze_hunk (hunk, &first0, &last0, &first1, &last1);
++  if (! changes)
++    return;
++
++  /* Include a context's width before and after.  */
++
++  i = - files[0].prefix_lines;
++  first0 = MAX (first0 - context, i);
++  first1 = MAX (first1 - context, i);
++  if (last0 < files[0].valid_lines - context)
++    last0 += context;
++  else
++    last0 = files[0].valid_lines - 1;
++  if (last1 < files[1].valid_lines - context)
++    last1 += context;
++  else
++    last1 = files[1].valid_lines - 1;
++
++  /* If desired, find the preceding function definition line in file 0.  */
++  function = NULL;
++  if (function_regexp.fastmap)
++    function = find_function (files[0].linbuf, first0);
++
++  begin_output ();
++  out = outfile;
++
++  fputs ("***************", out);
++
++  if (function)
++    print_context_function (out, function);
++
++  fputs ("\n*** ", out);
++  print_context_number_range (&files[0], first0, last0);
++  fputs (" ****\n", out);
++
++  if (changes & OLD)
++    {
++      struct change *next = hunk;
++
++      for (i = first0; i <= last0; i++)
++	{
++	  /* Skip past changes that apply (in file 0)
++	     only to lines before line I.  */
++
++	  while (next && next->line0 + next->deleted <= i)
++	    next = next->link;
++
++	  /* Compute the marking for line I.  */
++
++	  prefix = " ";
++	  if (next && next->line0 <= i)
++	    /* The change NEXT covers this line.
++	       If lines were inserted here in file 1, this is "changed".
++	       Otherwise it is "deleted".  */
++	    prefix = (next->inserted > 0 ? "!" : "-");
++
++	  print_1_line (prefix, &files[0].linbuf[i]);
++	}
++    }
++
++  fputs ("--- ", out);
++  print_context_number_range (&files[1], first1, last1);
++  fputs (" ----\n", out);
++
++  if (changes & NEW)
++    {
++      struct change *next = hunk;
++
++      for (i = first1; i <= last1; i++)
++	{
++	  /* Skip past changes that apply (in file 1)
++	     only to lines before line I.  */
++
++	  while (next && next->line1 + next->inserted <= i)
++	    next = next->link;
++
++	  /* Compute the marking for line I.  */
++
++	  prefix = " ";
++	  if (next && next->line1 <= i)
++	    /* The change NEXT covers this line.
++	       If lines were deleted here in file 0, this is "changed".
++	       Otherwise it is "inserted".  */
++	    prefix = (next->deleted > 0 ? "!" : "+");
++
++	  print_1_line (prefix, &files[1].linbuf[i]);
++	}
++    }
++}
++
++/* Print a pair of line numbers with a comma, translated for file FILE.
++   If the second number is smaller, use the first in place of it.
++   If the numbers are equal, print just one number.
++
++   Args A and B are internal line numbers.
++   We print the translated (real) line numbers.  */
++
++static void
++print_unidiff_number_range (struct file_data const *file, lin a, lin b)
++{
++  long int trans_a, trans_b;
++  translate_range (file, a, b, &trans_a, &trans_b);
++
++  /* We can have B < A in the case of a range of no lines.
++     In this case, we print the line number before the range,
++     which is B.  It would be more logical to print A, but
++     'patch' expects B in order to detect diffs against empty files.  */
++  if (trans_b <= trans_a)
++    fprintf (outfile, trans_b < trans_a ? "%ld,0" : "%ld", trans_b);
++  else
++    fprintf (outfile, "%ld,%ld", trans_a, trans_b - trans_a + 1);
++}
++
++/* Print a portion of an edit script in unidiff format.
++   HUNK is the beginning of the portion to be printed.
++   The end is marked by a 'link' that has been nulled out.
++
++   Prints out lines from both files, and precedes each
++   line with the appropriate flag-character.  */
++
++static void
++pr_unidiff_hunk (struct change *hunk)
++{
++  lin first0, last0, first1, last1;
++  lin i, j, k;
++  struct change *next;
++  char const *function;
++  FILE *out;
++
++  /* Determine range of line numbers involved in each file.  */
++
++  if (! analyze_hunk (hunk, &first0, &last0, &first1, &last1))
++    return;
++
++  /* Include a context's width before and after.  */
++
++  i = - files[0].prefix_lines;
++  first0 = MAX (first0 - context, i);
++  first1 = MAX (first1 - context, i);
++  if (last0 < files[0].valid_lines - context)
++    last0 += context;
++  else
++    last0 = files[0].valid_lines - 1;
++  if (last1 < files[1].valid_lines - context)
++    last1 += context;
++  else
++    last1 = files[1].valid_lines - 1;
++
++  /* If desired, find the preceding function definition line in file 0.  */
++  function = NULL;
++  if (function_regexp.fastmap)
++    function = find_function (files[0].linbuf, first0);
++
++  begin_output ();
++  out = outfile;
++
++  fputs ("@@ -", out);
++  print_unidiff_number_range (&files[0], first0, last0);
++  fputs (" +", out);
++  print_unidiff_number_range (&files[1], first1, last1);
++  fputs (" @@", out);
++
++  if (function)
++    print_context_function (out, function);
++
++  putc ('\n', out);
++
++  next = hunk;
++  i = first0;
++  j = first1;
++
++  while (i <= last0 || j <= last1)
++    {
++
++      /* If the line isn't a difference, output the context from file 0. */
++
++      if (!next || i < next->line0)
++	{
++	  char const *const *line = &files[0].linbuf[i++];
++	  if (! (suppress_blank_empty && **line == '\n'))
++	    putc (initial_tab ? '\t' : ' ', out);
++	  print_1_line (NULL, line);
++	  j++;
++	}
++      else
++	{
++	  /* For each difference, first output the deleted part. */
++
++	  k = next->deleted;
++	  while (k--)
++	    {
++	      char const * const *line = &files[0].linbuf[i++];
++	      putc ('-', out);
++	      if (initial_tab && ! (suppress_blank_empty && **line == '\n'))
++		putc ('\t', out);
++	      print_1_line (NULL, line);
++	    }
++
++	  /* Then output the inserted part. */
++
++	  k = next->inserted;
++	  while (k--)
++	    {
++	      char const * const *line = &files[1].linbuf[j++];
++	      putc ('+', out);
++	      if (initial_tab && ! (suppress_blank_empty && **line == '\n'))
++		putc ('\t', out);
++	      print_1_line (NULL, line);
++	    }
++
++	  /* We're done with this hunk, so on to the next! */
++
++	  next = next->link;
++	}
++    }
++}
++
++/* Scan a (forward-ordered) edit script for the first place that more than
++   2*CONTEXT unchanged lines appear, and return a pointer
++   to the 'struct change' for the last change before those lines.  */
++
++static struct change *
++find_hunk (struct change *start)
++{
++  struct change *prev;
++  lin top0, top1;
++  lin thresh;
++
++  /* Threshold distance is 2 * CONTEXT + 1 between two non-ignorable
++     changes, but only CONTEXT if one is ignorable.  Watch out for
++     integer overflow, though.  */
++  lin non_ignorable_threshold =
++    (LIN_MAX - 1) / 2 < context ? LIN_MAX : 2 * context + 1;
++  lin ignorable_threshold = context;
++
++  do
++    {
++      /* Compute number of first line in each file beyond this changed.  */
++      top0 = start->line0 + start->deleted;
++      top1 = start->line1 + start->inserted;
++      prev = start;
++      start = start->link;
++      thresh = (prev->ignore || (start && start->ignore)
++		? ignorable_threshold
++		: non_ignorable_threshold);
++      /* It is not supposed to matter which file we check in the end-test.
++	 If it would matter, crash.  */
++      if (start && start->line0 - top0 != start->line1 - top1)
++	abort ();
++    } while (start
++	     /* Keep going if less than THRESH lines
++		elapse before the affected line.  */
++	     && start->line0 - top0 < thresh);
++
++  return prev;
++}
++
++/* Set the 'ignore' flag properly in each change in SCRIPT.
++   It should be 1 if all the lines inserted or deleted in that change
++   are ignorable lines.  */
++
++static void
++mark_ignorable (struct change *script)
++{
++  while (script)
++    {
++      struct change *next = script->link;
++      lin first0, last0, first1, last1;
++
++      /* Turn this change into a hunk: detach it from the others.  */
++      script->link = NULL;
++
++      /* Determine whether this change is ignorable.  */
++      script->ignore = ! analyze_hunk (script,
++				       &first0, &last0, &first1, &last1);
++
++      /* Reconnect the chain as before.  */
++      script->link = next;
++
++      /* Advance to the following change.  */
++      script = next;
++    }
++}
++
++/* Find the last function-header line in LINBUF prior to line number LINENUM.
++   This is a line containing a match for the regexp in 'function_regexp'.
++   Return the address of the text, or NULL if no function-header is found.  */
++
++static char const *
++find_function (char const * const *linbuf, lin linenum)
++{
++  lin i = linenum;
++  lin last = find_function_last_search;
++  find_function_last_search = i;
++
++  while (last <= --i)
++    {
++      /* See if this line is what we want.  */
++      char const *line = linbuf[i];
++      size_t linelen = linbuf[i + 1] - line - 1;
++
++      /* FIXME: re_search's size args should be size_t, not int.  */
++      int len = MIN (linelen, INT_MAX);
++
++      if (0 <= re_search (&function_regexp, line, len, 0, len, NULL))
++	{
++	  find_function_last_match = i;
++	  return line;
++	}
++    }
++  /* If we search back to where we started searching the previous time,
++     find the line we found last time.  */
++  if (find_function_last_match != LIN_MAX)
++    return linbuf[find_function_last_match];
++
++  return NULL;
++}
+diff --git a/src/context.c.rej b/src/context.c.rej
+new file mode 100644
+index 0000000..3b2c8db
+--- /dev/null
++++ b/src/context.c.rej
+@@ -0,0 +1,38 @@
++--- src/context.c
+++++ src/context.c
++@@ -289,7 +289,7 @@
++ 
++ /* Print a portion of an edit script in unidiff format.
++    HUNK is the beginning of the portion to be printed.
++-   The end is marked by a `link' that has been nulled out.
+++   The end is marked by a 'link' that has been nulled out.
++ 
++    Prints out lines from both files, and precedes each
++    line with the appropriate flag-character.  */
++@@ -393,7 +393,7 @@
++ 
++ /* Scan a (forward-ordered) edit script for the first place that more than
++    2*CONTEXT unchanged lines appear, and return a pointer
++-   to the `struct change' for the last change before those lines.  */
+++   to the 'struct change' for the last change before those lines.  */
++ 
++ static struct change *
++ find_hunk (struct change *start)
++@@ -431,7 +431,7 @@
++   return prev;
++ }
++ 
++-/* Set the `ignore' flag properly in each change in SCRIPT.
+++/* Set the 'ignore' flag properly in each change in SCRIPT.
++    It should be 1 if all the lines inserted or deleted in that change
++    are ignorable lines.  */
++ 
++@@ -459,7 +459,7 @@
++ }
++ 
++ /* Find the last function-header line in LINBUF prior to line number LINENUM.
++-   This is a line containing a match for the regexp in `function_regexp'.
+++   This is a line containing a match for the regexp in 'function_regexp'.
++    Return the address of the text, or NULL if no function-header is found.  */
++ 
++ static char const *
+diff --git a/src/diff.c b/src/diff.c
+index cc1b611..9b0098c 100644
+--- a/src/diff.c
++++ b/src/diff.c
+@@ -57,9 +57,9 @@
+ struct regexp_list
+ {
+   char *regexps;	/* chars representing disjunction of the regexps */
+-  size_t len;		/* chars used in `regexps' */
+-  size_t size;		/* size malloc'ed for `regexps'; 0 if not malloc'ed */
+-  bool multiple_regexps;/* Does `regexps' represent a disjunction?  */
++  size_t len;		/* chars used in 'regexps' */
++  size_t size;		/* size malloc'ed for 'regexps'; 0 if not malloc'ed */
++  bool multiple_regexps;/* Does 'regexps' represent a disjunction?  */
+   struct re_pattern_buffer *buf;
+ };
+ 
+@@ -92,13 +92,13 @@ enum { binary = true };
+ 
+ /* When comparing directories, if a file appears only in one
+    directory, treat it as present but empty in the other (-N).
+-   Then `patch' would create the file with appropriate contents.  */
++   Then 'patch' would create the file with appropriate contents.  */
+ static bool new_file;
+ 
+ /* When comparing directories, if a file appears only in the second
+    directory of the two, treat it as present but empty in the other
+    (--unidirectional-new-file).
+-   Then `patch' would create the file with appropriate contents.  */
++   Then 'patch' would create the file with appropriate contents.  */
+ static bool unidirectional_new_file;
+ 
+ /* Report files compared that are the same (-s).
+@@ -330,7 +330,7 @@ main (int argc, char **argv)
+ 	      {
+ 		numval = strtoumax (optarg, &numend, 10);
+ 		if (*numend)
+-		  try_help ("invalid context length `%s'", optarg);
++		  try_help ("invalid context length '%s'", optarg);
+ 		if (LIN_MAX < numval)
+ 		  numval = LIN_MAX;
+ 	      }
+@@ -505,7 +505,7 @@ main (int argc, char **argv)
+ 	case 'W':
+ 	  numval = strtoumax (optarg, &numend, 10);
+ 	  if (! (0 < numval && numval <= SIZE_MAX) || *numend)
+-	    try_help ("invalid width `%s'", optarg);
++	    try_help ("invalid width '%s'", optarg);
+ 	  if (width != numval)
+ 	    {
+ 	      if (width)
+@@ -534,7 +534,7 @@ main (int argc, char **argv)
+ 	case HORIZON_LINES_OPTION:
+ 	  numval = strtoumax (optarg, &numend, 10);
+ 	  if (*numend)
+-	    try_help ("invalid horizon length `%s'", optarg);
++	    try_help ("invalid horizon length '%s'", optarg);
+ 	  horizon_lines = MAX (horizon_lines, MIN (numval, LIN_MAX));
+ 	  break;
+ 
+@@ -585,7 +585,7 @@ main (int argc, char **argv)
+ 	case TABSIZE_OPTION:
+ 	  numval = strtoumax (optarg, &numend, 10);
+ 	  if (! (0 < numval && numval <= SIZE_MAX) || *numend)
+-	    try_help ("invalid tabsize `%s'", optarg);
++	    try_help ("invalid tabsize '%s'", optarg);
+ 	  if (tabsize != numval)
+ 	    {
+ 	      if (tabsize)
+@@ -744,9 +744,9 @@ main (int argc, char **argv)
+ 	  if (argc - optind != 2)
+ 	    {
+ 	      if (argc - optind < 2)
+-		try_help ("missing operand after `%s'", argv[argc - 1]);
++		try_help ("missing operand after '%s'", argv[argc - 1]);
+ 	      else
+-		try_help ("extra operand `%s'", argv[optind + 2]);
++		try_help ("extra operand '%s'", argv[optind + 2]);
+ 	    }
+ 
+ 	  exit_status = compare_files (NULL, argv[optind], argv[optind + 1]);
+@@ -826,7 +826,7 @@ try_help (char const *reason_msgid, char const *operand)
+ {
+   if (reason_msgid)
+     error (0, 0, _(reason_msgid), operand);
+-  error (EXIT_TROUBLE, 0, _("Try `%s --help' for more information."),
++  error (EXIT_TROUBLE, 0, _("Try '%s --help' for more information."),
+ 	 program_name);
+   abort ();
+ }
+@@ -870,11 +870,11 @@ static char const * const option_help_msgid[] = {
+   -W NUM  --width=NUM  Output at most NUM (default 130) print columns.\n\
+   --left-column  Output only the left column of common lines.\n\
+   --suppress-common-lines  Do not output common lines."),
+-  N_("-D NAME  --ifdef=NAME  Output merged file to show `#ifdef NAME' diffs."),
++  N_("-D NAME  --ifdef=NAME  Output merged file to show '#ifdef NAME' diffs."),
+   N_("--GTYPE-group-format=GFMT  Similar, but format GTYPE input groups with GFMT."),
+   N_("--line-format=LFMT  Similar, but format all input lines with LFMT."),
+   N_("--LTYPE-line-format=LFMT  Similar, but format LTYPE input lines with LFMT."),
+-  N_("  LTYPE is `old', `new', or `unchanged'.  GTYPE is LTYPE or `changed'."),
++  N_("  LTYPE is 'old', 'new', or 'unchanged'.  GTYPE is LTYPE or 'changed'."),
+   N_("  GFMT may contain:\n\
+     %<  lines from FILE1\n\
+     %>  lines from FILE2\n\
+@@ -895,7 +895,7 @@ static char const * const option_help_msgid[] = {
+     %c'C'  the single character C\n\
+     %c'\\OOO'  the character with octal code OOO"),
+   "",
+-  N_("-l  --paginate  Pass the output through `pr' to paginate it."),
++  N_("-l  --paginate  Pass the output through 'pr' to paginate it."),
+   N_("-t  --expand-tabs  Expand tabs to spaces in output."),
+   N_("-T  --initial-tab  Make tabs line up by prepending a tab."),
+   N_("--tabsize=NUM  Tab stops are every NUM (default 8) print columns."),
+@@ -918,9 +918,9 @@ static char const * const option_help_msgid[] = {
+   N_("-v  --version  Output version info."),
+   N_("--help  Output this help."),
+   "",
+-  N_("FILES are `FILE1 FILE2' or `DIR1 DIR2' or `DIR FILE...' or `FILE... DIR'."),
++  N_("FILES are 'FILE1 FILE2' or 'DIR1 DIR2' or 'DIR FILE...' or 'FILE... DIR'."),
+   N_("If --from-file or --to-file is given, there are no restrictions on FILES."),
+-  N_("If a FILE is `-', read standard input."),
++  N_("If a FILE is '-', read standard input."),
+   N_("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."),
+   0
+ };
+@@ -960,7 +960,7 @@ specify_value (char const **var, char const *value, char const *option)
+ {
+   if (*var && strcmp (*var, value) != 0)
+     {
+-      error (0, 0, _("conflicting %s option value `%s'"), option, value);
++      error (0, 0, _("conflicting %s option value '%s'"), option, value);
+       try_help (NULL, NULL);
+     }
+   *var = value;
+@@ -1159,7 +1159,7 @@ compare_files (struct comparison const *parent,
+ 	= dir_file_pathname (dir, last_component (fnm));
+ 
+       if (STREQ (fnm, "-"))
+-	fatal ("cannot compare `-' to a directory");
++	fatal ("cannot compare '-' to a directory");
+ 
+       if (stat (filename, &cmp.file[dir_arg].stat) != 0)
+ 	{
+diff --git a/src/diff.c.orig b/src/diff.c.orig
+new file mode 100644
+index 0000000..9b0098c
+--- /dev/null
++++ b/src/diff.c.orig
+@@ -0,0 +1,1330 @@
++/* diff - compare files line by line
++
++   Copyright (C) 1988-1989, 1992-1994, 1996, 1998, 2001-2002, 2004, 2006-2007,
++   2009-2010 Free Software Foundation, Inc.
++
++   This file is part of GNU DIFF.
++
++   This program is free software: you can redistribute it and/or modify
++   it under the terms of the GNU General Public License as published by
++   the Free Software Foundation, either version 3 of the License, or
++   (at your option) any later version.
++
++   This program is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU General Public License for more details.
++
++   You should have received a copy of the GNU General Public License
++   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
++
++#define GDIFF_MAIN
++#include "diff.h"
++#include <assert.h>
++#include "paths.h"
++#include <c-stack.h>
++#include <dirname.h>
++#include <error.h>
++#include <exclude.h>
++#include <exitfail.h>
++#include <file-type.h>
++#include <fnmatch.h>
++#include <getopt.h>
++#include <hard-locale.h>
++#include <prepargs.h>
++#include <progname.h>
++#include <sh-quote.h>
++#include <stat-time.h>
++#include <timespec.h>
++#include <version-etc.h>
++#include <xalloc.h>
++#include <xfreopen.h>
++
++/* The official name of this program (e.g., no `g' prefix).  */
++#define PROGRAM_NAME "diff"
++
++#define AUTHORS \
++  proper_name ("Paul Eggert"), \
++  proper_name ("Mike Haertel"), \
++  proper_name ("David Hayes"), \
++  proper_name ("Richard Stallman"), \
++  proper_name ("Len Tower")
++
++#ifndef GUTTER_WIDTH_MINIMUM
++# define GUTTER_WIDTH_MINIMUM 3
++#endif
++
++struct regexp_list
++{
++  char *regexps;	/* chars representing disjunction of the regexps */
++  size_t len;		/* chars used in 'regexps' */
++  size_t size;		/* size malloc'ed for 'regexps'; 0 if not malloc'ed */
++  bool multiple_regexps;/* Does 'regexps' represent a disjunction?  */
++  struct re_pattern_buffer *buf;
++};
++
++static int compare_files (struct comparison const *, char const *, char const *);
++static void add_regexp (struct regexp_list *, char const *);
++static void summarize_regexp_list (struct regexp_list *);
++static void specify_style (enum output_style);
++static void specify_value (char const **, char const *, char const *);
++static void try_help (char const *, char const *) __attribute__((noreturn));
++static void check_stdout (void);
++static void usage (void);
++
++/* If comparing directories, compare their common subdirectories
++   recursively.  */
++static bool recursive;
++
++/* In context diffs, show previous lines that match these regexps.  */
++static struct regexp_list function_regexp_list;
++
++/* Ignore changes affecting only lines that match these regexps.  */
++static struct regexp_list ignore_regexp_list;
++
++#if O_BINARY
++/* Use binary I/O when reading and writing data (--binary).
++   On POSIX hosts, this has no effect.  */
++static bool binary;
++#else
++enum { binary = true };
++#endif
++
++/* When comparing directories, if a file appears only in one
++   directory, treat it as present but empty in the other (-N).
++   Then 'patch' would create the file with appropriate contents.  */
++static bool new_file;
++
++/* When comparing directories, if a file appears only in the second
++   directory of the two, treat it as present but empty in the other
++   (--unidirectional-new-file).
++   Then 'patch' would create the file with appropriate contents.  */
++static bool unidirectional_new_file;
++
++/* Report files compared that are the same (-s).
++   Normally nothing is output when that happens.  */
++static bool report_identical_files;
++
++static char const shortopts[] =
++"0123456789abBcC:dD:eEfF:hHiI:lL:nNpPqrsS:tTuU:vwW:x:X:y";
++
++/* Values for long options that do not have single-letter equivalents.  */
++enum
++{
++  BINARY_OPTION = CHAR_MAX + 1,
++  FROM_FILE_OPTION,
++  HELP_OPTION,
++  HORIZON_LINES_OPTION,
++  IGNORE_FILE_NAME_CASE_OPTION,
++  INHIBIT_HUNK_MERGE_OPTION,
++  LEFT_COLUMN_OPTION,
++  LINE_FORMAT_OPTION,
++  NO_IGNORE_FILE_NAME_CASE_OPTION,
++  NORMAL_OPTION,
++  SDIFF_MERGE_ASSIST_OPTION,
++  STRIP_TRAILING_CR_OPTION,
++  SUPPRESS_BLANK_EMPTY_OPTION,
++  SUPPRESS_COMMON_LINES_OPTION,
++  TABSIZE_OPTION,
++  TO_FILE_OPTION,
++
++  /* These options must be in sequence.  */
++  UNCHANGED_LINE_FORMAT_OPTION,
++  OLD_LINE_FORMAT_OPTION,
++  NEW_LINE_FORMAT_OPTION,
++
++  /* These options must be in sequence.  */
++  UNCHANGED_GROUP_FORMAT_OPTION,
++  OLD_GROUP_FORMAT_OPTION,
++  NEW_GROUP_FORMAT_OPTION,
++  CHANGED_GROUP_FORMAT_OPTION
++};
++
++static char const group_format_option[][sizeof "--unchanged-group-format"] =
++  {
++    "--unchanged-group-format",
++    "--old-group-format",
++    "--new-group-format",
++    "--changed-group-format"
++  };
++
++static char const line_format_option[][sizeof "--unchanged-line-format"] =
++  {
++    "--unchanged-line-format",
++    "--old-line-format",
++    "--new-line-format"
++  };
++
++static struct option const longopts[] =
++{
++  {"binary", 0, 0, BINARY_OPTION},
++  {"brief", 0, 0, 'q'},
++  {"changed-group-format", 1, 0, CHANGED_GROUP_FORMAT_OPTION},
++  {"context", 2, 0, 'C'},
++  {"ed", 0, 0, 'e'},
++  {"exclude", 1, 0, 'x'},
++  {"exclude-from", 1, 0, 'X'},
++  {"expand-tabs", 0, 0, 't'},
++  {"forward-ed", 0, 0, 'f'},
++  {"from-file", 1, 0, FROM_FILE_OPTION},
++  {"help", 0, 0, HELP_OPTION},
++  {"horizon-lines", 1, 0, HORIZON_LINES_OPTION},
++  {"ifdef", 1, 0, 'D'},
++  {"ignore-all-space", 0, 0, 'w'},
++  {"ignore-blank-lines", 0, 0, 'B'},
++  {"ignore-case", 0, 0, 'i'},
++  {"ignore-file-name-case", 0, 0, IGNORE_FILE_NAME_CASE_OPTION},
++  {"ignore-matching-lines", 1, 0, 'I'},
++  {"ignore-space-change", 0, 0, 'b'},
++  {"ignore-tab-expansion", 0, 0, 'E'},
++  {"inhibit-hunk-merge", 0, 0, INHIBIT_HUNK_MERGE_OPTION},
++  {"initial-tab", 0, 0, 'T'},
++  {"label", 1, 0, 'L'},
++  {"left-column", 0, 0, LEFT_COLUMN_OPTION},
++  {"line-format", 1, 0, LINE_FORMAT_OPTION},
++  {"minimal", 0, 0, 'd'},
++  {"new-file", 0, 0, 'N'},
++  {"new-group-format", 1, 0, NEW_GROUP_FORMAT_OPTION},
++  {"new-line-format", 1, 0, NEW_LINE_FORMAT_OPTION},
++  {"no-ignore-file-name-case", 0, 0, NO_IGNORE_FILE_NAME_CASE_OPTION},
++  {"normal", 0, 0, NORMAL_OPTION},
++  {"old-group-format", 1, 0, OLD_GROUP_FORMAT_OPTION},
++  {"old-line-format", 1, 0, OLD_LINE_FORMAT_OPTION},
++  {"paginate", 0, 0, 'l'},
++  {"rcs", 0, 0, 'n'},
++  {"recursive", 0, 0, 'r'},
++  {"report-identical-files", 0, 0, 's'},
++  {"sdiff-merge-assist", 0, 0, SDIFF_MERGE_ASSIST_OPTION},
++  {"show-c-function", 0, 0, 'p'},
++  {"show-function-line", 1, 0, 'F'},
++  {"side-by-side", 0, 0, 'y'},
++  {"speed-large-files", 0, 0, 'H'},
++  {"starting-file", 1, 0, 'S'},
++  {"strip-trailing-cr", 0, 0, STRIP_TRAILING_CR_OPTION},
++  {"suppress-blank-empty", 0, 0, SUPPRESS_BLANK_EMPTY_OPTION},
++  {"suppress-common-lines", 0, 0, SUPPRESS_COMMON_LINES_OPTION},
++  {"tabsize", 1, 0, TABSIZE_OPTION},
++  {"text", 0, 0, 'a'},
++  {"to-file", 1, 0, TO_FILE_OPTION},
++  {"unchanged-group-format", 1, 0, UNCHANGED_GROUP_FORMAT_OPTION},
++  {"unchanged-line-format", 1, 0, UNCHANGED_LINE_FORMAT_OPTION},
++  {"unidirectional-new-file", 0, 0, 'P'},
++  {"unified", 2, 0, 'U'},
++  {"version", 0, 0, 'v'},
++  {"width", 1, 0, 'W'},
++  {0, 0, 0, 0}
++};
++
++/* Return a string containing the command options with which diff was invoked.
++   Spaces appear between what were separate ARGV-elements.
++   There is a space at the beginning but none at the end.
++   If there were no options, the result is an empty string.
++
++   Arguments: OPTIONVEC, a vector containing separate ARGV-elements, and COUNT,
++   the length of that vector.  */
++
++static char *
++option_list (char **optionvec, int count)
++{
++  int i;
++  size_t size = 1;
++  char *result;
++  char *p;
++
++  for (i = 0; i < count; i++)
++    size += 1 + shell_quote_length (optionvec[i]);
++
++  p = result = xmalloc (size);
++
++  for (i = 0; i < count; i++)
++    {
++      *p++ = ' ';
++      p = shell_quote_copy (p, optionvec[i]);
++    }
++
++  *p = '\0';
++  return result;
++}
++
++
++/* Return an option value suitable for add_exclude.  */
++
++static int
++exclude_options (void)
++{
++  return EXCLUDE_WILDCARDS | (ignore_file_name_case ? FNM_CASEFOLD : 0);
++}
++
++int
++main (int argc, char **argv)
++{
++  int exit_status = EXIT_SUCCESS;
++  int c;
++  int i;
++  int prev = -1;
++  lin ocontext = -1;
++  bool explicit_context = false;
++  size_t width = 0;
++  bool show_c_function = false;
++  char const *from_file = NULL;
++  char const *to_file = NULL;
++  uintmax_t numval;
++  char *numend;
++
++  /* Do our initializations.  */
++  exit_failure = EXIT_TROUBLE;
++  initialize_main (&argc, &argv);
++  set_program_name (argv[0]);
++  setlocale (LC_ALL, "");
++  bindtextdomain (PACKAGE, LOCALEDIR);
++  textdomain (PACKAGE);
++  c_stack_action (0);
++  function_regexp_list.buf = &function_regexp;
++  ignore_regexp_list.buf = &ignore_regexp;
++  re_set_syntax (RE_SYNTAX_GREP | RE_NO_POSIX_BACKTRACKING);
++  excluded = new_exclude ();
++
++  /* Decode the options.  */
++
++  while ((c = getopt_long (argc, argv, shortopts, longopts, NULL)) != -1)
++    {
++      switch (c)
++	{
++	case 0:
++	  break;
++
++	case '0':
++	case '1':
++	case '2':
++	case '3':
++	case '4':
++	case '5':
++	case '6':
++	case '7':
++	case '8':
++	case '9':
++	  if (! ISDIGIT (prev))
++	    ocontext = c - '0';
++	  else if (LIN_MAX / 10 < ocontext
++		   || ((ocontext = 10 * ocontext + c - '0') < 0))
++	    ocontext = LIN_MAX;
++	  break;
++
++	case 'a':
++	  text = true;
++	  break;
++
++	case 'b':
++	  if (ignore_white_space < IGNORE_SPACE_CHANGE)
++	    ignore_white_space = IGNORE_SPACE_CHANGE;
++	  break;
++
++	case 'B':
++	  ignore_blank_lines = true;
++	  break;
++
++	case 'C':
++	case 'U':
++	  {
++	    if (optarg)
++	      {
++		numval = strtoumax (optarg, &numend, 10);
++		if (*numend)
++		  try_help ("invalid context length '%s'", optarg);
++		if (LIN_MAX < numval)
++		  numval = LIN_MAX;
++	      }
++	    else
++	      numval = 3;
++
++	    specify_style (c == 'U' ? OUTPUT_UNIFIED : OUTPUT_CONTEXT);
++	    if (context < numval)
++	      context = numval;
++	    explicit_context = true;
++	  }
++	  break;
++
++	case 'c':
++	  specify_style (OUTPUT_CONTEXT);
++	  if (context < 3)
++	    context = 3;
++	  break;
++
++	case 'd':
++	  minimal = true;
++	  break;
++
++	case 'D':
++	  specify_style (OUTPUT_IFDEF);
++	  {
++	    static char const C_ifdef_group_formats[] =
++	      "%%=%c#ifndef %s\n%%<#endif /* ! %s */\n%c#ifdef %s\n%%>#endif /* %s */\n%c#ifndef %s\n%%<#else /* %s */\n%%>#endif /* %s */\n";
++	    char *b = xmalloc (sizeof C_ifdef_group_formats
++			       + 7 * strlen (optarg) - 14 /* 7*"%s" */
++			       - 8 /* 5*"%%" + 3*"%c" */);
++	    sprintf (b, C_ifdef_group_formats,
++		     0,
++		     optarg, optarg, 0,
++		     optarg, optarg, 0,
++		     optarg, optarg, optarg);
++	    for (i = 0; i < sizeof group_format / sizeof group_format[0]; i++)
++	      {
++		specify_value (&group_format[i], b, "-D");
++		b += strlen (b) + 1;
++	      }
++	  }
++	  break;
++
++	case 'e':
++	  specify_style (OUTPUT_ED);
++	  break;
++
++	case 'E':
++	  if (ignore_white_space < IGNORE_TAB_EXPANSION)
++	    ignore_white_space = IGNORE_TAB_EXPANSION;
++	  break;
++
++	case 'f':
++	  specify_style (OUTPUT_FORWARD_ED);
++	  break;
++
++	case 'F':
++	  add_regexp (&function_regexp_list, optarg);
++	  break;
++
++	case 'h':
++	  /* Split the files into chunks for faster processing.
++	     Usually does not change the result.
++
++	     This currently has no effect.  */
++	  break;
++
++	case 'H':
++	  speed_large_files = true;
++	  break;
++
++	case 'i':
++	  ignore_case = true;
++	  break;
++
++	case 'I':
++	  add_regexp (&ignore_regexp_list, optarg);
++	  break;
++
++	case 'l':
++	  if (!pr_program[0])
++	    try_help ("pagination not supported on this host", NULL);
++	  paginate = true;
++#ifdef SIGCHLD
++	  /* Pagination requires forking and waiting, and
++	     System V fork+wait does not work if SIGCHLD is ignored.  */
++	  signal (SIGCHLD, SIG_DFL);
++#endif
++	  break;
++
++	case 'L':
++	  if (!file_label[0])
++	    file_label[0] = optarg;
++	  else if (!file_label[1])
++	    file_label[1] = optarg;
++	  else
++	    fatal ("too many file label options");
++	  break;
++
++	case 'n':
++	  specify_style (OUTPUT_RCS);
++	  break;
++
++	case 'N':
++	  new_file = true;
++	  break;
++
++	case 'p':
++	  show_c_function = true;
++	  add_regexp (&function_regexp_list, "^[[:alpha:]$_]");
++	  break;
++
++	case 'P':
++	  unidirectional_new_file = true;
++	  break;
++
++	case 'q':
++	  brief = true;
++	  break;
++
++	case 'r':
++	  recursive = true;
++	  break;
++
++	case 's':
++	  report_identical_files = true;
++	  break;
++
++	case 'S':
++	  specify_value (&starting_file, optarg, "-S");
++	  break;
++
++	case 't':
++	  expand_tabs = true;
++	  break;
++
++	case 'T':
++	  initial_tab = true;
++	  break;
++
++	case 'u':
++	  specify_style (OUTPUT_UNIFIED);
++	  if (context < 3)
++	    context = 3;
++	  break;
++
++	case 'v':
++	  version_etc (stdout, PROGRAM_NAME, PACKAGE_NAME, PACKAGE_VERSION,
++		       AUTHORS, (char *) NULL);
++	  check_stdout ();
++	  return EXIT_SUCCESS;
++
++	case 'w':
++	  ignore_white_space = IGNORE_ALL_SPACE;
++	  break;
++
++	case 'x':
++	  add_exclude (excluded, optarg, exclude_options ());
++	  break;
++
++	case 'X':
++	  if (add_exclude_file (add_exclude, excluded, optarg,
++				exclude_options (), '\n'))
++	    pfatal_with_name (optarg);
++	  break;
++
++	case 'y':
++	  specify_style (OUTPUT_SDIFF);
++	  break;
++
++	case 'W':
++	  numval = strtoumax (optarg, &numend, 10);
++	  if (! (0 < numval && numval <= SIZE_MAX) || *numend)
++	    try_help ("invalid width '%s'", optarg);
++	  if (width != numval)
++	    {
++	      if (width)
++		fatal ("conflicting width options");
++	      width = numval;
++	    }
++	  break;
++
++	case BINARY_OPTION:
++#if O_BINARY
++	  binary = true;
++	  if (! isatty (STDOUT_FILENO))
++	    xfreopen (NULL, "wb", stdout);
++#endif
++	  break;
++
++	case FROM_FILE_OPTION:
++	  specify_value (&from_file, optarg, "--from-file");
++	  break;
++
++	case HELP_OPTION:
++	  usage ();
++	  check_stdout ();
++	  return EXIT_SUCCESS;
++
++	case HORIZON_LINES_OPTION:
++	  numval = strtoumax (optarg, &numend, 10);
++	  if (*numend)
++	    try_help ("invalid horizon length '%s'", optarg);
++	  horizon_lines = MAX (horizon_lines, MIN (numval, LIN_MAX));
++	  break;
++
++	case IGNORE_FILE_NAME_CASE_OPTION:
++	  ignore_file_name_case = true;
++	  break;
++
++	case INHIBIT_HUNK_MERGE_OPTION:
++	  /* This option is obsolete, but accept it for backward
++             compatibility.  */
++	  break;
++
++	case LEFT_COLUMN_OPTION:
++	  left_column = true;
++	  break;
++
++	case LINE_FORMAT_OPTION:
++	  specify_style (OUTPUT_IFDEF);
++	  for (i = 0; i < sizeof line_format / sizeof line_format[0]; i++)
++	    specify_value (&line_format[i], optarg, "--line-format");
++	  break;
++
++	case NO_IGNORE_FILE_NAME_CASE_OPTION:
++	  ignore_file_name_case = false;
++	  break;
++
++	case NORMAL_OPTION:
++	  specify_style (OUTPUT_NORMAL);
++	  break;
++
++	case SDIFF_MERGE_ASSIST_OPTION:
++	  specify_style (OUTPUT_SDIFF);
++	  sdiff_merge_assist = true;
++	  break;
++
++	case STRIP_TRAILING_CR_OPTION:
++	  strip_trailing_cr = true;
++	  break;
++
++	case SUPPRESS_BLANK_EMPTY_OPTION:
++	  suppress_blank_empty = true;
++	  break;
++
++	case SUPPRESS_COMMON_LINES_OPTION:
++	  suppress_common_lines = true;
++	  break;
++
++	case TABSIZE_OPTION:
++	  numval = strtoumax (optarg, &numend, 10);
++	  if (! (0 < numval && numval <= SIZE_MAX) || *numend)
++	    try_help ("invalid tabsize '%s'", optarg);
++	  if (tabsize != numval)
++	    {
++	      if (tabsize)
++		fatal ("conflicting tabsize options");
++	      tabsize = numval;
++	    }
++	  break;
++
++	case TO_FILE_OPTION:
++	  specify_value (&to_file, optarg, "--to-file");
++	  break;
++
++	case UNCHANGED_LINE_FORMAT_OPTION:
++	case OLD_LINE_FORMAT_OPTION:
++	case NEW_LINE_FORMAT_OPTION:
++	  specify_style (OUTPUT_IFDEF);
++	  c -= UNCHANGED_LINE_FORMAT_OPTION;
++	  specify_value (&line_format[c], optarg, line_format_option[c]);
++	  break;
++
++	case UNCHANGED_GROUP_FORMAT_OPTION:
++	case OLD_GROUP_FORMAT_OPTION:
++	case NEW_GROUP_FORMAT_OPTION:
++	case CHANGED_GROUP_FORMAT_OPTION:
++	  specify_style (OUTPUT_IFDEF);
++	  c -= UNCHANGED_GROUP_FORMAT_OPTION;
++	  specify_value (&group_format[c], optarg, group_format_option[c]);
++	  break;
++
++	default:
++	  try_help (NULL, NULL);
++	}
++      prev = c;
++    }
++
++  if (output_style == OUTPUT_UNSPECIFIED)
++    {
++      if (show_c_function)
++	{
++	  specify_style (OUTPUT_CONTEXT);
++	  if (ocontext < 0)
++	    context = 3;
++	}
++      else
++	specify_style (OUTPUT_NORMAL);
++    }
++
++  if (output_style != OUTPUT_CONTEXT || hard_locale (LC_TIME))
++    {
++#if (defined STAT_TIMESPEC || defined STAT_TIMESPEC_NS \
++     || defined HAVE_STRUCT_STAT_ST_SPARE1)
++      time_format = "%Y-%m-%d %H:%M:%S.%N %z";
++#else
++      time_format = "%Y-%m-%d %H:%M:%S %z";
++#endif
++    }
++  else
++    {
++      /* See POSIX 1003.1-2001 for this format.  */
++      time_format = "%a %b %e %T %Y";
++    }
++
++  if (0 <= ocontext
++      && (output_style == OUTPUT_CONTEXT
++	  || output_style == OUTPUT_UNIFIED)
++      && (context < ocontext
++	  || (ocontext < context && ! explicit_context)))
++    context = ocontext;
++
++  if (! tabsize)
++    tabsize = 8;
++  if (! width)
++    width = 130;
++
++  {
++    /* Maximize first the half line width, and then the gutter width,
++       according to the following constraints:
++
++	1.  Two half lines plus a gutter must fit in a line.
++	2.  If the half line width is nonzero:
++	    a.  The gutter width is at least GUTTER_WIDTH_MINIMUM.
++	    b.  If tabs are not expanded to spaces,
++		a half line plus a gutter is an integral number of tabs,
++		so that tabs in the right column line up.  */
++
++    intmax_t t = expand_tabs ? 1 : tabsize;
++    intmax_t w = width;
++    intmax_t off = (w + t + GUTTER_WIDTH_MINIMUM) / (2 * t)  *  t;
++    sdiff_half_width = MAX (0, MIN (off - GUTTER_WIDTH_MINIMUM, w - off)),
++    sdiff_column2_offset = sdiff_half_width ? off : w;
++  }
++
++  /* Make the horizon at least as large as the context, so that
++     shift_boundaries has more freedom to shift the first and last hunks.  */
++  if (horizon_lines < context)
++    horizon_lines = context;
++
++  summarize_regexp_list (&function_regexp_list);
++  summarize_regexp_list (&ignore_regexp_list);
++
++  if (output_style == OUTPUT_IFDEF)
++    {
++      for (i = 0; i < sizeof line_format / sizeof line_format[0]; i++)
++	if (!line_format[i])
++	  line_format[i] = "%l\n";
++      if (!group_format[OLD])
++	group_format[OLD]
++	  = group_format[CHANGED] ? group_format[CHANGED] : "%<";
++      if (!group_format[NEW])
++	group_format[NEW]
++	  = group_format[CHANGED] ? group_format[CHANGED] : "%>";
++      if (!group_format[UNCHANGED])
++	group_format[UNCHANGED] = "%=";
++      if (!group_format[CHANGED])
++	group_format[CHANGED] = concat (group_format[OLD],
++					group_format[NEW], "");
++    }
++
++  no_diff_means_no_output =
++    (output_style == OUTPUT_IFDEF ?
++      (!*group_format[UNCHANGED]
++       || (STREQ (group_format[UNCHANGED], "%=")
++	   && !*line_format[UNCHANGED]))
++     : (output_style != OUTPUT_SDIFF) | suppress_common_lines);
++
++  files_can_be_treated_as_binary =
++    (brief & binary
++     & ~ (ignore_blank_lines | ignore_case | strip_trailing_cr
++	  | (ignore_regexp_list.regexps || ignore_white_space)));
++
++  switch_string = option_list (argv + 1, optind - 1);
++
++  if (from_file)
++    {
++      if (to_file)
++	fatal ("--from-file and --to-file both specified");
++      else
++	for (; optind < argc; optind++)
++	  {
++	    int status = compare_files (NULL, from_file, argv[optind]);
++	    if (exit_status < status)
++	      exit_status = status;
++	  }
++    }
++  else
++    {
++      if (to_file)
++	for (; optind < argc; optind++)
++	  {
++	    int status = compare_files (NULL, argv[optind], to_file);
++	    if (exit_status < status)
++	      exit_status = status;
++	  }
++      else
++	{
++	  if (argc - optind != 2)
++	    {
++	      if (argc - optind < 2)
++		try_help ("missing operand after '%s'", argv[argc - 1]);
++	      else
++		try_help ("extra operand '%s'", argv[optind + 2]);
++	    }
++
++	  exit_status = compare_files (NULL, argv[optind], argv[optind + 1]);
++	}
++    }
++
++  /* Print any messages that were saved up for last.  */
++  print_message_queue ();
++
++  check_stdout ();
++  exit (exit_status);
++  return exit_status;
++}
++
++/* Append to REGLIST the regexp PATTERN.  */
++
++static void
++add_regexp (struct regexp_list *reglist, char const *pattern)
++{
++  size_t patlen = strlen (pattern);
++  char const *m = re_compile_pattern (pattern, patlen, reglist->buf);
++
++  if (m != 0)
++    error (0, 0, "%s: %s", pattern, m);
++  else
++    {
++      char *regexps = reglist->regexps;
++      size_t len = reglist->len;
++      bool multiple_regexps = reglist->multiple_regexps = regexps != 0;
++      size_t newlen = reglist->len = len + 2 * multiple_regexps + patlen;
++      size_t size = reglist->size;
++
++      if (size <= newlen)
++	{
++	  if (!size)
++	    size = 1;
++
++	  do size *= 2;
++	  while (size <= newlen);
++
++	  reglist->size = size;
++	  reglist->regexps = regexps = xrealloc (regexps, size);
++	}
++      if (multiple_regexps)
++	{
++	  regexps[len++] = '\\';
++	  regexps[len++] = '|';
++	}
++      memcpy (regexps + len, pattern, patlen + 1);
++    }
++}
++
++/* Ensure that REGLIST represents the disjunction of its regexps.
++   This is done here, rather than earlier, to avoid O(N^2) behavior.  */
++
++static void
++summarize_regexp_list (struct regexp_list *reglist)
++{
++  if (reglist->regexps)
++    {
++      /* At least one regexp was specified.  Allocate a fastmap for it.  */
++      reglist->buf->fastmap = xmalloc (1 << CHAR_BIT);
++      if (reglist->multiple_regexps)
++	{
++	  /* Compile the disjunction of the regexps.
++	     (If just one regexp was specified, it is already compiled.)  */
++	  char const *m = re_compile_pattern (reglist->regexps, reglist->len,
++					      reglist->buf);
++	  if (m)
++	    error (EXIT_TROUBLE, 0, "%s: %s", reglist->regexps, m);
++	}
++    }
++}
++
++static void
++try_help (char const *reason_msgid, char const *operand)
++{
++  if (reason_msgid)
++    error (0, 0, _(reason_msgid), operand);
++  error (EXIT_TROUBLE, 0, _("Try '%s --help' for more information."),
++	 program_name);
++  abort ();
++}
++
++static void
++check_stdout (void)
++{
++  if (ferror (stdout))
++    fatal ("write failed");
++  else if (fclose (stdout) != 0)
++    pfatal_with_name (_("standard output"));
++}
++
++static char const * const option_help_msgid[] = {
++  N_("Compare files line by line."),
++  "",
++  N_("-i  --ignore-case  Ignore case differences in file contents."),
++  N_("--ignore-file-name-case  Ignore case when comparing file names."),
++  N_("--no-ignore-file-name-case  Consider case when comparing file names."),
++  N_("-E  --ignore-tab-expansion  Ignore changes due to tab expansion."),
++  N_("-b  --ignore-space-change  Ignore changes in the amount of white space."),
++  N_("-w  --ignore-all-space  Ignore all white space."),
++  N_("-B  --ignore-blank-lines  Ignore changes whose lines are all blank."),
++  N_("-I RE  --ignore-matching-lines=RE  Ignore changes whose lines all match RE."),
++  N_("--strip-trailing-cr  Strip trailing carriage return on input."),
++#if O_BINARY
++  N_("--binary  Read and write data in binary mode."),
++#endif
++  N_("-a  --text  Treat all files as text."),
++  "",
++  N_("-c  -C NUM  --context[=NUM]  Output NUM (default 3) lines of copied context.\n\
++-u  -U NUM  --unified[=NUM]  Output NUM (default 3) lines of unified context.\n\
++  --label LABEL  Use LABEL instead of file name.\n\
++  -p  --show-c-function  Show which C function each change is in.\n\
++  -F RE  --show-function-line=RE  Show the most recent line matching RE."),
++  N_("-q  --brief  Output only whether files differ."),
++  N_("-e  --ed  Output an ed script."),
++  N_("--normal  Output a normal diff."),
++  N_("-n  --rcs  Output an RCS format diff."),
++  N_("-y  --side-by-side  Output in two columns.\n\
++  -W NUM  --width=NUM  Output at most NUM (default 130) print columns.\n\
++  --left-column  Output only the left column of common lines.\n\
++  --suppress-common-lines  Do not output common lines."),
++  N_("-D NAME  --ifdef=NAME  Output merged file to show '#ifdef NAME' diffs."),
++  N_("--GTYPE-group-format=GFMT  Similar, but format GTYPE input groups with GFMT."),
++  N_("--line-format=LFMT  Similar, but format all input lines with LFMT."),
++  N_("--LTYPE-line-format=LFMT  Similar, but format LTYPE input lines with LFMT."),
++  N_("  LTYPE is 'old', 'new', or 'unchanged'.  GTYPE is LTYPE or 'changed'."),
++  N_("  GFMT may contain:\n\
++    %<  lines from FILE1\n\
++    %>  lines from FILE2\n\
++    %=  lines common to FILE1 and FILE2\n\
++    %[-][WIDTH][.[PREC]]{doxX}LETTER  printf-style spec for LETTER\n\
++      LETTERs are as follows for new group, lower case for old group:\n\
++        F  first line number\n\
++        L  last line number\n\
++        N  number of lines = L-F+1\n\
++        E  F-1\n\
++        M  L+1"),
++  N_("  LFMT may contain:\n\
++    %L  contents of line\n\
++    %l  contents of line, excluding any trailing newline\n\
++    %[-][WIDTH][.[PREC]]{doxX}n  printf-style spec for input line number"),
++  N_("  Either GFMT or LFMT may contain:\n\
++    %%  %\n\
++    %c'C'  the single character C\n\
++    %c'\\OOO'  the character with octal code OOO"),
++  "",
++  N_("-l  --paginate  Pass the output through 'pr' to paginate it."),
++  N_("-t  --expand-tabs  Expand tabs to spaces in output."),
++  N_("-T  --initial-tab  Make tabs line up by prepending a tab."),
++  N_("--tabsize=NUM  Tab stops are every NUM (default 8) print columns."),
++  N_("--suppress-blank-empty  Suppress space or tab before empty output lines."),
++  "",
++  N_("-r  --recursive  Recursively compare any subdirectories found."),
++  N_("-N  --new-file  Treat absent files as empty."),
++  N_("--unidirectional-new-file  Treat absent first files as empty."),
++  N_("-s  --report-identical-files  Report when two files are the same."),
++  N_("-x PAT  --exclude=PAT  Exclude files that match PAT."),
++  N_("-X FILE  --exclude-from=FILE  Exclude files that match any pattern in FILE."),
++  N_("-S FILE  --starting-file=FILE  Start with FILE when comparing directories."),
++  N_("--from-file=FILE1  Compare FILE1 to all operands.  FILE1 can be a directory."),
++  N_("--to-file=FILE2  Compare all operands to FILE2.  FILE2 can be a directory."),
++  "",
++  N_("--horizon-lines=NUM  Keep NUM lines of the common prefix and suffix."),
++  N_("-d  --minimal  Try hard to find a smaller set of changes."),
++  N_("--speed-large-files  Assume large files and many scattered small changes."),
++  "",
++  N_("-v  --version  Output version info."),
++  N_("--help  Output this help."),
++  "",
++  N_("FILES are 'FILE1 FILE2' or 'DIR1 DIR2' or 'DIR FILE...' or 'FILE... DIR'."),
++  N_("If --from-file or --to-file is given, there are no restrictions on FILES."),
++  N_("If a FILE is '-', read standard input."),
++  N_("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."),
++  0
++};
++
++static void
++usage (void)
++{
++  char const * const *p;
++
++  printf (_("Usage: %s [OPTION]... FILES\n"), program_name);
++
++  for (p = option_help_msgid;  *p;  p++)
++    {
++      if (!**p)
++	putchar ('\n');
++      else
++	{
++	  char const *msg = _(*p);
++	  char const *nl;
++	  while ((nl = strchr (msg, '\n')))
++	    {
++	      int msglen = nl + 1 - msg;
++	      printf ("  %.*s", msglen, msg);
++	      msg = nl + 1;
++	    }
++
++	  printf ("  %s\n" + 2 * (*msg != ' ' && *msg != '-'), msg);
++	}
++    }
++  emit_bug_reporting_address ();
++}
++
++/* Set VAR to VALUE, reporting an OPTION error if this is a
++   conflict.  */
++static void
++specify_value (char const **var, char const *value, char const *option)
++{
++  if (*var && strcmp (*var, value) != 0)
++    {
++      error (0, 0, _("conflicting %s option value '%s'"), option, value);
++      try_help (NULL, NULL);
++    }
++  *var = value;
++}
++
++/* Set the output style to STYLE, diagnosing conflicts.  */
++static void
++specify_style (enum output_style style)
++{
++  if (output_style != style)
++    {
++      if (output_style != OUTPUT_UNSPECIFIED)
++	try_help ("conflicting output style options", NULL);
++      output_style = style;
++    }
++}
++
++/* Set the last-modified time of *ST to be the current time.  */
++
++static void
++set_mtime_to_now (struct stat *st)
++{
++#ifdef STAT_TIMESPEC
++  gettime (&STAT_TIMESPEC (st, st_mtim));
++#else
++  struct timespec t;
++  gettime (&t);
++  st->st_mtime = t.tv_sec;
++# if defined STAT_TIMESPEC_NS
++  STAT_TIMESPEC_NS (st, st_mtim) = t.tv_nsec;
++# elif defined HAVE_STRUCT_STAT_ST_SPARE1
++  st->st_spare1 = t.tv_nsec / 1000;
++# endif
++#endif
++}
++
++/* Compare two files (or dirs) with parent comparison PARENT
++   and names NAME0 and NAME1.
++   (If PARENT is null, then the first name is just NAME0, etc.)
++   This is self-contained; it opens the files and closes them.
++
++   Value is EXIT_SUCCESS if files are the same, EXIT_FAILURE if
++   different, EXIT_TROUBLE if there is a problem opening them.  */
++
++static int
++compare_files (struct comparison const *parent,
++	       char const *name0,
++	       char const *name1)
++{
++  struct comparison cmp;
++#define DIR_P(f) (S_ISDIR (cmp.file[f].stat.st_mode) != 0)
++  register int f;
++  int status = EXIT_SUCCESS;
++  bool same_files;
++  char *free0;
++  char *free1;
++
++  /* If this is directory comparison, perhaps we have a file
++     that exists only in one of the directories.
++     If so, just print a message to that effect.  */
++
++  if (! ((name0 && name1)
++	 || (unidirectional_new_file && name1)
++	 || new_file))
++    {
++      char const *name = name0 ? name0 : name1;
++      char const *dir = parent->file[!name0].name;
++
++      /* See POSIX 1003.1-2001 for this format.  */
++      message ("Only in %s: %s\n", dir, name);
++
++      /* Return EXIT_FAILURE so that diff_dirs will return
++	 EXIT_FAILURE ("some files differ").  */
++      return EXIT_FAILURE;
++    }
++
++  memset (cmp.file, 0, sizeof cmp.file);
++  cmp.parent = parent;
++
++  /* cmp.file[f].desc markers */
++#define NONEXISTENT (-1) /* nonexistent file */
++#define UNOPENED (-2) /* unopened file (e.g. directory) */
++#define ERRNO_ENCODE(errno) (-3 - (errno)) /* encoded errno value */
++
++#define ERRNO_DECODE(desc) (-3 - (desc)) /* inverse of ERRNO_ENCODE */
++
++  cmp.file[0].desc = name0 ? UNOPENED : NONEXISTENT;
++  cmp.file[1].desc = name1 ? UNOPENED : NONEXISTENT;
++
++  /* Now record the full name of each file, including nonexistent ones.  */
++
++  if (!name0)
++    name0 = name1;
++  if (!name1)
++    name1 = name0;
++
++  if (!parent)
++    {
++      free0 = NULL;
++      free1 = NULL;
++      cmp.file[0].name = name0;
++      cmp.file[1].name = name1;
++    }
++  else
++    {
++      cmp.file[0].name = free0
++	= dir_file_pathname (parent->file[0].name, name0);
++      cmp.file[1].name = free1
++	= dir_file_pathname (parent->file[1].name, name1);
++    }
++
++  /* Stat the files.  */
++
++  for (f = 0; f < 2; f++)
++    {
++      if (cmp.file[f].desc != NONEXISTENT)
++	{
++	  if (f && file_name_cmp (cmp.file[f].name, cmp.file[0].name) == 0)
++	    {
++	      cmp.file[f].desc = cmp.file[0].desc;
++	      cmp.file[f].stat = cmp.file[0].stat;
++	    }
++	  else if (STREQ (cmp.file[f].name, "-"))
++	    {
++	      cmp.file[f].desc = STDIN_FILENO;
++	      if (O_BINARY && binary && ! isatty (STDIN_FILENO))
++		xfreopen (NULL, "rb", stdin);
++	      if (fstat (STDIN_FILENO, &cmp.file[f].stat) != 0)
++		cmp.file[f].desc = ERRNO_ENCODE (errno);
++	      else
++		{
++		  if (S_ISREG (cmp.file[f].stat.st_mode))
++		    {
++		      off_t pos = lseek (STDIN_FILENO, 0, SEEK_CUR);
++		      if (pos < 0)
++			cmp.file[f].desc = ERRNO_ENCODE (errno);
++		      else
++			cmp.file[f].stat.st_size =
++			  MAX (0, cmp.file[f].stat.st_size - pos);
++		    }
++
++		  /* POSIX 1003.1-2001 requires current time for
++		     stdin.  */
++		  set_mtime_to_now (&cmp.file[f].stat);
++		}
++	    }
++	  else if (stat (cmp.file[f].name, &cmp.file[f].stat) != 0)
++	    cmp.file[f].desc = ERRNO_ENCODE (errno);
++	}
++    }
++
++  /* Mark files as nonexistent as needed for -N and -P, if they are
++     inaccessible empty regular files (the kind of files that 'patch'
++     creates to indicate nonexistent backups), or if they are
++     top-level files that do not exist but their counterparts do
++     exist.  */
++  for (f = 0; f < 2; f++)
++    if ((new_file || (f == 0 && unidirectional_new_file))
++	&& (cmp.file[f].desc == UNOPENED
++	    ? (S_ISREG (cmp.file[f].stat.st_mode)
++	       && ! (cmp.file[f].stat.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO))
++	       && cmp.file[f].stat.st_size == 0)
++	    : (cmp.file[f].desc == ERRNO_ENCODE (ENOENT)
++	       && ! parent
++	       && cmp.file[1 - f].desc == UNOPENED)))
++      cmp.file[f].desc = NONEXISTENT;
++
++  for (f = 0; f < 2; f++)
++    if (cmp.file[f].desc == NONEXISTENT)
++      {
++	memset (&cmp.file[f].stat, 0, sizeof cmp.file[f].stat);
++	cmp.file[f].stat.st_mode = cmp.file[1 - f].stat.st_mode;
++      }
++
++  for (f = 0; f < 2; f++)
++    {
++      int e = ERRNO_DECODE (cmp.file[f].desc);
++      if (0 <= e)
++	{
++	  errno = e;
++	  perror_with_name (cmp.file[f].name);
++	  status = EXIT_TROUBLE;
++	}
++    }
++
++  if (status == EXIT_SUCCESS && ! parent && DIR_P (0) != DIR_P (1))
++    {
++      /* If one is a directory, and it was specified in the command line,
++	 use the file in that dir with the other file's basename.  */
++
++      int fnm_arg = DIR_P (0);
++      int dir_arg = 1 - fnm_arg;
++      char const *fnm = cmp.file[fnm_arg].name;
++      char const *dir = cmp.file[dir_arg].name;
++      char const *filename = cmp.file[dir_arg].name = free0
++	= dir_file_pathname (dir, last_component (fnm));
++
++      if (STREQ (fnm, "-"))
++	fatal ("cannot compare '-' to a directory");
++
++      if (stat (filename, &cmp.file[dir_arg].stat) != 0)
++	{
++	  perror_with_name (filename);
++	  status = EXIT_TROUBLE;
++	}
++    }
++
++  if (status != EXIT_SUCCESS)
++    {
++      /* One of the files should exist but does not.  */
++    }
++  else if (cmp.file[0].desc == NONEXISTENT
++	   && cmp.file[1].desc == NONEXISTENT)
++    {
++      /* Neither file "exists", so there's nothing to compare.  */
++    }
++  else if ((same_files
++	    = (cmp.file[0].desc != NONEXISTENT
++	       && cmp.file[1].desc != NONEXISTENT
++	       && 0 < same_file (&cmp.file[0].stat, &cmp.file[1].stat)
++	       && same_file_attributes (&cmp.file[0].stat,
++					&cmp.file[1].stat)))
++	   && no_diff_means_no_output)
++    {
++      /* The two named files are actually the same physical file.
++	 We know they are identical without actually reading them.  */
++    }
++  else if (DIR_P (0) & DIR_P (1))
++    {
++      if (output_style == OUTPUT_IFDEF)
++	fatal ("-D option not supported with directories");
++
++      /* If both are directories, compare the files in them.  */
++
++      if (parent && !recursive)
++	{
++	  /* But don't compare dir contents one level down
++	     unless -r was specified.
++	     See POSIX 1003.1-2001 for this format.  */
++	  message ("Common subdirectories: %s and %s\n",
++		   cmp.file[0].name, cmp.file[1].name);
++	}
++      else
++	status = diff_dirs (&cmp, compare_files);
++    }
++  else if ((DIR_P (0) | DIR_P (1))
++	   || (parent
++	       && (! S_ISREG (cmp.file[0].stat.st_mode)
++		   || ! S_ISREG (cmp.file[1].stat.st_mode))))
++    {
++      if (cmp.file[0].desc == NONEXISTENT || cmp.file[1].desc == NONEXISTENT)
++	{
++	  /* We have a subdirectory that exists only in one directory.  */
++
++	  if ((DIR_P (0) | DIR_P (1))
++	      && recursive
++	      && (new_file
++		  || (unidirectional_new_file
++		      && cmp.file[0].desc == NONEXISTENT)))
++	    status = diff_dirs (&cmp, compare_files);
++	  else
++	    {
++	      char const *dir;
++
++	      /* PARENT must be non-NULL here.  */
++	      assert (parent);
++	      dir = parent->file[cmp.file[0].desc == NONEXISTENT].name;
++
++	      /* See POSIX 1003.1-2001 for this format.  */
++	      message ("Only in %s: %s\n", dir, name0);
++
++	      status = EXIT_FAILURE;
++	    }
++	}
++      else
++	{
++	  /* We have two files that are not to be compared.  */
++
++	  /* See POSIX 1003.1-2001 for this format.  */
++	  message5 ("File %s is a %s while file %s is a %s\n",
++		    file_label[0] ? file_label[0] : cmp.file[0].name,
++		    file_type (&cmp.file[0].stat),
++		    file_label[1] ? file_label[1] : cmp.file[1].name,
++		    file_type (&cmp.file[1].stat));
++
++	  /* This is a difference.  */
++	  status = EXIT_FAILURE;
++	}
++    }
++  else if (files_can_be_treated_as_binary
++	   && S_ISREG (cmp.file[0].stat.st_mode)
++	   && S_ISREG (cmp.file[1].stat.st_mode)
++	   && cmp.file[0].stat.st_size != cmp.file[1].stat.st_size)
++    {
++      message ("Files %s and %s differ\n",
++	       file_label[0] ? file_label[0] : cmp.file[0].name,
++	       file_label[1] ? file_label[1] : cmp.file[1].name);
++      status = EXIT_FAILURE;
++    }
++  else
++    {
++      /* Both exist and neither is a directory.  */
++
++      /* Open the files and record their descriptors.  */
++
++      int oflags = O_RDONLY | (binary ? O_BINARY : 0);
++
++      if (cmp.file[0].desc == UNOPENED)
++	if ((cmp.file[0].desc = open (cmp.file[0].name, oflags, 0)) < 0)
++	  {
++	    perror_with_name (cmp.file[0].name);
++	    status = EXIT_TROUBLE;
++	  }
++      if (cmp.file[1].desc == UNOPENED)
++	{
++	  if (same_files)
++	    cmp.file[1].desc = cmp.file[0].desc;
++	  else if ((cmp.file[1].desc = open (cmp.file[1].name, oflags, 0)) < 0)
++	    {
++	      perror_with_name (cmp.file[1].name);
++	      status = EXIT_TROUBLE;
++	    }
++	}
++
++      /* Compare the files, if no error was found.  */
++
++      if (status == EXIT_SUCCESS)
++	status = diff_2_files (&cmp);
++
++      /* Close the file descriptors.  */
++
++      if (0 <= cmp.file[0].desc && close (cmp.file[0].desc) != 0)
++	{
++	  perror_with_name (cmp.file[0].name);
++	  status = EXIT_TROUBLE;
++	}
++      if (0 <= cmp.file[1].desc && cmp.file[0].desc != cmp.file[1].desc
++	  && close (cmp.file[1].desc) != 0)
++	{
++	  perror_with_name (cmp.file[1].name);
++	  status = EXIT_TROUBLE;
++	}
++    }
++
++  /* Now the comparison has been done, if no error prevented it,
++     and STATUS is the value this function will return.  */
++
++  if (status == EXIT_SUCCESS)
++    {
++      if (report_identical_files && !DIR_P (0))
++	message ("Files %s and %s are identical\n",
++		 file_label[0] ? file_label[0] : cmp.file[0].name,
++		 file_label[1] ? file_label[1] : cmp.file[1].name);
++    }
++  else
++    {
++      /* Flush stdout so that the user sees differences immediately.
++	 This can hurt performance, unfortunately.  */
++      if (fflush (stdout) != 0)
++	pfatal_with_name (_("standard output"));
++    }
++
++  free (free0);
++  free (free1);
++
++  return status;
++}
+diff --git a/src/diff.c.rej b/src/diff.c.rej
+new file mode 100644
+index 0000000..1bc942c
+--- /dev/null
++++ b/src/diff.c.rej
+@@ -0,0 +1,141 @@
++--- src/diff.c
+++++ src/diff.c
++@@ -57,9 +57,9 @@
++ struct regexp_list
++ {
++   char *regexps;	/* chars representing disjunction of the regexps */
++-  size_t len;		/* chars used in `regexps' */
++-  size_t size;		/* size malloc'ed for `regexps'; 0 if not malloc'ed */
++-  bool multiple_regexps;/* Does `regexps' represent a disjunction?  */
+++  size_t len;		/* chars used in 'regexps' */
+++  size_t size;		/* size malloc'ed for 'regexps'; 0 if not malloc'ed */
+++  bool multiple_regexps;/* Does 'regexps' represent a disjunction?  */
++   struct re_pattern_buffer *buf;
++ };
++ 
++@@ -92,13 +92,13 @@
++ 
++ /* When comparing directories, if a file appears only in one
++    directory, treat it as present but empty in the other (-N).
++-   Then `patch' would create the file with appropriate contents.  */
+++   Then 'patch' would create the file with appropriate contents.  */
++ static bool new_file;
++ 
++ /* When comparing directories, if a file appears only in the second
++    directory of the two, treat it as present but empty in the other
++    (--unidirectional-new-file).
++-   Then `patch' would create the file with appropriate contents.  */
+++   Then 'patch' would create the file with appropriate contents.  */
++ static bool unidirectional_new_file;
++ 
++ /* Report files compared that are the same (-s).
++@@ -330,7 +330,7 @@
++ 	      {
++ 		numval = strtoumax (optarg, &numend, 10);
++ 		if (*numend)
++-		  try_help ("invalid context length `%s'", optarg);
+++		  try_help ("invalid context length '%s'", optarg);
++ 		if (LIN_MAX < numval)
++ 		  numval = LIN_MAX;
++ 	      }
++@@ -505,7 +505,7 @@
++ 	case 'W':
++ 	  numval = strtoumax (optarg, &numend, 10);
++ 	  if (! (0 < numval && numval <= SIZE_MAX) || *numend)
++-	    try_help ("invalid width `%s'", optarg);
+++	    try_help ("invalid width '%s'", optarg);
++ 	  if (width != numval)
++ 	    {
++ 	      if (width)
++@@ -534,7 +534,7 @@
++ 	case HORIZON_LINES_OPTION:
++ 	  numval = strtoumax (optarg, &numend, 10);
++ 	  if (*numend)
++-	    try_help ("invalid horizon length `%s'", optarg);
+++	    try_help ("invalid horizon length '%s'", optarg);
++ 	  horizon_lines = MAX (horizon_lines, MIN (numval, LIN_MAX));
++ 	  break;
++ 
++@@ -585,7 +585,7 @@
++ 	case TABSIZE_OPTION:
++ 	  numval = strtoumax (optarg, &numend, 10);
++ 	  if (! (0 < numval && numval <= SIZE_MAX) || *numend)
++-	    try_help ("invalid tabsize `%s'", optarg);
+++	    try_help ("invalid tabsize '%s'", optarg);
++ 	  if (tabsize != numval)
++ 	    {
++ 	      if (tabsize)
++@@ -744,9 +744,9 @@
++ 	  if (argc - optind != 2)
++ 	    {
++ 	      if (argc - optind < 2)
++-		try_help ("missing operand after `%s'", argv[argc - 1]);
+++		try_help ("missing operand after '%s'", argv[argc - 1]);
++ 	      else
++-		try_help ("extra operand `%s'", argv[optind + 2]);
+++		try_help ("extra operand '%s'", argv[optind + 2]);
++ 	    }
++ 
++ 	  exit_status = compare_files (NULL, argv[optind], argv[optind + 1]);
++@@ -826,7 +826,7 @@
++ {
++   if (reason_msgid)
++     error (0, 0, _(reason_msgid), operand);
++-  error (EXIT_TROUBLE, 0, _("Try `%s --help' for more information."),
+++  error (EXIT_TROUBLE, 0, _("Try '%s --help' for more information."),
++ 	 program_name);
++   abort ();
++ }
++@@ -870,11 +870,11 @@
++   -W NUM  --width=NUM  Output at most NUM (default 130) print columns.\n\
++   --left-column  Output only the left column of common lines.\n\
++   --suppress-common-lines  Do not output common lines."),
++-  N_("-D NAME  --ifdef=NAME  Output merged file to show `#ifdef NAME' diffs."),
+++  N_("-D NAME  --ifdef=NAME  Output merged file to show '#ifdef NAME' diffs."),
++   N_("--GTYPE-group-format=GFMT  Similar, but format GTYPE input groups with GFMT."),
++   N_("--line-format=LFMT  Similar, but format all input lines with LFMT."),
++   N_("--LTYPE-line-format=LFMT  Similar, but format LTYPE input lines with LFMT."),
++-  N_("  LTYPE is `old', `new', or `unchanged'.  GTYPE is LTYPE or `changed'."),
+++  N_("  LTYPE is 'old', 'new', or 'unchanged'.  GTYPE is LTYPE or 'changed'."),
++   N_("  GFMT may contain:\n\
++     %<  lines from FILE1\n\
++     %>  lines from FILE2\n\
++@@ -895,7 +895,7 @@
++     %c'C'  the single character C\n\
++     %c'\\OOO'  the character with octal code OOO"),
++   "",
++-  N_("-l  --paginate  Pass the output through `pr' to paginate it."),
+++  N_("-l  --paginate  Pass the output through 'pr' to paginate it."),
++   N_("-t  --expand-tabs  Expand tabs to spaces in output."),
++   N_("-T  --initial-tab  Make tabs line up by prepending a tab."),
++   N_("--tabsize=NUM  Tab stops are every NUM (default 8) print columns."),
++@@ -918,9 +918,9 @@
++   N_("-v  --version  Output version info."),
++   N_("--help  Output this help."),
++   "",
++-  N_("FILES are `FILE1 FILE2' or `DIR1 DIR2' or `DIR FILE...' or `FILE... DIR'."),
+++  N_("FILES are 'FILE1 FILE2' or 'DIR1 DIR2' or 'DIR FILE...' or 'FILE... DIR'."),
++   N_("If --from-file or --to-file is given, there are no restrictions on FILES."),
++-  N_("If a FILE is `-', read standard input."),
+++  N_("If a FILE is '-', read standard input."),
++   N_("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."),
++   0
++ };
++@@ -960,7 +960,7 @@
++ {
++   if (*var && strcmp (*var, value) != 0)
++     {
++-      error (0, 0, _("conflicting %s option value `%s'"), option, value);
+++      error (0, 0, _("conflicting %s option value '%s'"), option, value);
++       try_help (NULL, NULL);
++     }
++   *var = value;
++@@ -1159,7 +1159,7 @@
++ 	= dir_file_pathname (dir, last_component (fnm));
++ 
++       if (STREQ (fnm, "-"))
++-	fatal ("cannot compare `-' to a directory");
+++	fatal ("cannot compare '-' to a directory");
++ 
++       if (stat (filename, &cmp.file[dir_arg].stat) != 0)
++ 	{
+diff --git a/src/diff3.c b/src/diff3.c
+index 0f11fdc..5a31f72 100644
+--- a/src/diff3.c
++++ b/src/diff3.c
+@@ -159,7 +159,7 @@ static bool overlap_only;
+ /* If nonzero, show information for DIFF_2ND diffs.  */
+ static bool show_2nd;
+ 
+-/* If nonzero, include `:wq' at the end of the script
++/* If nonzero, include ':wq' at the end of the script
+    to write out the file being edited.   */
+ static bool finalwrite;
+ 
+@@ -316,9 +316,9 @@ main (int argc, char **argv)
+   if (argc - optind != 3)
+     {
+       if (argc - optind < 3)
+-	try_help ("missing operand after `%s'", argv[argc - 1]);
++	try_help ("missing operand after '%s'", argv[argc - 1]);
+       else
+-	try_help ("extra operand `%s'", argv[optind + 3]);
++	try_help ("extra operand '%s'", argv[optind + 3]);
+     }
+ 
+   file = &argv[optind];
+@@ -351,7 +351,7 @@ main (int argc, char **argv)
+ 	 file instead.  */
+       common = 3 - common;
+       if (STREQ (file[0], "-") || STREQ (file[common], "-"))
+-	fatal ("`-' specified for more than one input file");
++	fatal ("'-' specified for more than one input file");
+     }
+ 
+   mapping[0] = 0;
+@@ -412,7 +412,7 @@ try_help (char const *reason_msgid, char const *operand)
+   if (reason_msgid)
+     error (0, 0, _(reason_msgid), operand);
+   error (EXIT_TROUBLE, 0,
+-	 _("Try `%s --help' for more information."), program_name);
++	 _("Try '%s --help' for more information."), program_name);
+   abort ();
+ }
+ 
+@@ -435,7 +435,7 @@ static char const * const option_help_msgid[] = {
+   "",
+   N_("-m  --merge  Output merged file instead of ed script (default -A)."),
+   N_("-L LABEL  --label=LABEL  Use LABEL instead of file name."),
+-  N_("-i  Append `w' and `q' commands to ed scripts."),
++  N_("-i  Append 'w' and 'q' commands to ed scripts."),
+   N_("-a  --text  Treat all files as text."),
+   N_("--strip-trailing-cr  Strip trailing carriage return on input."),
+   N_("-T  --initial-tab  Make tabs line up by prepending a tab."),
+@@ -460,7 +460,7 @@ usage (void)
+     else
+       putchar ('\n');
+   printf ("\n%s\n%s\n",
+-	  _("If a FILE is `-', read standard input."),
++	  _("If a FILE is '-', read standard input."),
+ 	  _("Exit status is 0 if successful, 1 if conflicts, 2 if trouble."));
+   emit_bug_reporting_address ();
+ }
+@@ -1275,12 +1275,12 @@ read_diff (char const *filea,
+   if (EXIT_TROUBLE <= status)
+     error (EXIT_TROUBLE, werrno,
+ 	   _(status == 126
+-	     ? "subsidiary program `%s' could not be invoked"
++	     ? "subsidiary program '%s' could not be invoked"
+ 	     : status == 127
+-	     ? "subsidiary program `%s' not found"
++	     ? "subsidiary program '%s' not found"
+ 	     : status == INT_MAX
+-	     ? "subsidiary program `%s' failed"
+-	     : "subsidiary program `%s' failed (exit status %d)"),
++	     ? "subsidiary program '%s' failed"
++	     : "subsidiary program '%s' failed (exit status %d)"),
+ 	   diff_program, status);
+ 
+   return diff_result + total;
+@@ -1475,7 +1475,7 @@ undotlines (FILE *outputfile, bool leading_dot, long int start, lin num)
+    around the problems involved with changing line numbers in an ed
+    script.
+ 
+-   As in `output_diff3', the variable MAPPING maps from file number
++   As in 'output_diff3', the variable MAPPING maps from file number
+    according to the argument list to file number according to the diff
+    passed.  All files listed below are in terms of the argument list.
+    REV_MAPPING is the inverse of MAPPING.
+diff --git a/src/diff3.c.rej b/src/diff3.c.rej
+new file mode 100644
+index 0000000..d85b3b4
+--- /dev/null
++++ b/src/diff3.c.rej
+@@ -0,0 +1,85 @@
++--- src/diff3.c
+++++ src/diff3.c
++@@ -159,7 +159,7 @@
++ /* If nonzero, show information for DIFF_2ND diffs.  */
++ static bool show_2nd;
++ 
++-/* If nonzero, include `:wq' at the end of the script
+++/* If nonzero, include ':wq' at the end of the script
++    to write out the file being edited.   */
++ static bool finalwrite;
++ 
++@@ -316,9 +316,9 @@
++   if (argc - optind != 3)
++     {
++       if (argc - optind < 3)
++-	try_help ("missing operand after `%s'", argv[argc - 1]);
+++	try_help ("missing operand after '%s'", argv[argc - 1]);
++       else
++-	try_help ("extra operand `%s'", argv[optind + 3]);
+++	try_help ("extra operand '%s'", argv[optind + 3]);
++     }
++ 
++   file = &argv[optind];
++@@ -351,7 +351,7 @@
++ 	 file instead.  */
++       common = 3 - common;
++       if (STREQ (file[0], "-") || STREQ (file[common], "-"))
++-	fatal ("`-' specified for more than one input file");
+++	fatal ("'-' specified for more than one input file");
++     }
++ 
++   mapping[0] = 0;
++@@ -412,7 +412,7 @@
++   if (reason_msgid)
++     error (0, 0, _(reason_msgid), operand);
++   error (EXIT_TROUBLE, 0,
++-	 _("Try `%s --help' for more information."), program_name);
+++	 _("Try '%s --help' for more information."), program_name);
++   abort ();
++ }
++ 
++@@ -435,7 +435,7 @@
++   "",
++   N_("-m  --merge  Output merged file instead of ed script (default -A)."),
++   N_("-L LABEL  --label=LABEL  Use LABEL instead of file name."),
++-  N_("-i  Append `w' and `q' commands to ed scripts."),
+++  N_("-i  Append 'w' and 'q' commands to ed scripts."),
++   N_("-a  --text  Treat all files as text."),
++   N_("--strip-trailing-cr  Strip trailing carriage return on input."),
++   N_("-T  --initial-tab  Make tabs line up by prepending a tab."),
++@@ -460,7 +460,7 @@
++     else
++       putchar ('\n');
++   printf ("\n%s\n%s\n",
++-	  _("If a FILE is `-', read standard input."),
+++	  _("If a FILE is '-', read standard input."),
++ 	  _("Exit status is 0 if successful, 1 if conflicts, 2 if trouble."));
++   emit_bug_reporting_address ();
++ }
++@@ -1275,12 +1275,12 @@
++   if (EXIT_TROUBLE <= status)
++     error (EXIT_TROUBLE, werrno,
++ 	   _(status == 126
++-	     ? "subsidiary program `%s' could not be invoked"
+++	     ? "subsidiary program '%s' could not be invoked"
++ 	     : status == 127
++-	     ? "subsidiary program `%s' not found"
+++	     ? "subsidiary program '%s' not found"
++ 	     : status == INT_MAX
++-	     ? "subsidiary program `%s' failed"
++-	     : "subsidiary program `%s' failed (exit status %d)"),
+++	     ? "subsidiary program '%s' failed"
+++	     : "subsidiary program '%s' failed (exit status %d)"),
++ 	   diff_program, status);
++ 
++   return diff_result + total;
++@@ -1475,7 +1475,7 @@
++    around the problems involved with changing line numbers in an ed
++    script.
++ 
++-   As in `output_diff3', the variable MAPPING maps from file number
+++   As in 'output_diff3', the variable MAPPING maps from file number
++    according to the argument list to file number according to the diff
++    passed.  All files listed below are in terms of the argument list.
++    REV_MAPPING is the inverse of MAPPING.
+diff --git a/src/dir.c b/src/dir.c
+index 5b4eaec..1bb374f 100644
+--- a/src/dir.c
++++ b/src/dir.c
+@@ -125,7 +125,7 @@ dir_read (struct file_data const *dir, struct dirdata *dirdata)
+ #endif
+     }
+ 
+-  /* Create the `names' table from the `data' table.  */
++  /* Create the 'names' table from the 'data' table.  */
+   if (PTRDIFF_MAX / sizeof *names - 1 <= nnames)
+     xalloc_die ();
+   dirdata->names = names = xmalloc ((nnames + 1) * sizeof *names);
+@@ -154,7 +154,7 @@ compare_names (char const *name1, char const *name2)
+ 	r = strcoll (name1, name2);
+       if (errno)
+ 	{
+-	  error (0, errno, _("cannot compare file names `%s' and `%s'"),
++	  error (0, errno, _("cannot compare file names '%s' and '%s'"),
+ 		 name1, name2);
+ 	  longjmp (failed_locale_specific_sorting, 1);
+ 	}
+@@ -234,7 +234,7 @@ diff_dirs (struct comparison const *cmp,
+ 	qsort (names[i], dirdata[i].nnames, sizeof *dirdata[i].names,
+ 	       compare_names_for_qsort);
+ 
+-      /* If `-S name' was given, and this is the topmost level of comparison,
++      /* If '-S name' was given, and this is the topmost level of comparison,
+ 	 ignore all file names less than the specified starting name.  */
+ 
+       if (starting_file && ! cmp->parent)
+diff --git a/src/dir.c.rej b/src/dir.c.rej
+new file mode 100644
+index 0000000..d8321d4
+--- /dev/null
++++ b/src/dir.c.rej
+@@ -0,0 +1,29 @@
++--- src/dir.c
+++++ src/dir.c
++@@ -125,7 +125,7 @@
++ #endif
++     }
++ 
++-  /* Create the `names' table from the `data' table.  */
+++  /* Create the 'names' table from the 'data' table.  */
++   if (PTRDIFF_MAX / sizeof *names - 1 <= nnames)
++     xalloc_die ();
++   dirdata->names = names = xmalloc ((nnames + 1) * sizeof *names);
++@@ -154,7 +154,7 @@
++ 	r = strcoll (name1, name2);
++       if (errno)
++ 	{
++-	  error (0, errno, _("cannot compare file names `%s' and `%s'"),
+++	  error (0, errno, _("cannot compare file names '%s' and '%s'"),
++ 		 name1, name2);
++ 	  longjmp (failed_locale_specific_sorting, 1);
++ 	}
++@@ -234,7 +234,7 @@
++ 	qsort (names[i], dirdata[i].nnames, sizeof *dirdata[i].names,
++ 	       compare_names_for_qsort);
++ 
++-      /* If `-S name' was given, and this is the topmost level of comparison,
+++      /* If '-S name' was given, and this is the topmost level of comparison,
++ 	 ignore all file names less than the specified starting name.  */
++ 
++       if (starting_file && ! cmp->parent)
+diff --git a/src/sdiff.c b/src/sdiff.c
+index 4344e8d..fb15fbe 100644
+--- a/src/sdiff.c
++++ b/src/sdiff.c
+@@ -92,7 +92,7 @@ static int const sigs[] = {
+ };
+ 
+ #if HAVE_SIGACTION
+-  /* Prefer `sigaction' if available, since `signal' can lose signals.  */
++  /* Prefer 'sigaction' if available, since 'signal' can lose signals.  */
+   static struct sigaction initial_action[NUM_SIGS];
+ # define initial_handler(i) (initial_action[i].sa_handler)
+   static void signal_handler (int, void (*) (int));
+@@ -175,7 +175,7 @@ try_help (char const *reason_msgid, char const *operand)
+ {
+   if (reason_msgid)
+     error (0, 0, _(reason_msgid), operand);
+-  error (EXIT_TROUBLE, 0, _("Try `%s --help' for more information."),
++  error (EXIT_TROUBLE, 0, _("Try '%s --help' for more information."),
+ 	 program_name);
+   abort ();
+ }
+@@ -230,7 +230,7 @@ usage (void)
+     else
+       putchar ('\n');
+   printf ("\n%s\n%s\n",
+-	  _("If a FILE is `-', read standard input."),
++	  _("If a FILE is '-', read standard input."),
+ 	  _("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."));
+   emit_bug_reporting_address ();
+ }
+@@ -286,12 +286,12 @@ check_child_status (int werrno, int wstatus, int max_ok_status,
+     {
+       error (0, werrno,
+ 	     _(status == 126
+-	       ? "subsidiary program `%s' could not be invoked"
++	       ? "subsidiary program '%s' could not be invoked"
+ 	       : status == 127
+-	       ? "subsidiary program `%s' not found"
++	       ? "subsidiary program '%s' not found"
+ 	       : status == INT_MAX
+-	       ? "subsidiary program `%s' failed"
+-	       : "subsidiary program `%s' failed (exit status %d)"),
++	       ? "subsidiary program '%s' failed"
++	       : "subsidiary program '%s' failed (exit status %d)"),
+ 	     subsidiary_program, status);
+       exiterr ();
+     }
+@@ -572,9 +572,9 @@ main (int argc, char *argv[])
+   if (argc - optind != 2)
+     {
+       if (argc - optind < 2)
+-	try_help ("missing operand after `%s'", argv[argc - 1]);
++	try_help ("missing operand after '%s'", argv[argc - 1]);
+       else
+-	try_help ("extra operand `%s'", argv[optind + 2]);
++	try_help ("extra operand '%s'", argv[optind + 2]);
+     }
+ 
+   if (! output)
+@@ -747,7 +747,7 @@ main (int argc, char *argv[])
+ 	exit (WEXITSTATUS (wstatus));
+       }
+     }
+-  return EXIT_SUCCESS;			/* Fool `-Wall'.  */
++  return EXIT_SUCCESS;			/* Fool '-Wall'.  */
+ }
+ 
+ static void
+diff --git a/src/sdiff.c.rej b/src/sdiff.c.rej
+new file mode 100644
+index 0000000..cce923e
+--- /dev/null
++++ b/src/sdiff.c.rej
+@@ -0,0 +1,67 @@
++--- src/sdiff.c
+++++ src/sdiff.c
++@@ -92,7 +92,7 @@
++ };
++ 
++ #if HAVE_SIGACTION
++-  /* Prefer `sigaction' if available, since `signal' can lose signals.  */
+++  /* Prefer 'sigaction' if available, since 'signal' can lose signals.  */
++   static struct sigaction initial_action[NUM_SIGS];
++ # define initial_handler(i) (initial_action[i].sa_handler)
++   static void signal_handler (int, void (*) (int));
++@@ -175,7 +175,7 @@
++ {
++   if (reason_msgid)
++     error (0, 0, _(reason_msgid), operand);
++-  error (EXIT_TROUBLE, 0, _("Try `%s --help' for more information."),
+++  error (EXIT_TROUBLE, 0, _("Try '%s --help' for more information."),
++ 	 program_name);
++   abort ();
++ }
++@@ -230,7 +230,7 @@
++     else
++       putchar ('\n');
++   printf ("\n%s\n%s\n",
++-	  _("If a FILE is `-', read standard input."),
+++	  _("If a FILE is '-', read standard input."),
++ 	  _("Exit status is 0 if inputs are the same, 1 if different, 2 if trouble."));
++   emit_bug_reporting_address ();
++ }
++@@ -286,12 +286,12 @@
++     {
++       error (0, werrno,
++ 	     _(status == 126
++-	       ? "subsidiary program `%s' could not be invoked"
+++	       ? "subsidiary program '%s' could not be invoked"
++ 	       : status == 127
++-	       ? "subsidiary program `%s' not found"
+++	       ? "subsidiary program '%s' not found"
++ 	       : status == INT_MAX
++-	       ? "subsidiary program `%s' failed"
++-	       : "subsidiary program `%s' failed (exit status %d)"),
+++	       ? "subsidiary program '%s' failed"
+++	       : "subsidiary program '%s' failed (exit status %d)"),
++ 	     subsidiary_program, status);
++       exiterr ();
++     }
++@@ -572,9 +572,9 @@
++   if (argc - optind != 2)
++     {
++       if (argc - optind < 2)
++-	try_help ("missing operand after `%s'", argv[argc - 1]);
+++	try_help ("missing operand after '%s'", argv[argc - 1]);
++       else
++-	try_help ("extra operand `%s'", argv[optind + 2]);
+++	try_help ("extra operand '%s'", argv[optind + 2]);
++     }
++ 
++   if (! output)
++@@ -747,7 +747,7 @@
++ 	exit (WEXITSTATUS (wstatus));
++       }
++     }
++-  return EXIT_SUCCESS;			/* Fool `-Wall'.  */
+++  return EXIT_SUCCESS;			/* Fool '-Wall'.  */
++ }
++ 
++ static void
+diff --git a/src/side.c b/src/side.c
+index 6aa96a9..64f95d0 100644
+--- a/src/side.c
++++ b/src/side.c
+@@ -292,7 +292,7 @@ print_sdiff_hunk (struct change *hunk)
+       fprintf (outfile, "c%ld,%ld\n", len0, len1);
+     }
+ 
+-  /* Print ``xxx  |  xxx '' lines */
++  /* Print "xxx  |  xxx " lines.  */
+   if (changes == CHANGED)
+     {
+       for (i = first0, j = first1;  i <= last0 && j <= last1;  i++, j++)
+@@ -302,7 +302,7 @@ print_sdiff_hunk (struct change *hunk)
+       next1 = first1 = j;
+     }
+ 
+-  /* Print ``     >  xxx '' lines */
++  /* Print "     >  xxx " lines.  */
+   if (changes & NEW)
+     {
+       for (j = first1; j <= last1; ++j)
+@@ -310,7 +310,7 @@ print_sdiff_hunk (struct change *hunk)
+       next1 = j;
+     }
+ 
+-  /* Print ``xxx  <     '' lines */
++  /* Print "xxx  <     " lines.  */
+   if (changes & OLD)
+     {
+       for (i = first0; i <= last0; ++i)
+diff --git a/src/side.c.rej b/src/side.c.rej
+new file mode 100644
+index 0000000..abd45d1
+--- /dev/null
++++ b/src/side.c.rej
+@@ -0,0 +1,29 @@
++--- src/side.c
+++++ src/side.c
++@@ -292,7 +292,7 @@
++       fprintf (outfile, "c%ld,%ld\n", len0, len1);
++     }
++ 
++-  /* Print ``xxx  |  xxx '' lines */
+++  /* Print "xxx  |  xxx " lines.  */
++   if (changes == CHANGED)
++     {
++       for (i = first0, j = first1;  i <= last0 && j <= last1;  i++, j++)
++@@ -302,7 +302,7 @@
++       next1 = first1 = j;
++     }
++ 
++-  /* Print ``     >  xxx '' lines */
+++  /* Print "     >  xxx " lines.  */
++   if (changes & NEW)
++     {
++       for (j = first1; j <= last1; ++j)
++@@ -310,7 +310,7 @@
++       next1 = j;
++     }
++ 
++-  /* Print ``xxx  <     '' lines */
+++  /* Print "xxx  <     " lines.  */
++   if (changes & OLD)
++     {
++       for (i = first0; i <= last0; ++i)
+diff --git a/src/util.c b/src/util.c
+index 3be03e9..b645c5b 100644
+--- a/src/util.c
++++ b/src/util.c
+@@ -121,7 +121,7 @@ message5 (char const *format_msgid, char const *arg1, char const *arg2,
+     }
+ }
+ 
+-/* Output all the messages that were saved up by calls to `message'.  */
++/* Output all the messages that were saved up by calls to 'message'.  */
+ 
+ void
+ print_message_queue (void)
+@@ -146,8 +146,8 @@ print_message_queue (void)
+    to set up OUTFILE, the stdio stream for the output to go to.
+ 
+    Usually, OUTFILE is just stdout.  But when -l was specified
+-   we fork off a `pr' and make OUTFILE a pipe to it.
+-   `pr' then outputs to our stdout.  */
++   we fork off a 'pr' and make OUTFILE a pipe to it.
++   'pr' then outputs to our stdout.  */
+ 
+ static char const *current_name0;
+ static char const *current_name1;
+@@ -190,7 +190,7 @@ begin_output (void)
+       if (fflush (stdout) != 0)
+ 	pfatal_with_name (_("write failed"));
+ 
+-      /* Make OUTFILE a pipe to a subsidiary `pr'.  */
++      /* Make OUTFILE a pipe to a subsidiary 'pr'.  */
+       {
+ #if HAVE_WORKING_FORK || HAVE_WORKING_VFORK
+ 	int pipes[2];
+@@ -241,7 +241,7 @@ begin_output (void)
+   else
+     {
+ 
+-      /* If -l was not specified, output the diff straight to `stdout'.  */
++      /* If -l was not specified, output the diff straight to 'stdout'.  */
+ 
+       outfile = stdout;
+ 
+@@ -270,7 +270,7 @@ begin_output (void)
+ }
+ 
+ /* Call after the end of output of diffs for one file.
+-   Close OUTFILE and get rid of the `pr' subfork.  */
++   Close OUTFILE and get rid of the 'pr' subfork.  */
+ 
+ void
+ finish_output (void)
+@@ -298,12 +298,12 @@ finish_output (void)
+       if (status)
+ 	error (EXIT_TROUBLE, werrno,
+ 	       _(status == 126
+-		 ? "subsidiary program `%s' could not be invoked"
++		 ? "subsidiary program '%s' could not be invoked"
+ 		 : status == 127
+-		 ? "subsidiary program `%s' not found"
++		 ? "subsidiary program '%s' not found"
+ 		 : status == INT_MAX
+-		 ? "subsidiary program `%s' failed"
+-		 : "subsidiary program `%s' failed (exit status %d)"),
++		 ? "subsidiary program '%s' failed"
++		 : "subsidiary program '%s' failed (exit status %d)"),
+ 	       pr_program, status);
+     }
+ 
+@@ -650,7 +650,7 @@ print_number_range (char sepchar, struct file_data *file, lin a, lin b)
+ 
+ /* Look at a hunk of edit script and report the range of lines in each file
+    that it applies to.  HUNK is the start of the hunk, which is a chain
+-   of `struct change'.  The first and last line numbers of file 0 are stored in
++   of 'struct change'.  The first and last line numbers of file 0 are stored in
+    *FIRST0 and *LAST0, and likewise for file 1 in *FIRST1 and *LAST1.
+    Note that these are internal line numbers that count from 0.
+ 
+diff --git a/src/util.c.rej b/src/util.c.rej
+new file mode 100644
+index 0000000..b3b1047
+--- /dev/null
++++ b/src/util.c.rej
+@@ -0,0 +1,75 @@
++--- src/util.c
+++++ src/util.c
++@@ -121,7 +121,7 @@
++     }
++ }
++ 
++-/* Output all the messages that were saved up by calls to `message'.  */
+++/* Output all the messages that were saved up by calls to 'message'.  */
++ 
++ void
++ print_message_queue (void)
++@@ -146,8 +146,8 @@
++    to set up OUTFILE, the stdio stream for the output to go to.
++ 
++    Usually, OUTFILE is just stdout.  But when -l was specified
++-   we fork off a `pr' and make OUTFILE a pipe to it.
++-   `pr' then outputs to our stdout.  */
+++   we fork off a 'pr' and make OUTFILE a pipe to it.
+++   'pr' then outputs to our stdout.  */
++ 
++ static char const *current_name0;
++ static char const *current_name1;
++@@ -190,7 +190,7 @@
++       if (fflush (stdout) != 0)
++ 	pfatal_with_name (_("write failed"));
++ 
++-      /* Make OUTFILE a pipe to a subsidiary `pr'.  */
+++      /* Make OUTFILE a pipe to a subsidiary 'pr'.  */
++       {
++ #if HAVE_WORKING_FORK || HAVE_WORKING_VFORK
++ 	int pipes[2];
++@@ -241,7 +241,7 @@
++   else
++     {
++ 
++-      /* If -l was not specified, output the diff straight to `stdout'.  */
+++      /* If -l was not specified, output the diff straight to 'stdout'.  */
++ 
++       outfile = stdout;
++ 
++@@ -270,7 +270,7 @@
++ }
++ 
++ /* Call after the end of output of diffs for one file.
++-   Close OUTFILE and get rid of the `pr' subfork.  */
+++   Close OUTFILE and get rid of the 'pr' subfork.  */
++ 
++ void
++ finish_output (void)
++@@ -298,12 +298,12 @@
++       if (status)
++ 	error (EXIT_TROUBLE, werrno,
++ 	       _(status == 126
++-		 ? "subsidiary program `%s' could not be invoked"
+++		 ? "subsidiary program '%s' could not be invoked"
++ 		 : status == 127
++-		 ? "subsidiary program `%s' not found"
+++		 ? "subsidiary program '%s' not found"
++ 		 : status == INT_MAX
++-		 ? "subsidiary program `%s' failed"
++-		 : "subsidiary program `%s' failed (exit status %d)"),
+++		 ? "subsidiary program '%s' failed"
+++		 : "subsidiary program '%s' failed (exit status %d)"),
++ 	       pr_program, status);
++     }
++ 
++@@ -650,7 +650,7 @@
++ 
++ /* Look at a hunk of edit script and report the range of lines in each file
++    that it applies to.  HUNK is the start of the hunk, which is a chain
++-   of `struct change'.  The first and last line numbers of file 0 are stored in
+++   of 'struct change'.  The first and last line numbers of file 0 are stored in
++    *FIRST0 and *LAST0, and likewise for file 1 in *FIRST1 and *LAST1.
++    Note that these are internal line numbers that count from 0.
++ 
+-- 
+1.7.1
+

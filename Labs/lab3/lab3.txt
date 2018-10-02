@@ -1,0 +1,97 @@
+Virgil Jose
+CS35L (Lab 6)
+19 Oct 2017
+Lab Assignment 3
+
+--------------------------------------------------------------------------------
+(1) CONFIGURING AND INSTALLING COREUTILS
+
+I used the link on the assignment webpage to download Coreutils 7.6. 
+
+I used the command "scp Downloads/coreutils-7.6.tar.gz 
+virgil@lnxsrv07.seas.ucla.edu:~/CS35L/lab3temp" 
+to copy the tar archive into the linux server.
+
+I used the command "ssh virgil@lnxsrv07.seas.ucla.edu", typed my password,
+and then used the command "cd CS35L/lab3temp" to go to the directory where the
+tar archive is located.
+
+I used the command "tar -xzf coreutils-7.6.tar.gz" to extract the tar archive.
+This created a folder called coreutils-7.6.
+
+I used the command "cd coreutils-7.6" to get to the directory.
+
+In that directory, I used 
+"/configure --prefix=/u/cs/ugrad/virgil/CS35L/lab3temp/coreutils" 
+to configure Coreutils 7.6, and then "make install" to install it.
+
+(I tried simply using ./configure which resulted in the installation failing in
+the following step. I checked on piazza and found out that I had to use the
+prefix flag after ./configure).
+
+--------------------------------------------------------------------------------
+(2) REPRODUCING THE BUG
+
+I used the command "export LC_ALL='en_US.UTF-8'" to export the locale.
+
+I then used the command "cd ~/CS/CS35L/lab3temp/coreutils/bin". For some reason,
+installing the file created a new directory named 'CS' and new CS35L and
+lab3temp subdirectories within CS. I tried simply using "cd ../coreutils/bin"
+and that directory apparently does not exist.
+
+Using the commmand "./ls -l /bin/bash" results in the terminal displaying the
+incorrect format:
+
+-rwxr-xr-x 1 root root 960376 2015-07-08 04:11 /bin/bash
+
+--------------------------------------------------------------------------------
+(3) APPLYING BRADY'S PATCH TO FIX THE BUG
+
+First I used "cd ~/CS35L/lab3temp/coreutils-7.6/" to go to the directory where 
+the Coreutils files are located.
+
+I used "emacs bradypatch.diff", and within the emacs buffer, I pasted the patch
+from the website provided in the assignment page to patch coreutils.
+
+I then used "patch -p1 < bradypatch.diff" and then "make" to patch Coreutils.
+(The first try, I used the -p0 flag which did not work).
+
+RECENT VERSIONS:
+
+Now, we have two versions of coreutils - the buggy version located at:
+~/CS/CS35L/lab3temp/coreutils/bin/ls -l
+
+and the patched version located at:
+cd ~/CS35L/lab3temp/coreutils-7.6/
+(i.e. the current directory).
+
+I ran the command:
+~/CS/CS35L/lab3temp/coreutils/bin/ls -l
+
+and got results in the following format (the buggy format):
+-rwxr-xr-x 1 virgil csugrad 127256 2017-10-23 19:30
+
+I compared that with the results of runnning the command:
+~/CS35L/lab3temp/coreutils-7.6/src/ls -l
+
+which resulted in results in the traditional UNIX format:
+-rwxr-xr-x 1 virgil csugrad 127256 Oct 23 19:30
+
+"OLD" VERSIONS:
+
+First we create some random old file by using the command:
+touch -t 0001010001  randomoldfile
+
+Then I ran the buggy version of coreutils:
+~/CS/CS35L/lab3temp/coreutils/bin/ls -l ./randomoldfile
+
+And got the result:
+-rw-r--r-- 1 virgil csugrad 0 2000-01-01 00:01 ./randomoldfile
+
+I also ran the patched version of coreutils on the old file:
+./coreutils-7.6/src/ls -l ./randomoldfile
+
+And got the result:
+-rw-r--r-- 1 virgil csugrad 0 Jan  1  2000 ./randomoldfile
+
+--------------------------------------------------------------------------------

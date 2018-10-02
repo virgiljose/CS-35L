@@ -1,0 +1,117 @@
+Virgil Jose
+Lab Assignment 6
+CS35L - Section 6
+12 Nov 2017
+
+----------------------------------------------------------------------------------------------------
+(1) CHECKING GNU sort VERSION
+
+I ran "sort --version" to check whether I had the new-enough version of GNU sort; that is, one that
+can use multiple threads to improve performance.
+
+The terminal outputted:
+sort (GNU coreutils) 8.22
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+So I used the command "export PATH=/usr/local/cs/bin:$PATH", as this is where the current version of
+GNU sort is installed on the SEASnet Linux servers.
+
+I tried "sort --version" again and got the output:
+sort (GNU coreutils) 8.28
+Copyright (C) 2017 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+----------------------------------------------------------------------------------------------------
+(2) CREATING FILE TO TEST SORT ON
+
+I ran the command:
+"od -t f -N 10000000 < /dev/urandom > testlab6"
+
+This created a file containing 10,000,000 random single-recision floating point numbers, in textual
+form, one per line with no white space, in accordance to the instructions on the assignment webpage.
+I took standard input from /dev/urandom and then outputted to a file called testlab6.
+
+The file currently has this format (I checked by running the command "cat testlab6"):
+5407120  2.7563994922679716e+132   1.920820907908201e+213
+5407140     8.9264092942097e+101  -2.7413034684990367e-05
+5407160   6.849260663251584e+248   8.999687690644591e-135
+5407200   9.185111811251817e-208   3.223693321558456e+279
+5407220   6.810511638650953e+264 -1.1414308438576611e+126
+
+--------------------
+
+We want to put each floating-point number on a separate line, without any white space. To do so, I
+ran the following commands:
+
+-----
+
+"sed -i -r 's/\S+//1' testlab6"
+
+This removed the first column (the byte numbers), which we do not need. The file now has this
+format:
+  -2.620563177448088e+107   1.0047452232027256e+68
+  -1.4162997399884017e+60    3.984551377921314e-84
+   4.864388176664507e-131    8.958695035651242e+72
+
+-----
+
+"tr [' '] ['\n'] < testlab6 > testlab6b"
+
+
+This put all the numbers in one column. However we have extra newlines. The file now looks like 
+this:
+-3.8593315186934894e+58
+
+-1.9846777190638148e+286
+
+
+5.110393540594582e+240
+
+
+-1.717906217925737e-276
+
+-----
+
+"tr -s ['\n'] < testlab6b > testlab6final"
+
+Now the file is in our desired format:
+-1.1817437076271902e+161
+-2.0348912820871296e+123
+-3.7148541907531234e+153
+6.456249109970495e+267
+2.172213363033676e+217
+
+----------------------------------------------------------------------------------------------------
+(3) TESTING MULTITHREADED sort
+
+I ran the following commands below. Below each command are the results of running that command:
+
+No multithreading: "time -p sort -g testlab6final > /dev/null":
+real 3.88
+user 20.93
+sys 0.07
+
+1 Thread: "time -p sort -g --parallel=1 testlab6final > /dev/null":
+real 18.97
+user 18.93
+sys 0.03
+
+2 Threads: "time -p sort -g --parallel=2 testlab6final > /dev/null":
+real 10.33
+user 19.73
+sys 0.03
+
+4 Threads: "time -p sort -g --parallel=4 testlab6final > /dev/null":
+real 6.08
+user 20.56
+sys 0.05
+
+8 Threads: "time -p sort -g --parallel=8 testlab6final > /dev/null":
+real 3.90
+user 20.90
+sys 0.07

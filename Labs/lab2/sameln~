@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# NOTE: The part of the code that checks for regular files was given by
+# my TA as a hint for the lab.
+
+dir=$1
+RESULT=`ls $dir | sort`
+declare -a ARRAY
+let count=0
+
+for FILE in $RESULT
+do
+    if [ ! -L "$dir/$FILE" ]
+    then
+        if [ -f "$dir/$FILE" ] || [ -r "$dir/$FILE" ]
+	then
+	    echo "$dir/$FILE is a regular file."
+            ARRAY[$count]="$dir/$FILE"
+            let count=count+1
+	fi
+    else
+	echo "$dir/$FILE is NOT a regular file."
+    fi
+done
+
+echo "There are $count regular files."
+
+for (( i=0, j=1; j<$count; i++, j++))
+do
+#    if [ "${ARRAY[$i]}" = "${ARRAY[$j]}" ]
+#    then
+     cmp -s "${ARRAY[$i]}" "${ARRAY[$j]}"
+     if [ $? -eq 0 ]
+     then
+            echo "Duplicate Found"
+	    ln -fP "${ARRAY[$i]}" "${ARRAY[$j]}"
+	    ARRAY[$j]=ARRAY[$i]
+    fi
+done

@@ -1,0 +1,36 @@
+#!/bin/bash
+
+
+# remove the header stuff
+sed '/<!DOCTYPE/,/<\/font><\/td>/d' |
+sed '/<\/table>/,/<\/html>/d' |
+sed '/<td valign="top">/,/<\/font><\/td>/d' |
+
+# remove english words
+sed '/<tr>/,/<\/td>/d' |
+
+# remove html tags
+sed 's/<[^>]*>//g' |
+
+# squeeze blank white spaces (i.e. tab, space) and newlines
+tr -s '[:blank:]' |
+tr -s '[:space:]' |
+
+# treat uppercase and lowercase the same way
+tr '[:upper:]' '[:lower:]' |
+
+# treat ` as '
+tr '\`' "'" |
+
+# replace commas with newlines                                                                                                                                 
+tr , '\n' |
+tr '[:space:]' '\n' |
+
+# remove english words that remain as a result of improper formatting
+sed '/b|c|d|f|g|j|q|r|s|t|v|x|y|z/d' |
+
+sort -u |
+
+#remove remaining empty lines
+sed '/^$/d' |       
+sed '/./!d'

@@ -1,0 +1,170 @@
+Virgil Jose
+CS35L (Lab 6)
+Lab Assignment 4
+--------------------------------------------------------------------------------
+(1) ATTEMPTING TO INSTALL THE COREUTILS PROGRAM AS-IS
+
+I used the command:
+wget http://web.cs.ucla.edu/classes/fall17/cs35L/assign/coreutils.diff
+
+to download the file into the CS35L/lab4 directory, which is where I will be
+doing the work for this lab.
+
+I created a new directory called "coreutilstemp" within my CS35L/lab4
+directory.
+
+I cd'ed into the coreutils-with-bugs directory.
+
+I used the "./configure" command which ran successfully. I then used:
+"make install prefix=/u/cs/ugrad/virgil/CS35L/lab4/coreutilstemp" to try to 
+install the file into the coreutilstemp directory.
+
+In doing so, however, I got these errors:
+
+In file included from utimecmp.c:41:0:
+utimens.h:2:5: error: conflicting types for 'futimens'
+ int futimens (int, char const *, struct timespec const [2]);
+     ^
+In file included from utimecmp.h:25:0,
+                 from utimecmp.c:25:
+/usr/include/sys/stat.h:373:12: note: previous declaration of 'futimens' was here
+ extern int futimens (int __fd, const struct timespec __times[2]) __THROW;
+            ^
+make[3]: *** [utimecmp.o] Error 1
+make[3]: Leaving directory `/w/home.11/cs/ugrad/virgil/CS35L/lab4/coreutils-with-bug/lib'
+make[2]: *** [all] Error 2
+make[2]: Leaving directory `/w/home.11/cs/ugrad/virgil/CS35L/lab4/coreutils-with-bug/lib'
+make[1]: *** [all-recursive] Error 1
+make[1]: Leaving directory `/w/home.11/cs/ugrad/virgil/CS35L/lab4/coreutils-with-bug'
+make: *** [all] Error 2
+
+--------------------------------------------------------------------------------
+(2) PATCHING COREUTILS AND THEN REATTEMPTING TO INSTALL
+
+I used the command:
+wget http://web.cs.ucla.edu/classes/fall17/cs35L/assign/coreutils.diff
+
+which copied the patch into the coreutils-with-bugs directory.
+
+I then used the command:
+"patch -p0 < coreutils.diff
+
+which successfully patched the file:
+patching file lib/utimens.c
+patching file lib/utimens.h
+patching file src/copy.c
+patching file src/tee.c
+patching file src/touch.c
+
+Again, I used the "./configure" and 
+"make install prefix=/u/cs/ugrad/virgil/CS35L/lab4/coreutilstemp" commands to 
+install coreutils. This time, the program installed successfullly.
+
+Looking at the coreutils.diff file, I noticed these changes:
+
+1) The futimens functions were replaced with coreutils_futimens functions.
+2) The tee functions were replaced with coreutils_tee functions.
+
+The error produced when compiling the unpatched program was the result of two
+functions with the name futimens, hence the conflicting types error that was
+given when attempting to compile.
+
+I infer that the purpose of the changes were to give those futimens functions
+different names in order to remove the conflicting types issue.
+
+--------------------------------------------------------------------------------
+(3) TESTING COREUTILS IMPLEMENTATION OF LS
+
+If you look in the "coreutilstemp" directory, there is a dirctory called "bin".
+Within the "bin" directory is another directory called "ls".
+
+I ran the following commands to create three files. One file has its 
+modification date set to the year 1911 while the other files have its 
+modification date set to the time it was actually created (i.e. the default). I
+created these in a temporary directory:
+
+tmp=$(mktemp -d)
+cd $tmp
+touch -d '1911-01-03 01:00 GMT' world-war-1
+touch now
+sleep 1
+touch now1
+
+I then ran this command to check the modification dates of the three files I
+just created:
+TZ=UTC0 ~/CS35L/lab4/coreutilstemp/bin/ls -lt --full-time world-war-1 now now1
+
+-rw-r--r-- 1 virgil csugrad 0 1911-01-02 17:00:00.000000000 -0800 world-war-1
+-rw-r--r-- 1 virgil csugrad 0 2017-10-27 14:19:53.603972829 -0700 now1
+-rw-r--r-- 1 virgil csugrad 0 2017-10-27 14:19:50.261917388 -0700 now
+
+It is clear from these results that a bug (or bugs) is/are present in the
+coreutils implemetnation of ls. The file world-war-1 is listed first despite
+being the "oldest" file, when it should be the last file listed.
+
+--------------------------------------------------------------------------------
+(4) REPRODUCING THE PROBLEM USING GDB
+
+In the temp directory, I ran the command:
+"gdb ~/CS35L/lab4/coreutilstemp/bin/ls"
+
+In gdb, I then ran the command:
+(gdb) "info functions"
+
+This gave a list of functions that the ls program uses. If you look at all the
+functions on the list, you will discover a function called
+"static int compare_mtime(V, V)"
+
+The coreutils implementation of ls did not display the files in order of their
+modification date correctly, and it can be inferred that this function may have
+to do with this.
+
+I set a breakpoint at the compare_mtime function:
+(gdb) "break compare_mtime"
+
+I then ran the program with the following options:
+(gdb) "r -lt --full-time world-war-1 now now1"
+
+
+Stepping in leads us to this line, line 48 in timespec_cmp:
+"int diff = a.tv_sec - b.tv_sec;"
+
+This line may be the cause of the issue. When a.tv_sec is very small, then it
+will underflow and wrap around. This would in turn cause diff to overflow, and
+thus this comparison function can possibly give us the wrong result.
+
+--------------------------------------------------------------------------------
+(5) FIXING THE PROBLEM
+
+I cp'd timespec.h into my lab4 directory. I created a copy of that file called
+newtimespec.h. In that file, I modified lines 48 and 49 so that they no longer
+compare using subtraction.
+
+I used the command:
+"diff timespec.h newtimespec.h > lab4.diff"
+
+to create a diff file which I use to patch the coreutils-with-bugs file.
+
+I went to the coreutils-with-bugs/lib directory and applied the patch using
+the command:
+"patch -p0 timespec.h < ~/CS35L/lab4/lab4.diff"
+
+I then reconfigured and reinstalled and then tested to make sure the patch
+worked (i.e. "./configure" and "make install 
+prefix=/u/cs/ugrad/virgil/CS35L/lab4/coreutilstemp").
+
+... and we get the results that we've been looking for!
+
+touch -d '1910-02-21 01:03 GMT' world-war-3-in-a-parallel-universe
+touch now
+sleep 1
+touch now1
+
+TZ=UTC0 ~/CS35L/lab4/coreutilstemp/bin/ls -lt --full-time world-war-3-in-a-parallel-universe now now1
+
+-rw-r--r-- 1 virgil csugrad 0 2017-10-31 06:06:42.649808901 +0000 now1
+-rw-r--r-- 1 virgil csugrad 0 2017-10-31 06:06:36.332703865 +0000 now
+-rw-r--r-- 1 virgil csugrad 0 1910-02-21 01:03:00.000000000 +0000 world-war-3-in-a-parallel-universe
+
+
+--------------------------------------------------------------------------------

@@ -1,0 +1,63 @@
+Virgil Jose
+CS35L (Lab 6)
+Lab Assignment 3
+Homework
+
+--------------------------------------------------------------------------------
+1. Notice how these two lines look very similar, but have different functions:
+
+case long_iso_time_style:     is a switch statement.
+case_long_iso_time_style:     is a goto label.
+
+It was not functionally necessary to remove the goto label. The purpose of 
+removing the label was simply to clean up the code.
+
+If the goto label were not removed, then the switch statement would've fallen
+to the goto label anyway and the code would have proceeded as normal.
+
+--------------------------------------------------------------------------------
+2. The patch adds this line of code at the end:
+
+long_time_format[i] = dcgettext(NULL, long_time_format[i], LC_TIME);
+
+The function dcgettext in the context of this program translates the array
+long_time_format according to whatever locale is given in the function call of
+dcgettext.
+
+If no translation is found, then long_time_format will retain its same value;
+i.e. it will retain the traditional UNIX format, in English. This could be a 
+problem for users who use different locales and thus use different time formats.
+
+--------------------------------------------------------------------------------
+3. Running the command "python randline.py /dev/null" results in this:
+
+Traceback (most recent call last):
+  File "randline.py", line 70, in <module>
+    main()
+  File "randline.py", line 64, in main
+    sys.stdout.write(generator.chooseline())
+  File "randline.py", line 34, in chooseline
+    return random.choice(self.lines)
+  File "/usr/lib64/python2.7/random.py", line 274, in choice
+    return seq[int(self.random() * len(seq))]  # raises IndexError if seq is 
+    empty
+IndexError: list index out of range
+
+According to the comments in the script, it "Outputs lines selected randomly
+from a file" (hence the name of the script, randline, i.e. random line). The
+script returns an error if there are no lines in the input file, i.e. if the
+file is empty, as the seq array basically puts each line in array.
+
+--------------------------------------------------------------------------------
+4. Running the command "python3 randline.py /dev/null" results in this:
+
+File "randline.py", line 65
+    except IOError as (errno, strerror):
+                      ^
+SyntaxError: invalid syntax
+
+This error was not present when running in python2 (it did not catch an error
+until line 274). The cause of this error was that IOError is now a part of
+OSError, which only takes one argument as opposed to a tuple. The syntax
+error came from the fact that the code used two arguments rather than one
+as specified by python3.

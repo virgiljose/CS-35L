@@ -1,0 +1,9 @@
+
+TOP WINDOWS, FROM LEFT TO RIGHT
+(a) Top-left corner window shows the commit history (with commit messages for each commit), with the structure of the repository.
+(b) Middle window shows the name of the contributor of each commit.
+(c) Top-right corner window shows the date and time that each commit was created.
+
+BOTTOM WINDOWS, FROM LEFT TO RIGHT:
+(a) Left window shows the parent and child(s) of the commit, and file changes (in diff format).
+(b) Right window shows files impacted by the commit.

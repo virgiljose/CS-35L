@@ -1,0 +1,348 @@
+Virgil Jose
+CS35L Lab 2
+13 Oct 2017
+
+---------------------------------------------------------------------------
+
+1) CHECKING AND SETTING UP THE LOCALE:
+
+Before starting the lab, we need to make sure that we are in the standard C
+or POSIX locale. We can check this by running the shell commmand "locale",
+which should output "LC_CTYPE="C"" or "LC_CTYPE="POSIX"".
+
+I ran the command and instead got "LC_CTYPE="en_US.UTF-8"". Because of this,
+I had to use the shell command "export LC_ALL='C'" in order to change the
+locale to the standard C locale.
+
+I ran the command "locale" again and got "LC_CTYPE="C"".
+
+---------------------------------------------------------------------------
+
+2) CREATING word FILE:
+
+I used the command "sort /usr/share/dict/words -o words".
+
+This sorted the file and outputted it to a new file called words,
+in my current working directory.
+
+---------------------------------------------------------------------------
+
+3) SAVING WEBPAGE AS FILE FOR INPUT:
+
+I used the command:
+"wget http://web.cs.ucla.edu/classes/fall17/cs35L/assign/assign2.html" to 
+create a text file of the website. I will use this as input for some of the 
+commands that I will run below.
+
+This created a file called assign2.html.
+
+---------------------------------------------------------------------------
+
+4) COMMAND: tr -c 'A-Za-z' '[\n*]' < lab2html.txt
+
+This outputs each word in order of their appearance in the text, with no
+regard to spacing between each word. The beginning of the output looks 
+like:
+
+DOCTYPE
+html
+
+PUBLIC
+
+
+
+
+W
+C
+
+DTD
+HTML
+
+
+
+
+
+
+EN
+
+
+
+http
+
+
+---------------------------------------------------------------------------
+
+5) COMMAND: tr -cs 'A-Za-z' '[\n*]' < lab2html.txt
+
+Like the previous commnand, this command prints out each word in order
+of their appearance in the input file. However, this command does not
+leave spaces between each word. The beginning of the output looks like:
+
+DOCTYPE
+html
+PUBLIC
+W
+C
+DTD
+HTML
+EN
+http
+www
+w
+org
+TR
+html
+strict
+dtd
+html
+head
+meta
+http
+
+---------------------------------------------------------------------------
+
+6) COMMAND: tr -cs 'A-Za-z' '[\n*]' < lab2html.txt | sort
+
+This command outputs each word in the input file, in alphabetical order.
+Lowercase versions of the same letter have precedence over its uppercase
+counterpart. Excerpt of output:
+
+as
+as
+as
+as
+as
+ASCII
+ASCII
+ASCII
+ASCII
+assign
+assignment
+Assignment
+Assignment
+assume
+assume
+Assume
+assumption
+
+---------------------------------------------------------------------------
+
+7) tr -cs 'A-Za-z' '[\n*]' < lab2html.txt | sort -u
+
+This command outputs one copy of each word in the input file, in
+alphanbetical order. The same word with differenct cases are treated as
+different words. Excerpt of output:
+
+a
+A
+able
+about
+above
+abovementioned
+accent
+address
+after
+afterwards
+against
+all
+All
+ALL
+also
+an
+and
+any
+apostrophe
+are
+Are
+argument
+arguments
+as
+ASCII
+assign
+
+---------------------------------------------------------------------------
+
+8) COMMAND: tr -cs 'A-Za-z' '[\n*]' < lab2html.txt | sort -u | comm - words
+
+This command outputs one copy of each word in the input file, in
+alphanbetical order. The same word with differenct cases are treated as
+different words. In addition, it compares the contents of the file to the
+words file, and outputs three columns. The first column outputs words
+unique to lab2html.txt. The second column outputs words unique to the file
+words. The third column outputs words that both files have in common.
+
+---------------------------------------------------------------------------
+
+9) CREATING hwords FILE USING wget AND SHELL SCRIPTING
+
+I copied the link: http://mauimapp.com/moolelo/hwnwdseng.htm and used
+the command "wget http://mauimapp.com/moolelo/hwnwdseng.htm" to obtain
+a copy of the web page.
+
+This created a file called hwnwdseng.htm, which I will use to create a
+file called hwords, which will be the Hawaiian dictionary.
+
+I created a file called buildwords, which is an automated script to
+take the contents of hwnwdseng.htm, extract only the Hawaiian words,
+and save that into a file called hwords.
+
+-----
+
+The script buildwords is:
+#!/bin/bash
+
+# remove the header stuff
+sed '/<!DOCTYPE/,/<\/font><\/td>/d' |
+sed '/<\/table>/,/<\/html>/d' |
+sed '/<td valign="top">/,/<\/font><\/td>/d' |
+
+# remove english words
+sed '/<tr>/,/<\/td>/d' |
+
+# remove html tags
+sed 's/<[^>]*>//g' |
+
+# squeeze blank white spaces (i.e. tab, space) and newlines
+tr -s '[:blank:]' |
+tr -s '[:space:]' |
+
+# treat uppercase and lowercase the same way
+tr '[:upper:]' '[:lower:]' |
+
+# treat ` as '
+tr '\`' "'" |
+
+# replace commas with newlines
+tr , '\n' |
+tr '[:space:]' '\n' |
+
+# remove english words that remain as a result of improper formatting
+sed '/b|c|d|f|g|j|q|r|s|t|v|x|y|z/d' |
+
+sort -u |
+
+#remove remaining empty lines
+sed '/^$/d' |       
+sed '/./!d'
+
+-----
+
+In order to make the buildwords script executable, I had to modify
+my permissions by using the command "chmod +x buildwords".
+
+I then created a file called hwords using the command "touch hwords".
+
+Then, I used the command "./buildwords < hwnwdseng.htm > hwords" to create
+the hwords file.
+
+---------------------------------------------------------------------------
+
+10) USING SHELL COMMAND TO CHECK SPELLING OF ENGLISH WORDS
+
+I modified the command: 
+"tr -cs 'A-Za-z' '[\n*]' | sort -u | comm -23 - words" 
+
+into
+"cat assign2.html | tr -cs 'A-Za-z' '[\n*]' | tr '[:upper:]' '[:lower:]' |
+sort -u | comm -23 - words > engMisspelled".
+
+I ran the command.
+
+I counted the number of words in the file (which corresponds to the number
+of misspelled English words) by using the command "wc -w engMisspelled".
+
+The results are:
+38 engMisspelled
+
+The misspelled words are:
+basedefs
+buildwords
+charset
+cmp
+ctype
+doctype
+eggert
+eword
+halau
+href
+htm
+html
+http
+hwnwdseng
+hword
+hwords
+idx
+lau
+linux
+mauimapp
+moolelo
+ndash
+okina
+onlinepubs
+opengroup
+posix
+sameln
+seasnet
+td
+toc
+ul
+usr
+utf
+vandebogart
+wget
+wiki
+wikipedia
+www
+
+---------------------------------------------------------------------------
+
+11) USING SHELL COMMAND TO CHECK SPELLING OF HAWAIIAN WORDS
+
+The process is nearly identical to that of step 10 above.
+
+I modified the command:
+"tr -cs 'A-Za-z' '[\n*]' | sort -u | comm -23 - words"
+
+into
+"cat assign2.html | tr -cs 'A-Za-z' '[\n*]' | tr '[:upper:]' '[:lower:]' |
+sort -u | comm -23 - hwords > hawMisspelled".
+
+I ran the command.
+
+I counted the number of words in the file (which corresponds to the number
+of misspelled English words) by using the command "wc -w hawMisspelled".
+
+The results are:
+407 hawMisspelled (I will not list all of the "misspelled" words).
+
+---------------------------------------------------------------------------
+
+12) WORDS MISSPELLED IN HAWAIIAN BUT NOT IN ENGLISH, AND VICE VERSA
+
+I simply used the command:
+"cat hawMisspelled | tr -cs 'A-Za-z' '[\n*]' | tr '[:upper:]' '[:lower:]' |
+sort -u | comm -23 - words > hawNotEng"
+
+to find words that are misspelled in Hawaiian.
+
+I also used the command:
+"cat engMisspelled | tr -cs 'A-Za-z' '[\n*]' | tr '[:upper:]' '[:lower:]' |
+sort -u | comm -23 - hwords > engNotHaw"
+
+to find words that are misspelled in English.
+
+I used the commands:
+"diff hawMisspelled hawNotEng"
+"diff engMisspelled endNotHaw"
+
+to find words that are misspelled in one language but not the other.
+
+The results are:
+
+(a) Misspelled in English but not in Hawaiian:
+halau
+wiki
+
+(b) Misspelled in Hawaiian but not in English: (pretty much most words)
+
+---------------------------------------------------------------------------
